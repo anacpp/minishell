@@ -1,0 +1,33 @@
+# MacOS
+.DS_Store
+
+# Linux
+*.swp
+
+# Visual Studio Code
+.vscode/
+
+# Libft build
+libft/*.o
+libft/libft.a
+
+# Minishell build
+*.o
+minishell
+a.out
+
+# Makefile leftovers
+*.dSYM/
+*.d
+
+# Backup files
+*~
+\#*#
+
+# Valgrind logs
+valgrind.log
+vgcore.*
+
+# Executáveis temporários
+*.out
+*.exe
