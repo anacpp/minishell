@@ -7,7 +7,9 @@ LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I$(LIBFT_DIR) -Iinclude
 LIBS = -lreadline
 
-SRC = \
+SRC_DIR = ./src/
+SRC = $(addprefix $(SRC_DIR), \
+		main.c)
 
 OBJ = $(SRC:.c=.o)
 
@@ -30,8 +32,6 @@ $(LIBFT):
 clean:
 	@echo "Cleaning object files..."
 	rm -f $(OBJ)
-	#TODO: Remover depois de testar
-	rm -f test/test_readline 
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
@@ -42,9 +42,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
-#TODO: Deletar depois de testar
-test_readline:
-	@echo "🔧 Compilando teste com readline..."
-	$(CC) $(CFLAGS) test/test_readline.c -o test/test_readline $(LIBS)
-	@echo "✅ Teste compilado: ./test/test_readline"
