@@ -5,16 +5,19 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I$(LIBFT_DIR) -Iinclude
+LIBS = -lreadline
 
-SRC = \
-	
+SRC_DIR = ./src/
+SRC = $(addprefix $(SRC_DIR), \
+		main.c)
+
 OBJ = $(SRC:.c=.o)
 
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "Linking $(NAME)..."
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS)
 	@echo "Linking done."
 
 $(LIBFT):
@@ -27,7 +30,7 @@ $(LIBFT):
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	@echo "Cleaning objects files..."
+	@echo "Cleaning object files..."
 	rm -f $(OBJ)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
