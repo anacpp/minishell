@@ -51,9 +51,8 @@ bash tests/run_all.sh
 
 ## 🤝 Autores
 
-- Ana Carla — [@yourgithub](https://github.com/yourgithub)
-- Raquel — [@raquelgithub](https://github.com/raquelgithub)
+- Ana Carla — [@anacpp](https://github.com/anacpp)
+- Raquel — [@raqueljacques](https://github.com/raqueljacques)
 
 ## 📄 Licença
 Projeto educacional para a 42 rj. Sem fins lucrativos.
-```
