@@ -1,46 +1,103 @@
-#include <minishell.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-int	input_syntax(const char *input)
+
+static int	contain_pipe_error(const char *input)
 {
-	if (!*input)
-		handle_error(NULL, NULL, 1);
-	//função que verifica se o input esta entre aspas duplas ou simples, se tiver as regras abaixo não se aplicarão; sairá da função;
-	
-	if (missaligned_operators(*input) == 1)
+	int	in_single;
+	int	in_double;
+	int	expect_next;
+
+	in_single = 0;
+	in_double = 0;
+	expect_next = 0;
+	while (*input)
 	{
-		//perror
+		if (*input == '\'' && !in_double)
+			in_single = !in_single;
+		else if (*input == '"' && !in_single)
+			in_double = !in_double;
+		if (*input == '|' && !in_single && !in_double)
+		{
+			if (expect_next)
+				return (1);
+			expect_next = 1;
+		}
+		else if (*input != ' ' && *input != '\t')
+			expect_next = 0;
+		input++;
 	}
-	else if (unsupported_operators(input) == 1)
-	{
-		//perror
-	}
-	else if (/* função da raquel de aspas duplas e simples*/)
-	{
-		//perror
-	}
-	else if (/* função da raquel de redirect mal formatado*/)
-	{
-		//perror
-	}
-		
+	return (expect_next);
 }
 
-static int unsupported_operators(const char *input)
+static int	contains_unsupported_logical_operators(const char *input)
 {
+	int	in_single;
+	int	in_double;
 
+	in_single = 0;
+	in_double = 0;
+	while (*input)
+	{
+		if (*input == '\'' && !in_double)
+			in_single = !in_single;
+		else if (*input == '"' && !in_single)
+			in_double = !in_double;
+		if (!in_single && !in_double)
+		{
+			if ((*input == '&' && *(input + 1) == '&')
+				|| (*input == '|' && *(input + 1) == '|'))
+				return (1);
+		}
+		input++;
+	}
+	return (0);
+}
+void	is_valid_input_syntax(const char *input)
+{
+    if (!*input)
+        handle_error(NULL, NULL, 1);
+    if (contain_pipe_error((char *)input) || *input == '|')
+        handle_error(NULL, "Syntax error: unexpected pipe", 2);	
+    else if (contains_unsupported_logical_operators((char *)input))
+        handle_error(NULL, "Syntax error: unsupported logical operator", 2);	
+    else
+        
 }
 
-static int missaligned_operators(const char *input)
-{
-
-}
 
 // Função da Raquel 03
 // Função da Raquel 04
 
-//as funções abaixo irão para o utils.c
 
-int is_btw_quotes(const char *input)
+//main para teste
+
+#include <stdio.h>
+
+
+int	main(void)
 {
+	const char	*tests[] = {
+		"| ls -l",
+		/*"ls -l |a",
+		"ls -l || grep txt",
+		"ls -l | | grep txt",
+		"echo \"ok\" && ls",
+		"echo \" | ola camarada && |\" | grep txt",
+		"ls | grep txt",
+		"cat file.txt",*/
+		NULL
+	};
+	int	i;
 
+	i = 0;
+	while (tests[i])
+	{
+		printf("Testando: %s\n", tests[i]);
+		is_valid_input_syntax(tests[i]);
+		i++;
+	}
+	return (0);
 }
+
