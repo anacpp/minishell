@@ -62,7 +62,7 @@ void	is_valid_input_syntax(const char *input)
         handle_error(NULL, "Syntax error: unexpected pipe", 2);	
     else if (contains_unsupported_logical_operators((char *)input))
         handle_error(NULL, "Syntax error: unsupported logical operator", 2);	
-    else
+    else if
         
 }
 
