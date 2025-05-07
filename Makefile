@@ -4,18 +4,12 @@ NAME = minishell
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-
-READLINE_INCLUDE = /usr/include
-READLINE_LIB = /usr/lib/x86_64-linux-gnu
-INCLUDES = -I$(LIBFT_DIR) -Iincludes -I$(READLINE_INCLUDE)
-LIBS = -L$(READLINE_LIB) -lreadline
+INCLUDES = -I$(LIBFT_DIR) -Iinclude
+LIBS = -lreadline
 
 SRC_DIR = ./src/
-SRC = $(SRC_DIR)main.c \
-	  $(SRC_DIR)01_inputs/input_minishell.c \
-	  $(SRC_DIR)01_inputs/utils_input.c\
-	  $(SRC_DIR)utils/general_utils.c\
-	  
+SRC = $(addprefix $(SRC_DIR), \
+		main.c)
 
 OBJ = $(SRC:.c=.o)
 
