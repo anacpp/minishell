@@ -1,6 +1,6 @@
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
-void handle_error(const char *data, char *msg, int code)
+void handle_error(char *data, char *msg, int code)
 {
     if (msg)
     {

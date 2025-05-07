@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "../../includes/minishell.h"
 
 
 static int	contain_pipe_error(const char *input)
@@ -56,39 +54,28 @@ static int	contains_unsupported_logical_operators(const char *input)
 }
 void	is_valid_input_syntax(const char *input)
 {
+	char *trimmed_input;
+
+	trimmed_input = ft_strtrim(input, " \t\n");
+	if (!trimmed_input)
+		return ;
     if (!*input)
-        handle_error(NULL, NULL, 1);
+	{
+		free(trimmed_input);
+		handle_error(NULL, NULL, 1);
+	}
     if (contain_pipe_error((char *)input) || *input == '|')
         handle_error(NULL, "Syntax error: unexpected pipe", 2);	
     else if (contains_unsupported_logical_operators((char *)input))
         handle_error(NULL, "Syntax error: unsupported logical operator", 2);	
-    else if
+    
         
 }
-
-
-// Função da Raquel 03
-// Função da Raquel 04
-
-
-//main para teste
-
-#include <stdio.h>
-
+/*main para teste
 
 int	main(void)
 {
-	const char	*tests[] = {
-		"| ls -l",
-		/*"ls -l |a",
-		"ls -l || grep txt",
-		"ls -l | | grep txt",
-		"echo \"ok\" && ls",
-		"echo \" | ola camarada && |\" | grep txt",
-		"ls | grep txt",
-		"cat file.txt",*/
-		NULL
-	};
+	const char	*tests[] = 	"| ls -l";	
 	int	i;
 
 	i = 0;
@@ -99,5 +86,5 @@ int	main(void)
 		i++;
 	}
 	return (0);
-}
+}*/
 

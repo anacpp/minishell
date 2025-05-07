@@ -1,11 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "../includes/minishell.h"
 
 int main(void)
 {
     char *input;
+    char *pre_treat_input;
 
     printf("Digite algo (Ctrl+D para sair):\n");
 
@@ -16,12 +14,18 @@ int main(void)
             printf("\n[Encerrado com Ctrl+D]\n");
             break;
         }
-
         if (*input)
             add_history(input);
-        printf("Você digitou: %s\n", input);
-
+        //printf("Você digitou: %s\n", input);
+        pre_treat_input = ft_strtrim(input, " \t\n");
         free(input);
+        if (!*pre_treat_input)
+        {
+            free(pre_treat_input);
+            break;
+        }
+        is_valid_input_syntax(pre_treat_input);
+        free(pre_treat_input);
     }
     clear_history(); 
     return 0;

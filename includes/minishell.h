@@ -34,7 +34,7 @@ typedef struct s_token
 
 
 // Error handling functions
-void	handle_error(const char *msg, const char *input, int exit_code);
+void handle_error(char *data, char *msg, int code);
 
 // Tokenizer functions
 t_token	*tokenize_input(const char *input);
