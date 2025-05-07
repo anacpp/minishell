@@ -4,8 +4,11 @@ NAME = minishell
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-INCLUDES = -I$(LIBFT_DIR) -Iinclude
-LIBS = -lreadline
+
+READLINE_INCLUDE = /usr/include
+READLINE_LIB = /usr/lib/x86_64-linux-gnu
+INCLUDES = -I$(LIBFT_DIR) -Iincludes -I$(READLINE_INCLUDE)
+LIBS = -L$(READLINE_LIB) -lreadline
 
 SRC_DIR = ./src/
 SRC = $(addprefix $(SRC_DIR), \
