@@ -52,26 +52,23 @@ static int	contains_unsupported_logical_operators(const char *input)
 	}
 	return (0);
 }
-void	is_valid_input_syntax(const char *input)
+void	is_valid_input_syntax(char *input)
 {
-	char *trimmed_input;
-
-	trimmed_input = ft_strtrim(input, " \t\n");
-	if (!trimmed_input)
-		return ;
-    if (!*input)
+	
+	
+    if (!*input || !input)
 	{
-		free(trimmed_input);
-		handle_error(NULL, NULL, 1);
+		handle_error(input, NULL, 1);
+		return ;
 	}
     if (contain_pipe_error((char *)input) || *input == '|')
-        handle_error(NULL, "Syntax error: unexpected pipe", 2);	
+        handle_error(input, "Syntax error: unexpected pipe", 2);	
     else if (contains_unsupported_logical_operators((char *)input))
-        handle_error(NULL, "Syntax error: unsupported logical operator", 2);	
-    
-        
+        handle_error(input, "Syntax error: unsupported logical operator", 2);	
+    else
+		printf("O input dado : %s , é válido\n", input);
 }
-/*main para teste
+/*main para teste por função
 
 int	main(void)
 {
