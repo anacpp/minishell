@@ -56,7 +56,7 @@ void	is_valid_input_syntax(char *input)
 {
 	
 	
-    if (!*input || !input)
+    if (!input || !*input)
 	{
 		handle_error(input, NULL, 1);
 		return ;
