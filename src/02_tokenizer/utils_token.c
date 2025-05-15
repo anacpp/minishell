@@ -5,10 +5,17 @@ void	add_token(t_token **head, char *value, t_token_type type)
 	t_token	*new;
 	t_token	*temp;
 
+	if (!value)
+		return ;
 	new = malloc(sizeof(t_token));
 	if (!new)
 		return ;
 	new->value = ft_strdup(value);
+	if (!new->value)
+	{
+		free(new);
+		return ;
+	}
 	new->type = type;
 	new->next = NULL;
 	if (!*head)
@@ -53,4 +60,28 @@ char	*ft_strndup(const char *s, size_t n)
     }
     dup[i] = '\0';
     return (dup);
+}
+t_token_type	get_token_type(const char *str)
+{
+	if (!ft_strcmp(str, "|", 2))
+		return (T_PIPE);
+	else if (!ft_strcmp(str, "<", 2))
+		return (T_REDIR_IN);
+	else if (!ft_strcmp(str, ">", 2))
+		return (T_REDIR_OUT);
+	else if (!ft_strcmp(str, "<<", 3))
+		return (T_HEREDOC);
+	else if (!ft_strcmp(str, ">>", 3))
+		return (T_APPEND);
+	else if (!ft_strcmp(str, "$", 2))
+        return (T_ARGUMENT);
+	return (T_WORD);
+}
+int	update_quote_flags(char c, int in_squote, int in_dquote)
+{
+	if (in_squote || in_dquote)
+		return (0);
+	if (is_operator_char(c) || c == ' ' || c == '\t')
+		return (1);
+	return (0);
 }

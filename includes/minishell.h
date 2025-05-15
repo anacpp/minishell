@@ -12,7 +12,8 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft.h"
+# include "../libft/libft.h"
+# include "../libft/ft_printf/ft_printf.h"
 
 
 typedef enum e_token_type
@@ -22,7 +23,8 @@ typedef enum e_token_type
 	T_REDIR_IN,
 	T_REDIR_OUT,
 	T_HEREDOC,
-	T_APPEND
+	T_APPEND,
+	T_ARGUMENT
 }	t_token_type;
 
 typedef struct s_token
@@ -36,11 +38,18 @@ typedef struct s_token
 // Error handling functions
 void handle_error(char *data, char *msg, int code);
 
+// Input functions
+void	is_valid_input_syntax(const char *input);
+
 // Tokenizer functions
 t_token	*tokenize_input(const char *input);
 void	add_token(t_token **head, char *value, t_token_type type);
 void	free_tokens(t_token *head);
 char	*ft_strndup(const char *s, size_t n);
-
+t_token_type	get_token_type(const char *str);
+int	is_token_end(char c, int in_squote, int in_dquote);
+void	update_token_value(char **value, const char *expanded_value);
+void	print_tokens(t_token *head);
+int	update_quote_flags(char c, int in_squote, int in_dquote);
 
 #endif
