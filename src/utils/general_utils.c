@@ -1,3 +1,5 @@
+//TODO : add header, check norminette
+
 #include "../../includes/minishell.h"
 
 void	handle_error(char *data, char *msg, int code)

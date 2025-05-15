@@ -1,3 +1,5 @@
+//TODO : Add header, CHECK NORMINETTE
+
 #include "../includes/minishell.h"
 
 int main(void)

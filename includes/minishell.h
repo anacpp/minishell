@@ -38,5 +38,8 @@ void handle_error(char *data, char *msg, int code);
 
 // Input functions
 void	is_valid_input_syntax(char *input);
+int	skip_redirect_and_check_error(const char *input, int *i);
+int	is_redirect(char c);
+void	update_quote_state(char c, int *in_single, int *in_double);
 
 #endif
