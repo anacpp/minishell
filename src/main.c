@@ -1,3 +1,5 @@
+//TODO : Add header, CHECK NORMINETTE
+
 #include "../includes/minishell.h"
 
 int main(void)
@@ -18,12 +20,12 @@ int main(void)
         if (*input)
             add_history(input);
         //printf("Você digitou: %s\n", input);
-        pre_treat_input = ft_strtrim(input, " \t\n");
+        pre_treat_input = ft_strtrim((char *)input, " \t\n");
         free(input);
         if (!*pre_treat_input)
         {
             free(pre_treat_input);
-            break;
+            continue;
         }
         is_valid_input_syntax(pre_treat_input);
         tokens = tokenize_input(pre_treat_input);

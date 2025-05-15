@@ -1,5 +1,42 @@
+//TODO : Add header , CHECK NORMINETTE
+
 #include "../../includes/minishell.h"
 
+static int	has_unclosed_quotes(const char *input)
+{
+	int	in_single;
+	int	in_double;
+
+	in_single = 0;
+	in_double = 0;
+	while (*input)
+	{
+		update_quote_state(*input, &in_single, &in_double);
+		input++;
+	}
+	return (in_single || in_double);
+}
+
+static int	has_malformed_redirects(const char *input)
+{
+	int	i;
+	int	in_single;
+	int	in_double;
+
+	i = 0;
+	in_single = 0;
+	in_double = 0;
+	while (input[i])
+	{
+		update_quote_state(input[i], &in_single, &in_double);
+		if (!in_single && !in_double && is_redirect(input[i]))
+			if (skip_redirect_and_check_error(input, &i))
+				return (1);
+		if (!is_redirect(input[i]))
+			i++;
+	}
+	return (0);
+}
 
 static int	contain_pipe_error(const char *input)
 {
@@ -12,10 +49,7 @@ static int	contain_pipe_error(const char *input)
 	expect_next = 0;
 	while (*input)
 	{
-		if (*input == '\'' && !in_double)
-			in_single = !in_single;
-		else if (*input == '"' && !in_single)
-			in_double = !in_double;
+		update_quote_state(*input, &in_single, &in_double);
 		if (*input == '|' && !in_single && !in_double)
 		{
 			if (expect_next)
@@ -38,53 +72,32 @@ static int	contains_unsupported_logical_operators(const char *input)
 	in_double = 0;
 	while (*input)
 	{
-		if (*input == '\'' && !in_double)
-			in_single = !in_single;
-		else if (*input == '"' && !in_single)
-			in_double = !in_double;
+		update_quote_state(*input, &in_single, &in_double);
 		if (!in_single && !in_double)
 		{
-			if ((*input == '&' && *(input + 1) == '&')
-				|| (*input == '|' && *(input + 1) == '|'))
+			if ((*input == '&' && *(input + 1) == '&') || (*input == '|'
+					&& *(input + 1) == '|'))
 				return (1);
 		}
 		input++;
 	}
 	return (0);
 }
-void	is_valid_input_syntax(const char *input)
-{
-	char *trimmed_input;
 
-	trimmed_input = ft_strtrim(input, " \t\n");
-	if (!trimmed_input)
+void	is_valid_input_syntax(char *input)
+{
+	if (!input || !*input)
+	{
+		handle_error(input, NULL, 1);
 		return ;
-    if (!*input)
-	{
-		free(trimmed_input);
-		handle_error(NULL, NULL, 1);
 	}
-    if (contain_pipe_error((char *)input) || *input == '|')
-        handle_error(NULL, "Syntax error: unexpected pipe", 2);	
-    else if (contains_unsupported_logical_operators((char *)input))
-        handle_error(NULL, "Syntax error: unsupported logical operator", 2);	
-    
-        
+	if (has_unclosed_quotes((char *)input))
+		handle_error(input, "Syntax error: unclosed quotes", 2);
+	else if (contain_pipe_error((char *)input) || *input == '|')
+		handle_error(input, "Syntax error: unexpected pipe", 2);
+	else if (contains_unsupported_logical_operators((char *)input))
+		handle_error(input, "Syntax error: unsupported logical operator", 2);
+	else if (has_malformed_redirects((char *)input))
+		handle_error(input, "Syntax error: malformed redirection", 2);
 }
-/*main para teste
-
-int	main(void)
-{
-	const char	*tests[] = 	"| ls -l";	
-	int	i;
-
-	i = 0;
-	while (tests[i])
-	{
-		printf("Testando: %s\n", tests[i]);
-		is_valid_input_syntax(tests[i]);
-		i++;
-	}
-	return (0);
-}*/
 

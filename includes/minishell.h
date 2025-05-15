@@ -40,6 +40,11 @@ void handle_error(char *data, char *msg, int code);
 
 // Input functions
 void	is_valid_input_syntax(const char *input);
+int	update_quote_flags(char c, int in_squote, int in_dquote);
+void	is_valid_input_syntax(char *input);
+int	skip_redirect_and_check_error(const char *input, int *i);
+int	is_redirect(char c);
+void	update_quote_state(char c, int *in_single, int *in_double);
 
 // Tokenizer functions
 t_token	*tokenize_input(const char *input);
@@ -50,6 +55,6 @@ t_token_type	get_token_type(const char *str);
 int	is_token_end(char c, int in_squote, int in_dquote);
 void	update_token_value(char **value, const char *expanded_value);
 void	print_tokens(t_token *head);
-int	update_quote_flags(char c, int in_squote, int in_dquote);
+
 
 #endif
