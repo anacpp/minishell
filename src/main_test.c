@@ -17,7 +17,7 @@ int	main(void)
 		trimmed = ft_strtrim(tests[i], " \t\n");
 		is_valid_input_syntax(trimmed);
 		free(trimmed);
-		printf("----------------------------------\n");
+		printf("--------------------------------------------------\n");
 		i++;
 	}
 
