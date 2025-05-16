@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/16 17:09:59 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:14:57 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 (void)data;
 (void)code;
 Comment -> if(data) to exit(code) lines to test manually
+
+	OBS:
+	-> NORMINETTE - OK
 */
 
 #include "../../includes/minishell.h"

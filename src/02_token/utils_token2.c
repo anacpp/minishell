@@ -6,12 +6,14 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/16 19:49:31 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:16:50 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* TODO :
-	->CHECK NORMINETTE
+/* OBS :
+	->NORMINETTE - OK
+
+	TODO :
 	->APAGAR AS FUNÇÕES DE PRINT E TOKEN_TYPE_STR QUANDO FOR ENTREGAR
 */
 
