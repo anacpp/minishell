@@ -1,6 +1,7 @@
-//TODO : Add header, CHECK NORMINETTE, tirar os prints e print_tokens quando for fazer a entrega
+//TODO : Add header, CHECK NORMINETTE, tirar os prints e print_tokens quando for fazer a entrega / FAZER O TRATAMENTO NO PRÉ-TRATAMENTO PARA EVITAR O ERRO DE ASPAS MAL FORMADAS
 
 #include "../includes/minishell.h"
+
 
 int main(void)
 {
@@ -45,14 +46,14 @@ int main(void)
 int main(void)
 {
     const char *tests[] = {
-        "echo $USER",                         // var no meio de comando OK
+        "echo \'ana",                         // FAZER O TRATAMENTO NO PRÉ-TRATAMENTO PARA EVITAR O ERRO DE ASPAS MAL FORMADAS
         "echo '$USER'",                       // aspas simples: sem expansão OK
         "echo \"$USER\"",                     // aspas duplas: com expansão OK
         "echo $USERabc",                      // var + sufixo **VERIFICAR NO TERMINAL DE OUTRA PESSOA**
         "echo abc$USER",                      // prefixo + var OK 
         "echo abc$USERxyz",                   // prefixo + var + sufixo **VERIFICAR NO TERMINAL DE OUTRA PESSOA**
         "ls -l | grep \"$USER\" > out.txt",   // operador + expansão OK
-        "cat << EOF",                         // heredoc OK
+        "cat<<file",                           // heredoc OK
         "echo > file.txt",                    // redirecionamento OK
         "cat < infile | sort > outfile",      // redir in + pipe + redir out OK
         "echo $UNDEFINED",                    // var indefinida VERIFICAR NO TERMINAL

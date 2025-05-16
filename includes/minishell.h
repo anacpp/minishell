@@ -46,15 +46,20 @@ void	update_quote_state(char c, int *in_single, int *in_double);
 
 // Tokenizer functions
 t_token	*tokenize_input(const char *input);
+t_token	*get_last_token(t_token *head);
 void	add_token(t_token **head, char *value, t_token_type type);
 void	free_tokens(t_token *head);
 char	*ft_strndup(const char *s, size_t n);
 t_token_type	get_token_type(const char *str);
 int	is_token_end(char c, int in_squote, int in_dquote);
 void	update_token_value(char **value, char *expanded_value);
-void	print_tokens(t_token *head);
+void	print_tokens(t_token *head); //exclui depois dos testes
 int is_operator_char(char c);
 void	update_quote_flags(char c, int *in_squote, int *in_dquote);
-const char *token_type_str(t_token_type type);
+const char *token_type_str(t_token_type type); // exclui depois dos testes
+int	is_heredoc_context(t_token *last);
+char	*handle_escape(const char *str, int *i);
+char	*handle_char(const char *str, int *i);
+
 
 #endif

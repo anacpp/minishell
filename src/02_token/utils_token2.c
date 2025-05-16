@@ -20,6 +20,29 @@ int is_operator_char(char c)
 {
     return (c == '|' || c == '<' || c == '>');
 }
+int	is_heredoc_context(t_token *last)
+{
+	return (last && last->type == T_HEREDOC);
+}
+char	*handle_escape(const char *str, int *i)
+{
+	char	*tmp;
+
+	(*i)++;
+	tmp = ft_strndup(str + *i, 1);
+	(*i)++;
+	return (tmp);
+}
+char	*handle_char(const char *str, int *i)
+{
+	char	*tmp;
+
+	tmp = ft_strndup(str + *i, 1);
+	(*i)++;
+	return (tmp);
+}
+
+
 
 // Funções de impressão para depuração do token APAGAR QUANDO FOR ENTREGAR
 

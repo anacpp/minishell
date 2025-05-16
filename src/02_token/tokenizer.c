@@ -2,7 +2,7 @@
 
 #include "../../includes/minishell.h"
 
-char *expand_variable(const char *str, int *i)
+static char *expand_variable(const char *str, int *i)
 {
 	int		start;
 	char	*var_name;
@@ -22,34 +22,36 @@ char *expand_variable(const char *str, int *i)
 		value = ft_strdup("");
 	return (value);
 }
-
-char *get_token_value(const char *str, int *i)
+static char	*handle_variable(const char *str, int *i)
 {
-	int		in_squote = 0;
-	int		in_dquote = 0;
-	char	*value = ft_strdup("");
-	char	*tmp;
+	return (expand_variable(str, i));
+}
 
+static char	*get_token_value(const char *str, int *i, t_token *last)
+{
+	char	*value;
+	char	*tmp;
+	int		in_squote;
+	int		in_dquote;
+
+	in_squote = 0;
+	in_dquote = 0;
+	value = ft_strdup("");
 	while (str[*i])
 	{
 		update_quote_flags(str[*i], &in_squote, &in_dquote);
-		if (str[*i] == '$' && !in_squote)
-		{
-			tmp = expand_variable(str, i);
-			value = ft_strjoin(value, tmp);
-        }
-		else if (is_token_end(str[*i], in_squote, in_dquote))
+		if (is_token_end(str[*i], in_squote, in_dquote))
 			break ;
+		if (str[*i] == '\\' && str[*i + 1])
+			tmp = handle_escape(str, i);
+		else if (str[*i] == '$' && !in_squote && !is_heredoc_context(last))
+			tmp = handle_variable(str, i);
 		else
-		{
-			tmp = ft_strndup(str + *i, 1);
-			value = ft_strjoin(value, tmp);
-			(*i)++;
-		}
+			tmp = handle_char(str, i);
+		value = ft_strjoin(value, tmp);
 	}
 	return (value);
 }
-
 
 static char *get_operator(const char *str, int *i)
 {
@@ -84,7 +86,7 @@ t_token *tokenize_input(const char *str)
 		if (is_operator_char(str[i]))
 			value = get_operator(str, &i);
 		else
-			value = get_token_value(str, &i);
+		value = get_token_value(str, &i, get_last_token(head));
 		if (value && *value != '\0')
 			add_token(&head, value, get_token_type(value));
 		free(value);

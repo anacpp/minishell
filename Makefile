@@ -18,6 +18,7 @@ SRC = $(SRC_DIR)01_inputs/input_minishell.c \
 	  $(SRC_DIR)02_token/tokenizer.c\
 	  $(SRC_DIR)02_token/utils_token.c\
 	  $(SRC_DIR)02_token/utils_token2.c\
+	  $(SRC_DIR)02_token/utils_token3.c\
 
 	  
 OBJ = $(SRC:.c=.o)
