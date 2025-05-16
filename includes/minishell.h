@@ -42,7 +42,7 @@ void handle_error(char *data, char *msg, int code);
 void	is_valid_input_syntax(char *input);
 int	skip_redirect_and_check_error(const char *input, int *i);
 int	is_redirect(char c);
-void	update_quote_state(char c, int *in_single, int *in_double);
+void update_quote_state(char c, int *in_single, int *in_double, int *escaped);
 
 // Tokenizer functions
 t_token	*tokenize_input(const char *input);
