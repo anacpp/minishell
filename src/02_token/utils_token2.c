@@ -6,11 +6,11 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/16 17:21:27 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:49:31 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* TODO : 
+/* TODO :
 	->CHECK NORMINETTE
 	->APAGAR AS FUNÇÕES DE PRINT E TOKEN_TYPE_STR QUANDO FOR ENTREGAR
 */
@@ -42,17 +42,16 @@ int	is_heredoc_context(t_token *last)
 	return (last && last->type == T_HEREDOC);
 }
 
-char	*handle_escape(const char *str, int *i)
+char	*handle_escape_in_squote(const char *str, int *i)
 {
 	char	*tmp;
 
-	(*i)++;
 	tmp = ft_strndup(str + *i, 1);
 	(*i)++;
 	return (tmp);
 }
 
-//FUNÇÕES DE DEPURAÇÃO ABAIXO :
+// FUNÇÕES DE DEPURAÇÃO ABAIXO :
 void	print_tokens(t_token *head)
 {
 	while (head)
@@ -65,6 +64,7 @@ void	print_tokens(t_token *head)
 		head = head->next;
 	}
 }
+
 const char	*token_type_str(t_token_type type)
 {
 	if (type == T_WORD)

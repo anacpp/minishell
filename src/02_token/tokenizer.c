@@ -6,11 +6,11 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/16 17:16:13 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:50:14 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* TODO : 
+/* TODO :
 	->CHECK NORMINETTE
 	->CHECK LEAKS
 */
@@ -59,7 +59,7 @@ static char	*get_token_value(const char *str, int *i, t_token *last)
 		if (is_token_end(str[*i], in_squote, in_dquote))
 			break ;
 		if (str[*i] == '\\' && str[*i + 1])
-			tmp = handle_escape(str, i);
+			tmp = handle_escape(str, i, in_squote, in_dquote);
 		else if (str[*i] == '$' && !in_squote && !is_heredoc_context(last))
 			tmp = handle_variable(str, i);
 		else

@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/16 17:15:35 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:37:11 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,40 @@ char	*handle_char(const char *str, int *i)
 {
 	char	*tmp;
 
+	tmp = ft_strndup(str + *i, 1);
+	(*i)++;
+	return (tmp);
+}
+
+char	*handle_escape_in_dquote(const char *str, int *i)
+{
+	char	next;
+	char	*tmp;
+
+	next = str[*i + 1];
+	if (next == '\\' || next == '"' || next == '$' || next == '`')
+	{
+		(*i)++;
+		tmp = ft_strndup(str + *i, 1);
+		(*i)++;
+	}
+	else
+	{
+		tmp = ft_strndup(str + *i, 1);
+		(*i)++;
+	}
+	return (tmp);
+}
+
+char	*handle_escape(const char *str, int *i, int in_squote, int in_dquote)
+{
+	char	*tmp;
+
+	if (in_squote)
+		return (handle_escape_in_squote(str, i));
+	if (in_dquote)
+		return (handle_escape_in_dquote(str, i));
+	(*i)++;
 	tmp = ft_strndup(str + *i, 1);
 	(*i)++;
 	return (tmp);
