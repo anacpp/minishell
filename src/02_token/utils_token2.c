@@ -1,4 +1,19 @@
-//TODO : Add header , CHECK NORMINETTE, check leaks
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_token2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
+/*   Updated: 2025/05/16 17:21:27 by acesar-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* TODO : 
+	->CHECK NORMINETTE
+	->APAGAR AS FUNÇÕES DE PRINT E TOKEN_TYPE_STR QUANDO FOR ENTREGAR
+*/
 
 #include "../../includes/minishell.h"
 
@@ -9,21 +24,24 @@ int	is_token_end(char c, int in_squote, int in_dquote)
 	return (is_operator_char(c) || c == ' ' || c == '\t');
 }
 
-void update_token_value(char **value, char *expanded_value)
+void	update_token_value(char **value, char *expanded_value)
 {
-    char *temp;
+	char	*temp;
 
-    temp = ft_strjoin(*value, expanded_value);
-    *value = temp;
+	temp = ft_strjoin(*value, expanded_value);
+	*value = temp;
 }
-int is_operator_char(char c)
+
+int	is_operator_char(char c)
 {
-    return (c == '|' || c == '<' || c == '>');
+	return (c == '|' || c == '<' || c == '>');
 }
+
 int	is_heredoc_context(t_token *last)
 {
 	return (last && last->type == T_HEREDOC);
 }
+
 char	*handle_escape(const char *str, int *i)
 {
 	char	*tmp;
@@ -33,47 +51,36 @@ char	*handle_escape(const char *str, int *i)
 	(*i)++;
 	return (tmp);
 }
-char	*handle_char(const char *str, int *i)
+
+//FUNÇÕES DE DEPURAÇÃO ABAIXO :
+void	print_tokens(t_token *head)
 {
-	char	*tmp;
-
-	tmp = ft_strndup(str + *i, 1);
-	(*i)++;
-	return (tmp);
+	while (head)
+	{
+		if (head->value)
+			printf("Token: %s, Type: %s\n", head->value,
+				token_type_str(head->type));
+		else
+			printf("Token: (null), Type: %s\n", token_type_str(head->type));
+		head = head->next;
+	}
 }
-
-
-
-// Funções de impressão para depuração do token APAGAR QUANDO FOR ENTREGAR
-
-void print_tokens(t_token *head)
+const char	*token_type_str(t_token_type type)
 {
-    while (head)
-    {
-        if (head->value)
-            printf("Token: %s, Type: %s\n", head->value, token_type_str(head->type));
-        else
-            printf("Token: (null), Type: %s\n", token_type_str(head->type));
-        head = head->next;
-    }
+	if (type == T_WORD)
+		return ("Word");
+	else if (type == T_PIPE)
+		return ("Pipe");
+	else if (type == T_REDIR_IN)
+		return ("Redir In");
+	else if (type == T_REDIR_OUT)
+		return ("Redir Out");
+	else if (type == T_HEREDOC)
+		return ("Heredoc");
+	else if (type == T_APPEND)
+		return ("Append");
+	else if (type == T_ARGUMENT)
+		return ("Argument");
+	else
+		return ("Unknown");
 }
-const char *token_type_str(t_token_type type)
-{
-    if (type == T_WORD)
-        return "Word";
-    else if (type == T_PIPE) 
-        return "Pipe";
-    else if (type == T_REDIR_IN) 
-        return "Redir In";
-    else if (type == T_REDIR_OUT) 
-        return "Redir Out";
-    else if (type == T_HEREDOC) 
-        return "Heredoc";
-    else if (type == T_APPEND) 
-        return "Append";
-    else if (type == T_ARGUMENT) 
-        return "Argument";
-    else    
-        return "Unknown";
-}
-

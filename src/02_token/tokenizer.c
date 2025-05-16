@@ -1,8 +1,23 @@
-//TODO : Add header , CHECK NORMINETTE, check leaks
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
+/*   Updated: 2025/05/16 17:16:13 by acesar-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* TODO : 
+	->CHECK NORMINETTE
+	->CHECK LEAKS
+*/
 
 #include "../../includes/minishell.h"
 
-static char *expand_variable(const char *str, int *i)
+static char	*expand_variable(const char *str, int *i)
 {
 	int		start;
 	char	*var_name;
@@ -22,6 +37,7 @@ static char *expand_variable(const char *str, int *i)
 		value = ft_strdup("");
 	return (value);
 }
+
 static char	*handle_variable(const char *str, int *i)
 {
 	return (expand_variable(str, i));
@@ -53,30 +69,32 @@ static char	*get_token_value(const char *str, int *i, t_token *last)
 	return (value);
 }
 
-static char *get_operator(const char *str, int *i)
+static char	*get_operator(const char *str, int *i)
 {
-    char    *operator;
+	char	*operator;
 
-    operator = NULL;
-    if ((str[*i] == '<' || str[*i] == '>') && str[*i + 1] == str[*i])
-    {
-        operator = ft_strndup(str + *i, 2);
-        (*i) += 2;
-    }
-    else if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
-    {
-        operator = ft_strndup(str + *i, 1);
-        (*i)++;
-    }
-    return (operator);
+	operator = NULL;
+	if ((str[*i] == '<' || str[*i] == '>') && str[*i + 1] == str[*i])
+	{
+		operator = ft_strndup(str + *i, 2);
+		(*i) += 2;
+	}
+	else if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
+	{
+		operator = ft_strndup(str + *i, 1);
+		(*i)++;
+	}
+	return (operator);
 }
 
-t_token *tokenize_input(const char *str)
+t_token	*tokenize_input(const char *str)
 {
-	t_token *head = NULL;
+	t_token	*head;
 	char	*value;
-	int		i = 0;
+	int		i;
 
+	head = NULL;
+	i = 0;
 	while (str[i])
 	{
 		while (str[i] == ' ' || str[i] == '\t')
@@ -86,7 +104,7 @@ t_token *tokenize_input(const char *str)
 		if (is_operator_char(str[i]))
 			value = get_operator(str, &i);
 		else
-		value = get_token_value(str, &i, get_last_token(head));
+			value = get_token_value(str, &i, get_last_token(head));
 		if (value && *value != '\0')
 			add_token(&head, value, get_token_type(value));
 		free(value);

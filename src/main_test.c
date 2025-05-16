@@ -1,3 +1,5 @@
+/*TODO : EXCLUIR NA ENTREGA FINAL*/
+
 #include "../includes/minishell.h"
 
 int	main(void)

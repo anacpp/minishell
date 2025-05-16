@@ -1,8 +1,22 @@
-//TODO : Add header , CHECK NORMINETTE, OBS : fazre tratamento de EOF, se achar necessário 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input_minishell.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
+/*   Updated: 2025/05/16 17:17:04 by acesar-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* TODO : 
+	->CHECK NORMINETTE
+	->CHECK LEAKS
+*/
 
 #include "../../includes/minishell.h"
 
-// ATUALIZAÇÃO COM TRATAMENTO DE ESCAPES
 static int	has_unclosed_quotes(const char *input)
 {
 	int	in_single;
@@ -10,7 +24,7 @@ static int	has_unclosed_quotes(const char *input)
 	int	escaped;
 
 	in_single = 0;
-	in_double = 0;	
+	in_double = 0;
 	escaped = 0;
 	while (*input)
 	{
@@ -93,8 +107,8 @@ static int	contains_unsupported_logical_operators(const char *input)
 		update_quote_state(*input, &in_single, &in_double, &escaped);
 		if (!in_single && !in_double && !escaped)
 		{
-			if ((*input == '&' && *(input + 1) == '&') || 
-				(*input == '|' && *(input + 1) == '|'))
+			if ((*input == '&' && *(input + 1) == '&') || (*input == '|'
+					&& *(input + 1) == '|'))
 				return (1);
 		}
 		input++;
@@ -118,4 +132,3 @@ void	is_valid_input_syntax(char *input)
 	else if (has_malformed_redirects((char *)input))
 		handle_error(input, "Syntax error: malformed redirection", 2);
 }
-

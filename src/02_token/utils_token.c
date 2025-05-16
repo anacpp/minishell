@@ -1,4 +1,16 @@
-//TODO : Add header , CHECK NORMINETTE, check leaks
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_token.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
+/*   Updated: 2025/05/16 17:15:19 by acesar-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+// TODO : CHECK NORMINETTE
 
 #include "../../includes/minishell.h"
 
@@ -43,26 +55,28 @@ void	free_tokens(t_token *head)
 		head = tmp;
 	}
 }
+
 char	*ft_strndup(const char *s, size_t n)
 {
-    size_t	i;
-    char	*dup;
+	size_t	i;
+	char	*dup;
 
-    i = 0;
-    while (s[i] && i < n)
-        i++;
-    dup = malloc(i + 1);
-    if (!dup)
-        return (NULL);
-    i = 0;
-    while (s[i] && i < n)
-    {
-        dup[i] = s[i];
-        i++;
-    }
-    dup[i] = '\0';
-    return (dup);
+	i = 0;
+	while (s[i] && i < n)
+		i++;
+	dup = malloc(i + 1);
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (s[i] && i < n)
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }
+
 t_token_type	get_token_type(const char *str)
 {
 	if (!ft_strncmp(str, "|", 2))
@@ -76,9 +90,10 @@ t_token_type	get_token_type(const char *str)
 	else if (!ft_strncmp(str, ">>", 3))
 		return (T_APPEND);
 	else if (!ft_strncmp(str, "$", 2))
-        return (T_ARGUMENT);
+		return (T_ARGUMENT);
 	return (T_WORD);
 }
+
 void	update_quote_flags(char c, int *in_squote, int *in_dquote)
 {
 	if (c == '\'' && !(*in_dquote))
