@@ -14,8 +14,13 @@ SRC_DIR = ./src/
 SRC = $(SRC_DIR)01_inputs/input_minishell.c \
       $(SRC_DIR)01_inputs/utils_input.c \
 	  $(SRC_DIR)main.c \
-	  $(SRC_DIR)utils/general_utils.c
+	  $(SRC_DIR)utils/general_utils.c \
+	  $(SRC_DIR)02_token/tokenizer.c\
+	  $(SRC_DIR)02_token/utils_token.c\
+	  $(SRC_DIR)02_token/utils_token2.c\
+	  $(SRC_DIR)02_token/utils_token3.c\
 
+	  
 OBJ = $(SRC:.c=.o)
 
 all: $(LIBFT) $(NAME)
