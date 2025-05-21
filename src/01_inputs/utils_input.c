@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/16 20:16:01 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:20:42 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,8 @@
 
 #include "../../includes/minishell.h"
 
-void	update_quote_state(char c, int *in_single, int *in_double, int *escaped)
+void	update_quote_state(char c, int *in_single, int *in_double)
 {
-	if (*escaped)
-	{
-		*escaped = 0;
-		return ;
-	}
-	if (c == '\\' && !*in_single)
-	{
-		*escaped = 1;
-		return ;
-	}
 	if (c == '\'' && !*in_double)
 		*in_single = !*in_single;
 	else if (c == '\"' && !*in_single)

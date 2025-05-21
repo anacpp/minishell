@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/16 20:16:50 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:08:55 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,6 @@ int	is_heredoc_context(t_token *last)
 	return (last && last->type == T_HEREDOC);
 }
 
-char	*handle_escape_in_squote(const char *str, int *i)
-{
-	char	*tmp;
-
-	tmp = ft_strndup(str + *i, 1);
-	(*i)++;
-	return (tmp);
-}
 
 // FUNÇÕES DE DEPURAÇÃO ABAIXO :
 void	print_tokens(t_token *head)

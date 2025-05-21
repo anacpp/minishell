@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/16 19:35:24 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:19:21 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ void				handle_error(char *data, char *msg, int code);
 void				is_valid_input_syntax(char *input);
 int					skip_redirect_and_check_error(const char *input, int *i);
 int					is_redirect(char c);
-void				update_quote_state(char c, int *in_single, int *in_double,
-						int *escaped);
+void				update_quote_state(char c, int *in_single, int *in_double);
 
 // Tokenizer functions
 t_token				*tokenize_input(const char *input);
@@ -69,10 +68,7 @@ void				update_token_value(char **value, char *expanded_value);
 int					is_operator_char(char c);
 void				update_quote_flags(char c, int *in_squote, int *in_dquote);
 int					is_heredoc_context(t_token *last);
-char				*handle_escape(const char *str, int *i, int in_squote, int in_dquote);
 char				*handle_char(const char *str, int *i);
-char				*handle_escape_in_dquote(const char *str, int *i);
-char				*handle_escape_in_squote(const char *str, int *i);
 
 
 // Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR
