@@ -1,7 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 NAME = minishell
-RM = rm -f
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -12,28 +11,16 @@ INCLUDES = -I$(LIBFT_DIR) -Iincludes -I$(READLINE_INCLUDE)
 LIBS = -L$(READLINE_LIB) -lreadline
 
 SRC_DIR = ./src/
+SRC = $(SRC_DIR)01_inputs/input_minishell.c \
+      $(SRC_DIR)01_inputs/utils_input.c \
+	  $(SRC_DIR)main.c \
+	  $(SRC_DIR)utils/general_utils.c \
+	  $(SRC_DIR)02_token/tokenizer.c\
+	  $(SRC_DIR)02_token/utils_token.c\
+	  $(SRC_DIR)02_token/utils_token2.c\
+	  $(SRC_DIR)02_token/utils_token3.c\
 
-INPUTS_DIR = $(SRC_DIR)/01_inputs
-TOKEN_DIR = $(SRC_DIR)/02_token
-PARSER_DIR = $(SRC_DIR)/03_parser
-UTILS_DIR = $(SRC_DIR)/utils
-
-SRC = 	$(SRC_DIR)/main.c \
-		$(INPUTS_DIR)/input_minishell.c \
-		$(INPUTS_DIR)/utils_input.c \
-		$(TOKEN_DIR)/tokenizer.c \
-		$(TOKEN_DIR)/utils_token.c \
-		$(TOKEN_DIR)/utils_token2.c \
-		$(TOKEN_DIR)/utils_token3.c \
-		$(PARSER_DIR)/parser.c \
-		$(PARSER_DIR)/parser_cleanup.c \
-		$(PARSER_DIR)/parser_error.c \
-		$(PARSER_DIR)/parser_rules.c \
-		$(PARSER_DIR)/parser_utils.c \
-		$(PARSER_DIR)/parser_helpers.c \
-		$(PARSER_DIR)/parser_redirect.c \
-		$(UTILS_DIR)/general_utils.c
-
+	  
 OBJ = $(SRC:.c=.o)
 
 all: $(LIBFT) $(NAME)
@@ -54,13 +41,13 @@ $(LIBFT):
 
 clean:
 	@echo "Cleaning object files..."
-	@$(RM) $(OBJ)
-	@$(MAKE) -C $(LIBFT_DIR) clean
+	rm -f $(OBJ)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	@echo "Removing $(NAME)..."
-	@$(RM) $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
+	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
