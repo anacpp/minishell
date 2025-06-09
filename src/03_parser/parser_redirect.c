@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_redirect.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
+/*   Updated: 2025/06/09 15:39:59 by rjacques         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static t_redir	*create_redir_node(t_token *redir_t, t_token *file_t);
@@ -12,7 +24,8 @@ static void		append_redir_to_cmd(t_cmd *cmd, t_redir *new_redir);
  * @param cmd O comando ao qual o redirecionamento pertence.
  * @param token_ptr Ponteiro para o ponteiro do token de redirecionamento,
  * que será avançado após a leitura do nome do arquivo.
- * @return Retorna `1` em caso de sucesso, `0` se um erro de sintaxe for encontrado.
+ * @return Retorna `1` em caso de sucesso,
+	`0` se um erro de sintaxe for encontrado.
  */
 int	add_redirection(t_cmd *cmd, t_token **token_ptr)
 {

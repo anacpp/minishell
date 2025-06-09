@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_rules.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
+/*   Updated: 2025/06/09 15:40:09 by rjacques         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 // Valida o que vem depois de um token de redirecionamento.
@@ -57,19 +69,16 @@ int	validate_command_segment_start(t_token *first_token_in_segment)
 // ou se o pipe é o ultimo token.
 int	validate_pipe_placement(t_token *pipe_token, int is_first_overall)
 {
-	t_token *next_t;
+	t_token	*next_t;
 
 	if (!pipe_token || pipe_token->type != T_PIPE)
 		return (0);
-
 	// Erro: Pipe como primeiro token significativo da linha
 	if (is_first_overall)
 		return (error_unexpected_token(pipe_token));
-
 	// Erro: Nada apos o pipe, ou outro pipe logo em seguida
 	next_t = get_next_token(pipe_token);
 	if (!next_t || next_t->type == T_PIPE)
 		return (error_unexpected_token(next_t ? next_t : pipe_token));
-
 	return (0);
 }

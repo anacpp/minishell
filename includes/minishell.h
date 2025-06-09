@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/* */
-/* :::      ::::::::   */
-/* minishell.h                                        :+:      :+:    :+:   */
-/* +:+ +:+         +:+     */
-/* By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
-/* querySelectorAll   +#+           */
-/* Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/* Updated: 2025/06/05 14:30:00 by acesar-p         ###   ########.fr       */
-/* */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
+/*   Updated: 2025/06/09 15:36:58 by rjacques         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 // TODO : CHECK NORMINETTE
@@ -49,15 +49,15 @@ typedef struct s_token
 
 typedef struct s_redir
 {
-	t_token_type type;
-	char *filename;
-	struct s_redir *next;
+	t_token_type	type;
+	char			*filename;
+	struct s_redir	*next;
 }					t_redir;
 
 typedef struct s_cmd
 {
 	char			**argv;
-	t_redir *redirs;
+	t_redir			*redirs;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -98,7 +98,7 @@ int					add_redirection(t_cmd *cmd, t_token **token_ptr);
 char				*remove_quotes(char *str);
 t_cmd				*create_new_cmd(void);
 
-// Funções de depuração para impressão de tokens
+// Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR
 void				print_tokens(t_token *head);
 const char			*token_type_str(t_token_type type);
 #endif
