@@ -26,6 +26,7 @@ int	main(void)
 	char	*input;
 	char	*pre_treat_input;
 	t_token	*tokens;
+	t_cmd *cmds;
 
 	printf("Digite algo (Ctrl+D para sair):\n");
 	while (1)
@@ -51,6 +52,8 @@ int	main(void)
 		free(pre_treat_input);
 		if (!tokens)
 			continue ;
+		cmds = parse_tokens(tokens);
+		execute_cmds(cmds);
 		print_tokens(tokens);
 		free_tokens(tokens);
 	}

@@ -47,6 +47,20 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+typedef struct s_redirect {
+    char *file;
+    t_token_type type;
+    struct s_redirect *next;
+} t_redirect;
+
+typedef struct s_cmd {
+    char **argv;         
+	int pipe_in;
+    int pipe_out;
+	t_redirect *redirects;
+    struct s_cmd *next;
+} t_cmd;
+
 // Error handling functions
 void				handle_error(char *data, char *msg, int code);
 
@@ -70,6 +84,9 @@ void				update_quote_flags(char c, int *in_squote, int *in_dquote);
 int					is_heredoc_context(t_token *last);
 char				*handle_char(const char *str, int *i);
 
+//list functions
+
+int	ft_lstsize(t_stack *lst);
 
 // Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR
 void				print_tokens(t_token *head);
