@@ -6,7 +6,7 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/09 15:39:17 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:24:22 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 static void	free_argv(char **argv);
 static void	free_redirections(t_redir *redirs);
 
-/**
- * @brief Libera toda a memória associada a uma lista de comandos.
- * Itera sobre cada nó da lista de comandos (t_cmd) e chama funções
- * auxiliares para liberar as estruturas aninhadas (redirecionamentos e argv),
- * antes de liberar o próprio nó do comando.
- */
 void	free_command_table(t_cmd *cmd_table)
 {
 	t_cmd	*tmp_cmd;
@@ -35,11 +29,6 @@ void	free_command_table(t_cmd *cmd_table)
 	}
 }
 
-/**
- * @brief Libera a memória de um array de strings (argv).
- * Itera sobre o array, liberando cada string individualmente, e então
- * libera o ponteiro para o próprio array.
- */
 static void	free_argv(char **argv)
 {
 	int	i;
@@ -55,11 +44,6 @@ static void	free_argv(char **argv)
 	free(argv);
 }
 
-/**
- * @brief Libera a memória de uma lista encadeada de redirecionamentos.
- * Itera sobre a lista, liberando o nome do arquivo (filename) e depois
- * o próprio nó de redirecionamento (t_redir).
- */
 static void	free_redirections(t_redir *redirs)
 {
 	t_redir	*tmp_redir;
@@ -73,10 +57,6 @@ static void	free_redirections(t_redir *redirs)
 	}
 }
 
-/**
- * @brief Imprime o conteúdo da tabela de comandos para depuração.
- * (TODO: Remover depois dos testes).
- */
 void	print_command_table(t_cmd *cmds)
 {
 	int		i;
