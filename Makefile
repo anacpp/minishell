@@ -61,7 +61,18 @@ fclean: clean
 	@echo "Removing $(NAME)..."
 	@$(RM) $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@echo "Cleaning test temporary files..."
+	@$(RM) tests/stderr.tmp
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re test
+
+test: all
+	@echo "\nRunning parser tests..."
+	@bash tests/test_parser.sh || true
+	@echo "\nRunning expansion tests..."
+	@bash tests/test_expansion.sh || true
+	@echo "\nRunning execution tests..."
+	@bash tests/test_execution.sh || true
+
