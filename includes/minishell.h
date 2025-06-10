@@ -88,6 +88,17 @@ char				*handle_char(const char *str, int *i);
 
 int	ft_lstsize(t_stack *lst);
 
+// builtin functions
+
+int is_builtin(char *cmd);
+void builtin_echo(char **argv);
+void builtin_exit(char **argv);
+void	builtin_cd(char **argv);
+void run_builtin(t_cmd *cmd);
+void	builtin_env(void);
+void	builtin_pwd(void);
+
+
 // Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR
 void				print_tokens(t_token *head);
 const char			*token_type_str(t_token_type type);

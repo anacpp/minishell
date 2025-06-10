@@ -1,25 +1,5 @@
 #include "../../includes/minishell.h"
 
-int is_builtin(char *cmd)
-{
-    int i;
-
-    i = 0;
-    if (!cmd)
-        return (0);
-    if (ft_strncmp(cmd, "cd", 3) == 0)
-        return (1);
-    if (ft_strncmp(cmd, "exit", 5) == 0)
-        return (1);
-    if (ft_strncmp(cmd, "echo", 5) == 0)
-        return (1);
-    if (ft_strncmp(cmd, "pwd", 4) == 0)
-        return (1);
-    if (ft_strncmp(cmd, "env", 4) == 0)
-        return (1);
-    return (0);
-}
-
 void run_builtin(t_cmd *cmd)
 {
     if (ft_strncmp(cmd->argv[0], "cd", 3) == 0)
@@ -33,8 +13,6 @@ void run_builtin(t_cmd *cmd)
     else if (ft_strncmp(cmd->argv[0], "env", 4) == 0)
         builtin_env();
 }
-
-#include "../../includes/minishell.h"
 
 void	builtin_cd(char **argv)
 {
@@ -86,7 +64,7 @@ void builtin_echo(char **argv)
     if (newline)
         ft_printf("\n");
 }
-/// teste
+
 static void	print_args(char **argv, int i)
 {
 	while (argv[i])
