@@ -6,7 +6,7 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/09 15:39:50 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:23:40 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,6 @@
 
 static void	perform_quote_removal(char *str, char *new_str);
 
-/**
- * @brief Cria uma nova string removendo as aspas de controle.
- *
- * @details Recebe uma string e remove as aspas (simples ou duplas) que
- * servem para agrupar o conteúdo, mas não as aspas literais dentro de outras.
- * Ex: `"olá 'mundo'"` -> `olá 'mundo'`.
- *
- * @param str A string original que pode conter aspas.
- * @return Retorna uma nova string alocada dinamicamente com o resultado.
- */
 char	*remove_quotes(char *str)
 {
 	char	*new_str;
@@ -37,16 +27,6 @@ char	*remove_quotes(char *str)
 	return (new_str);
 }
 
-/**
- * @brief Executa a lógica de remoção de aspas.
- *
- * @details Itera pela string de origem, controlando o estado "dentro de
- * aspas" para copiar para a string de destino apenas os caracteres que
- * não são aspas de controle.
- *
- * @param str A string de origem.
- * @param new_str A string de destino onde o resultado será armazenado.
- */
 static void	perform_quote_removal(char *str, char *new_str)
 {
 	int	i;
@@ -71,14 +51,6 @@ static void	perform_quote_removal(char *str, char *new_str)
 	new_str[j] = '\0';
 }
 
-/**
- * @brief Aloca e inicializa um novo nó de comando (`t_cmd`).
- *
- * @details Função utilitária para criar um comando "vazio", com seus
- * ponteiros internos (`argv`, `redirs`, `next`) inicializados como `NULL`.
- *
- * @return Retorna um ponteiro para o nó `t_cmd` recém-criado.
- */
 t_cmd	*create_new_cmd(void)
 {
 	t_cmd	*new_cmd;
@@ -86,8 +58,41 @@ t_cmd	*create_new_cmd(void)
 	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		handle_error(NULL, "malloc failed", 1, 1);
-	new_cmd->argv = NULL;
+	new_cmd->argv = malloc(sizeof(char *));
+	if (!new_cmd->argv)
+		handle_error(NULL, "malloc failed", 1, 1);
+	new_cmd->argv[0] = NULL;
 	new_cmd->redirs = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);
+}
+
+char	**ft_realloc_argv(char **argv, const char *new_arg)
+{
+	int		size;
+	char	**new_argv;
+
+	size = 0;
+	if (argv)
+	{
+		while (argv[size])
+			size++;
+	}
+	new_argv = malloc(sizeof(char *) * (size + 2));
+	if (!new_argv)
+		return (NULL);
+	size = 0;
+	if (argv)
+	{
+		while (argv[size])
+		{
+			new_argv[size] = argv[size];
+			size++;
+		}
+	}
+	new_argv[size] = ft_strdup(new_arg);
+	new_argv[size + 1] = NULL;
+	if (argv)
+		free(argv);
+	return (new_argv);
 }
