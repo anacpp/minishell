@@ -97,6 +97,10 @@ void	builtin_cd(char **argv);
 void run_builtin(t_cmd *cmd);
 void	builtin_env(void);
 void	builtin_pwd(void);
+int is_n_flag(char *str);
+int	is_valid_key(char *key);
+void	builtin_export(char **argv);
+void	builtin_unset(char **argv);
 
 
 // Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR

@@ -12,7 +12,12 @@ void run_builtin(t_cmd *cmd)
         builtin_pwd();
     else if (ft_strncmp(cmd->argv[0], "env", 4) == 0)
         builtin_env();
+    else if (ft_strncmp(cmd->argv[0], "export", 7) == 0)
+        builtin_export(cmd->argv);
+    else if (ft_strncmp(cmd->argv[0], "unset", 6) == 0)
+        builtin_unset(cmd->argv);
 }
+
 
 void	builtin_cd(char **argv)
 {
@@ -44,15 +49,13 @@ void builtin_exit(char **argv)
 
 void builtin_echo(char **argv)
 {
-    int i;
-    int newline;
+    int i = 1;
+    int newline = 1;
 
-    i = 1;
-    newline = 1;
-    if (argv[1] && ft_strncmp(argv[1], "-n", 3) == 0)
+    while (argv[i] && is_n_flag(argv[i]))
     {
         newline = 0;
-        i = 2;
+        i++;
     }
     while (argv[i])
     {
@@ -64,6 +67,7 @@ void builtin_echo(char **argv)
     if (newline)
         ft_printf("\n");
 }
+
 
 static void	print_args(char **argv, int i)
 {
