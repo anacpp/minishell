@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/21 17:19:21 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:15:28 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,28 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+typedef struct s_redir
+{
+	t_token_type	type;
+	char			*filename;
+	struct s_redir	*next;
+}					t_redir;
+
+typedef struct s_cmd
+{
+	char			**argv;
+	t_redir			*redirs;
+	struct s_cmd	*next;
+}					t_cmd;
+
 // Error handling functions
-void				handle_error(char *data, char *msg, int code);
+void				handle_error(char *data, char *msg, int code,
+						int should_exit);
+int					report_syntax_error(const char *message, t_token *token);
+int					error_unexpected_token(t_token *token);
 
 // Input functions
-void				is_valid_input_syntax(char *input);
+int					is_valid_input_syntax(const char *input);
 int					skip_redirect_and_check_error(const char *input, int *i);
 int					is_redirect(char c);
 void				update_quote_state(char c, int *in_single, int *in_double);
@@ -69,7 +86,18 @@ int					is_operator_char(char c);
 void				update_quote_flags(char c, int *in_squote, int *in_dquote);
 int					is_heredoc_context(t_token *last);
 char				*handle_char(const char *str, int *i);
+t_token				*get_next_token(t_token *current);
+int					token_is_operator(t_token *token);
 
+// --- NOVAS FUNÇÕES DO PARSER ---
+t_cmd				*parse(t_token *tokens);
+void				free_command_table(t_cmd *cmd_table);
+void	print_command_table(t_cmd *cmds); // Para depuração
+int					token_is_redirection(t_token *token);
+int					add_redirection(t_cmd *cmd, t_token **token_ptr);
+char				*remove_quotes(char *str);
+t_cmd				*create_new_cmd(void);
+char				**ft_realloc_argv(char **argv, const char *new_arg);
 
 // Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR
 void				print_tokens(t_token *head);
