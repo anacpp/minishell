@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/10 00:39:56 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:19:37 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	count_segment_args(t_token *token);
 static int	handle_pipe_token(t_cmd **cmd, t_token **token);
 static int	fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);
 
+// REFATORAR: 27 LINHAS
 t_cmd	*parse(t_token *tokens)
 {
 	t_cmd	*cmd_head;
@@ -38,7 +39,7 @@ t_cmd	*parse(t_token *tokens)
 				return (free_command_table(cmd_head), NULL);
 		}
 		if (current_token == NULL)
-			break;
+			break ;
 		if (!parse_command_segment(current_cmd, &current_token))
 			return (free_command_table(cmd_head), NULL);
 	}
@@ -77,7 +78,7 @@ static int	handle_pipe_token(t_cmd **cmd, t_token **token)
 {
 	if (!(*token)->next || (*token)->next->type == T_PIPE)
 	{
-		error_unexpected_token((*token)->next ? (*token)->next : *token);
+		error_unexpected_token((*token)->next ? (*token)->next : *token); // PROIBIDO USO DE TERNÁRIO 
 		return (0);
 	}
 	(*cmd)->next = create_new_cmd();

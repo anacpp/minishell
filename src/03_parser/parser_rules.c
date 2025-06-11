@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_rules.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/10 00:19:18 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:21:35 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ int	validate_pipe_placement(t_token *pipe_token, int is_first_overall)
 		return (error_unexpected_token(pipe_token));
 	next_t = get_next_token(pipe_token);
 	if (!next_t || next_t->type == T_PIPE)
-		return (error_unexpected_token(next_t ? next_t : pipe_token));
+		return (error_unexpected_token(next_t ? next_t : pipe_token)); // PROIBIDO USO DE TERNÁRIO SOMENTE IF/ ELSE / ELSE IF
 	return (0);
 }

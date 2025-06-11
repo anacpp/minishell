@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/10 00:23:40 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:17:57 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_cmd	*create_new_cmd(void)
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
-
+//REFATORAR : 26 LINHAS
 char	**ft_realloc_argv(char **argv, const char *new_arg)
 {
 	int		size;

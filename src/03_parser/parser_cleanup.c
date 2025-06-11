@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cleanup.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/10 00:24:22 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:20:31 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	free_redirections(t_redir *redirs)
 	}
 }
 
+// REFATORAR : 30 LINHAS
 void	print_command_table(t_cmd *cmds)
 {
 	int		i;
