@@ -99,6 +99,24 @@ char				*remove_quotes(char *str);
 t_cmd				*create_new_cmd(void);
 char				**ft_realloc_argv(char **argv, const char *new_arg);
 
+//list functions
+
+int	ft_lstsize(t_stack *lst);
+
+// builtin functions
+
+int is_builtin(char *cmd);
+void builtin_echo(char **argv);
+void builtin_exit(char **argv);
+void	builtin_cd(char **argv);
+void run_builtin(t_cmd *cmd);
+void	builtin_env(void);
+void	builtin_pwd(void);
+int is_n_flag(char *str);
+int	is_valid_key(char *key);
+void	builtin_export(char **argv);
+void	builtin_unset(char **argv);
+
 // Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR
 void				print_tokens(t_token *head);
 const char			*token_type_str(t_token_type type);
