@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 static int	parse_command_segment(t_cmd *cmd, t_token **start_token);
 static int	count_segment_args(t_token *token);
 static int	handle_pipe_token(t_cmd **cmd, t_token **token);
@@ -60,9 +59,8 @@ static int	count_segment_args(t_token *token)
 	{
 		if (token_is_redirection(temp))
 		{
-			if (get_next_token(temp))
-				temp = get_next_token(get_next_token(temp));
-			else
+			temp = get_next_token(temp);
+			if (temp)
 				temp = get_next_token(temp);
 		}
 		else
@@ -96,7 +94,7 @@ static int	parse_command_segment(t_cmd *cmd, t_token **start_token)
 	while (segment_end && segment_end->type != T_PIPE)
 		segment_end = segment_end->next;
 	arg_count = count_segment_args(*start_token);
-	cmd->argv = malloc(sizeof(char *) * (arg_count + 1));
+	cmd->argv = ft_calloc(arg_count + 1, sizeof(char *));
 	if (!cmd->argv)
 		handle_error(NULL, "malloc failed", 1, 1);
 	cmd->argv[0] = NULL;
@@ -110,7 +108,9 @@ static int	fill_segment_data(t_cmd *cmd, t_token **start, t_token *end)
 {
 	t_token	*iter;
 	int		i;
+	int		last_was_redir;
 
+	last_was_redir = 0;
 	iter = *start;
 	i = 0;
 	while (iter != end)
@@ -119,10 +119,15 @@ static int	fill_segment_data(t_cmd *cmd, t_token **start, t_token *end)
 		{
 			if (!add_redirection(cmd, &iter))
 				return (0);
+			last_was_redir = 1;
 			continue ;
 		}
 		if (iter->type == T_WORD)
-			cmd->argv[i++] = remove_quotes(iter->value);
+		{
+			if (!last_was_redir)
+				cmd->argv[i++] = remove_quotes(iter->value);
+			last_was_redir = 0;
+		}
 		iter = iter->next;
 	}
 	cmd->argv[i] = NULL;
