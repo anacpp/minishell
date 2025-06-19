@@ -79,15 +79,15 @@ char	*ft_strndup(const char *s, size_t n)
 
 t_token_type	get_token_type(const char *str)
 {
-	if (!ft_strncmp(str, "|", 2))
+	if (ft_strlen(str) == 1 && str[0] == '|')
 		return (T_PIPE);
-	else if (!ft_strncmp(str, "<", 2))
+	else if (ft_strlen(str) == 1 && str[0] == '<')
 		return (T_REDIR_IN);
-	else if (!ft_strncmp(str, ">", 2))
+	else if (ft_strlen(str) == 1 && str[0] == '>')
 		return (T_REDIR_OUT);
-	else if (!ft_strncmp(str, "<<", 3))
+	else if (ft_strlen(str) == 2 && !ft_strncmp(str, ">>", 2))
 		return (T_HEREDOC);
-	else if (!ft_strncmp(str, ">>", 3))
+	else if (ft_strlen(str) == 2 && !ft_strncmp(str, ">>", 2))
 		return (T_APPEND);
 	else if (!ft_strncmp(str, "$", 2))
 		return (T_ARGUMENT);

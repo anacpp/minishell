@@ -17,30 +17,15 @@
 
 #include "../../includes/minishell.h"
 
-static char	*expand_variable(const char *str, int *i)
+static char *handle_variable(const char *str, int *i)
 {
-	int		start;
-	char	*var_name;
-	char	*var_value;
-	char	*value;
+	int start;
 
 	start = *i;
 	(*i)++;
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
-	var_name = ft_strndup(str + start + 1, *i - start - 1);
-	var_value = getenv(var_name);
-	free(var_name);
-	if (var_value)
-		value = ft_strdup(var_value);
-	else
-		value = ft_strdup("");
-	return (value);
-}
-
-static char	*handle_variable(const char *str, int *i)
-{
-	return (expand_variable(str, i));
+	return (ft_strndup(str + start, *i - start));
 }
 
 static char	*get_token_value(const char *str, int *i, t_token *last)
