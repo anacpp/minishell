@@ -63,20 +63,17 @@ static char	*get_token_value(const char *str, int *i, t_token *last)
 
 static char	*get_operator(const char *str, int *i)
 {
-	char	*operator;
-
-	operator = NULL;
 	if ((str[*i] == '<' || str[*i] == '>') && str[*i + 1] == str[*i])
 	{
-		operator = ft_strndup(str + *i, 2);
-		(*i) += 2;
+		*i += 2;
+		return (ft_strndup(str + *i - 2, 2));
 	}
-	else if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
+	else if (str[*i] == '<' || str[*i] == '>' || str[*i] == '|')
 	{
-		operator = ft_strndup(str + *i, 1);
-		(*i)++;
+		*i += 1;
+		return (ft_strndup(str + *i - 1, 1));
 	}
-	return (operator);
+	return (NULL);
 }
 
 t_token	*tokenize_input(const char *str)
