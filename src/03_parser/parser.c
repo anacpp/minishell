@@ -103,7 +103,7 @@ static int	parse_command_segment(t_cmd *cmd, t_token **start_token)
 	*start_token = segment_end;
 	return (1);
 }
-
+// 28 LINHAS
 static int	fill_segment_data(t_cmd *cmd, t_token **start, t_token *end)
 {
 	t_token	*iter;
