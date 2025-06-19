@@ -137,4 +137,3 @@ static int	fill_segment_data(t_cmd *cmd, t_token **start, t_token *end)
 	return (1);
 }
 
-
