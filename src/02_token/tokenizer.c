@@ -19,7 +19,9 @@
 
 static char *handle_variable(const char *str, int *i)
 {
-    int start = *i;
+    int start;
+	
+	start = *i;
     (*i)++;
 
     if (str[*i] == '?') {
