@@ -56,7 +56,7 @@ static int	contains_unsupported_logical_operators(const char *input)
 int	is_valid_input_syntax(const char *input)
 {
 	if (!input || *input == '\0')
-		return (0); // invalid input
+		return (0);
 	if (has_unclosed_quotes(input))
 		return (report_syntax_error("syntax error: unclosed quotes", NULL));
 	if (contains_unsupported_logical_operators(input))
