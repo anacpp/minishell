@@ -19,13 +19,20 @@
 
 static char *handle_variable(const char *str, int *i)
 {
-	int start;
+    int start = *i;
+    (*i)++;
 
-	start = *i;
-	(*i)++;
-	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
-		(*i)++;
-	return (ft_strndup(str + start, *i - start));
+    if (str[*i] == '?') {
+        (*i)++;
+        return ft_strndup(str + start, 2);
+    }
+    if (str[*i] == '$') {
+        (*i)++;
+        return ft_strndup(str + start, 2);
+    }
+    while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
+        (*i)++;
+    return ft_strndup(str + start, *i - start);
 }
 
 static char	*get_token_value(const char *str, int *i, t_token *last)
