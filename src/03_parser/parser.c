@@ -123,9 +123,12 @@ static int	fill_segment_data(t_cmd *cmd, t_token **start, t_token *end)
 			last_was_redir = 1;
 			continue ;
 		}
-		last_was_redir = 0;
 		if (iter->type == T_WORD)
-			cmd->argv[i++] = remove_quotes(iter->value);
+		{
+			if (!last_was_redir)
+				cmd->argv[i++] = remove_quotes(iter->value);
+			last_was_redir = 0;
+		}
 		iter = iter->next;
 	}
 	cmd->argv[i] = NULL;
@@ -133,4 +136,5 @@ static int	fill_segment_data(t_cmd *cmd, t_token **start, t_token *end)
 		return (report_syntax_error("missing command", NULL));
 	return (1);
 }
+
 
