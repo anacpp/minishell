@@ -55,13 +55,10 @@ t_cmd	*create_new_cmd(void)
 {
 	t_cmd	*new_cmd;
 
-	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		handle_error(NULL, "malloc failed", 1, 1);
-	new_cmd->argv = malloc(sizeof(char *));
-	if (!new_cmd->argv)
-		handle_error(NULL, "malloc failed", 1, 1);
-	new_cmd->argv[0] = NULL;
+	new_cmd->argv = NULL; 
 	new_cmd->redirs = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);
