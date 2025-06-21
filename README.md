@@ -49,6 +49,11 @@ Use os testes em `tests/` para validar:
 bash tests/run_all.sh
 ```
 
+Para rodar testes udando o valgrind utilize a variável USE_VALGRIND
+```bash
+USE_VALGRIND=1 bash tests/test_parser.sh
+```
+
 ## 🤝 Autores
 
 - Ana Carla — [@anacpp](https://github.com/anacpp)
