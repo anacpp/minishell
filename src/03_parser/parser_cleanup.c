@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cleanup.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/11 17:20:31 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/06/21 04:52:07 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,40 +54,5 @@ static void	free_redirections(t_redir *redirs)
 		free(redirs->filename);
 		free(redirs);
 		redirs = tmp_redir;
-	}
-}
-
-// REFATORAR : 30 LINHAS
-void	print_command_table(t_cmd *cmds)
-{
-	int		i;
-	int		cmd_num;
-	t_redir	*redirs;
-
-	cmd_num = 1;
-	while (cmds)
-	{
-		printf("\n--- Command %d ---\n", cmd_num++);
-		printf("  Args (argv):\n");
-		if (cmds->argv)
-		{
-			i = 0;
-			while (cmds->argv[i])
-			{
-				printf("    argv[%d]: \"%s\"\n", i, cmds->argv[i]);
-				i++;
-			}
-		}
-		printf("  Redirections:\n");
-		if (!cmds->redirs)
-			printf("    (none)\n");
-		redirs = cmds->redirs;
-		while (redirs)
-		{
-			printf("    Type: %s, File: \"%s\"\n", token_type_str(redirs->type),
-				redirs->filename);
-			redirs = redirs->next;
-		}
-		cmds = cmds->next;
 	}
 }

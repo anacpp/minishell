@@ -28,10 +28,12 @@ SRC = 	$(SRC_DIR)/main.c \
 		$(PARSER_DIR)/parser.c \
 		$(PARSER_DIR)/parser_cleanup.c \
 		$(PARSER_DIR)/parser_error.c \
-		$(PARSER_DIR)/parser_rules.c \
-		$(PARSER_DIR)/parser_utils.c \
 		$(PARSER_DIR)/parser_helpers.c \
+		$(PARSER_DIR)/parser_print_test.c \
 		$(PARSER_DIR)/parser_redirect.c \
+		$(PARSER_DIR)/parser_rules.c \
+		$(PARSER_DIR)/parser_segment_args.c \
+		$(PARSER_DIR)/parser_utils.c \
 		$(UTILS_DIR)/general_utils.c
 
 OBJ = $(SRC:.c=.o)
