@@ -12,6 +12,17 @@ if [ ! -f "$PROJECT_ROOT/minishell" ]; then
     echo "✅ Compilação concluída."
 fi
 
+# --- Lógica do Valgrind ---
+VALGRIND_CMD=""
+# Se a variável de ambiente USE_VALGRIND for definida como '1' ou 'true', ativa o valgrind
+if [[ "$USE_VALGRIND" == "1" || "$USE_VALGRIND" == "true" ]]; then
+    echo -e "${YELLOW}VALGRIND ATIVADO!${NC} Os testes serão mais lentos."
+    # Usamos --leak-check=full para uma verificação completa e --track-origins=yes para rastrear a origem de valores não inicializados.
+    # Adicionamos --suppressions=tests/readline.supp para ignorar os leaks conhecidos da biblioteca readline (ver obs. no final).
+    VALGRIND_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=$PROJECT_ROOT/tests/readline.supp"
+fi
+# --- Fim da Lógica do Valgrind ---
+
 # Cores
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -21,13 +32,14 @@ NC='\033[0m'
 PASSED_COUNT=0
 FAILED_COUNT=0
 TMP_STDERR="stderr.tmp"
+TMP_STDOUT="stdout.tmp" #
 
 run_test() {
     COMMAND=$1
     EXPECTED_ERROR=$2
     TEST_NAME=$3
 
-    "$PROJECT_ROOT/minishell" <<< "$COMMAND" > /dev/null 2> "$TMP_STDERR"
+    $VALGRIND_CMD "$PROJECT_ROOT/minishell" <<< "$COMMAND" > /dev/null 2> "$TMP_STDERR"
     ACTUAL_ERROR=$(head -n 1 "$TMP_STDERR")
 
     if [[ "$ACTUAL_ERROR" == "$EXPECTED_ERROR" ]]; then
@@ -42,10 +54,54 @@ run_test() {
     fi
 }
 
+# NOVA FUNÇÃO: Testa se a saída padrão (stdout) é exatamente a esperada
+run_test_stdout() {
+    COMMAND=$1
+    EXPECTED_STDOUT=$2
+    TEST_NAME=$3
+
+    $VALGRIND_CMD "$PROJECT_ROOT/minishell" <<< "$COMMAND" > "$TMP_STDOUT" 2> "$TMP_STDERR"
+    ACTUAL_STDOUT=$(cat "$TMP_STDOUT")
+
+    if [[ "$ACTUAL_STDOUT" == "$EXPECTED_STDOUT" ]]; then
+        echo -e "${GREEN}✅ PASS:${NC} $TEST_NAME"
+        ((PASSED_COUNT++))
+    else
+        echo -e "${RED}❌ FAIL:${NC} $TEST_NAME"
+        echo -e "  Comando:      \"$COMMAND\""
+        echo -e "  Esperado:     \"$EXPECTED_STDOUT\""
+        echo -e "  Recebido:     \"$ACTUAL_STDOUT\""
+        echo -e "  Erro (stderr): \"$(cat $TMP_STDERR)\""
+        ((FAILED_COUNT++))
+    fi
+}
+
+# NOVA FUNÇÃO: Testa se a saída padrão (stdout) contém uma substring
+run_test_stdout_contains() {
+    COMMAND=$1
+    EXPECTED_SUBSTRING=$2
+    TEST_NAME=$3
+
+    $VALGRIND_CMD "$PROJECT_ROOT/minishell" <<< "$COMMAND" > "$TMP_STDOUT" 2> /dev/null
+    ACTUAL_STDOUT=$(cat "$TMP_STDOUT")
+
+    if [[ "$ACTUAL_STDOUT" == *"$EXPECTED_SUBSTRING"* ]]; then
+        echo -e "${GREEN}✅ PASS:${NC} $TEST_NAME"
+        ((PASSED_COUNT++))
+    else
+        echo -e "${RED}❌ FAIL:${NC} $TEST_NAME"
+        echo -e "  Comando:               \"$COMMAND\""
+        echo -e "  Substring Esperada:    \"$EXPECTED_SUBSTRING\""
+        echo -e "  Saída Recebida:        \"$ACTUAL_STDOUT\""
+        ((FAILED_COUNT++))
+    fi
+}
+
+
 summary_and_exit() {
     echo -e "\n${YELLOW}--- 🏁 Testes Finalizados ---${NC}"
     echo -e "Resultados: ${GREEN}${PASSED_COUNT} Aprovados${NC}, ${RED}${FAILED_COUNT} Reprovados${NC}\n"
-    rm -f "$TMP_STDERR"
+    rm -f "$TMP_STDERR" "$TMP_STDOUT"
     if [ $FAILED_COUNT -ne 0 ]; then
         exit 1
     fi
