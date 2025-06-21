@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 NAME = minishell
 RM = rm -f
 
@@ -69,10 +69,15 @@ re: fclean all
 .PHONY: all clean fclean re test
 
 test: all
-	@echo "\nRunning parser tests..."
-	@bash tests/test_parser.sh || true
-	@echo "\nRunning expansion tests..."
-	@bash tests/test_expansion.sh || true
+	@echo "Running built-in tests..."
+	@bash tests/test_builtin.sh || true
 	@echo "\nRunning execution tests..."
 	@bash tests/test_execution.sh || true
+	@echo "\nRunning expansion tests..."
+	@bash tests/test_expansion.sh || true
+	@echo "\nRunning pipes and redirection tests..."
+	@bash tests/test_pipes_and_redirs_exec.sh || true
+	@echo "\nRunning parser tests..."
+	@bash tests/test_parser.sh || true
+
 
