@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_rules.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/11 17:21:35 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/06/21 02:47:02 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	validate_command_segment_start(t_token *first_token_in_segment)
 int	validate_pipe_placement(t_token *pipe_token, int is_first_overall)
 {
 	t_token	*next_t;
+	t_token	*error_token;
 
 	if (!pipe_token || pipe_token->type != T_PIPE)
 		return (0);
@@ -63,6 +64,12 @@ int	validate_pipe_placement(t_token *pipe_token, int is_first_overall)
 		return (error_unexpected_token(pipe_token));
 	next_t = get_next_token(pipe_token);
 	if (!next_t || next_t->type == T_PIPE)
-		return (error_unexpected_token(next_t ? next_t : pipe_token)); // PROIBIDO USO DE TERNÁRIO SOMENTE IF/ ELSE / ELSE IF
+	{
+		if (next_t)
+			error_token = next_t;
+		else
+			error_token = pipe_token;
+		return (error_unexpected_token(error_token));
+	}
 	return (0);
 }
