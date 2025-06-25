@@ -56,10 +56,13 @@ const char	*token_type_str(t_token_type type)
 
 char *handle_word_token(const char *str, int *i, int *quote_type)
 {
-	int in_squote = 0;
-	int in_dquote = 0;
-	int temp_i = *i;
+	int in_squote;
+	int in_dquote;
+	int temp_i;
 
+	in_dquote = 0;
+	in_squote = 0;
+	temp_i = *i;
 	while (str[temp_i] && !is_operator_char(str[temp_i])
 		&& str[temp_i] != ' ' && str[temp_i] != '\t')
 	{
@@ -76,8 +79,9 @@ char *handle_word_token(const char *str, int *i, int *quote_type)
 void get_token_next(const char *str, int *i, t_token **head)
 {
 	char *value;
-	int quote_type = 0;
+	int quote_type;
 
+	quote_type = 0;
 	if (is_operator_char(str[*i]))
 		value = get_operator(str, i);
 	else

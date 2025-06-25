@@ -40,3 +40,29 @@ void	update_quotes(char c, int *in_squote, int *in_dquote)
 	else if (c == '\"' && !*in_squote)
 		*in_dquote = !*in_dquote;
 }
+char *process_dollar_sequence(char *result, char *input, int *i, int status)
+{
+	char *tmp;
+
+	tmp = append_expanded(result, input, i, status);
+	if (!tmp)
+	{
+		free(result);
+		return (NULL);
+	}
+	return (tmp);
+}
+
+char *process_regular_char(char *result, char current, int *i)
+{
+	char *tmp;
+
+	tmp = append_char_and_advance(result, current);
+	if (!tmp)
+	{
+		free(result);
+		return (NULL);
+	}
+	(*i)++;
+	return (tmp);
+}

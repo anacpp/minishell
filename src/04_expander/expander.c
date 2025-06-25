@@ -22,71 +22,30 @@ char	*handle_dollar(char *str, int *i, int status);
 char	*append_char_and_advance(char *str, char c);
 
 
-char	*expand_variables(char *input, int status)
+char *expand_variables(char *input, int status)
 {
 	int		i;
 	int		in_squote;
 	int		in_dquote;
 	char	*result;
-	char	*tmp;
 
-    i = 0;
-    in_dquote = 0;
-    in_squote = 0;
-    result = ft_strdup("");
-    while (input[i])
+	i = 0;
+	in_squote = 0;
+	in_dquote = 0;
+	result = ft_strdup("");
+	while (input[i])
 	{
 		update_quotes(input[i], &in_squote, &in_dquote);
 		if (input[i] == '$' && !in_squote)
-		{
-			tmp = append_expanded(result, input, &i, status);
-			if (!tmp)
-			{
-				free(result);
-				return (NULL);
-			}
-			result = tmp;
-			continue ; 
-		}
+			result = process_dollar_sequence(result, input, &i, status);
 		else
-		{
-			tmp = append_char_and_advance(result, input[i]);
-			if (!tmp)
-			{
-				free(result);
-				return (NULL);
-			}
-			result = tmp;
-			i++;
-		}
+			result = process_regular_char(result, input[i], &i);
+		if (!result)
+			return (NULL);
 	}
-    return (result);
+	return (result);
 }
-/*
-char	*handle_dollar(char *str, int *i, int status)
-{
-	int		j = 1;
-	char	*name;
-	char	*value;
 
-	(*i)++; // pula '$'
-	if (str[1] == '?')
-	{
-		(*i)++;
-		return (ft_itoa(status));
-	}
-	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
-		j++;
-	if (j == 1)
-		return (ft_strdup("$"));
-	name = ft_substr(str, 1, j - 1); 
-	value = getenv(name);
-	free(name);
-	(*i) += (j - 1); 
-	if (!value)
-		return (ft_strdup("")); 
-	return (ft_strdup(value));
-}*/
 char *handle_dollar(char *str, int *i, int status)
 {
     int j;

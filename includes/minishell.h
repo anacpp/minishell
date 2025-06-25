@@ -120,6 +120,9 @@ void 	expand_tokens(t_token *tokens, int last_status);
 void	update_quotes(char c, int *in_squote, int *in_dquote);
 char	*append_expanded(char *result, char *input, int *i, int status);
 char	*handle_dollar(char *str, int *i, int status);
+char *process_regular_char(char *result, char current, int *i);
+char *process_dollar_sequence(char *result, char *input, int *i, int status);
+char	*append_char_and_advance(char *str, char c);
 
 // builtin functions
 
