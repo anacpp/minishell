@@ -107,6 +107,7 @@ int					add_redirection(t_cmd *cmd, t_token **token_ptr);
 char				*remove_quotes(char *str);
 t_cmd				*create_new_cmd(void);
 char				**ft_realloc_argv(char **argv, const char *new_arg);
+int					ft_count_args(char **argv);
 
 //list functions
 
@@ -123,6 +124,10 @@ char	*handle_dollar(char *str, int *i, int status);
 char *process_regular_char(char *result, char current, int *i);
 char *process_dollar_sequence(char *result, char *input, int *i, int status);
 char	*append_char_and_advance(char *str, char c);
+
+//Parser segment
+int					fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);
+int					count_segment_args(t_token *token);
 
 // builtin functions
 

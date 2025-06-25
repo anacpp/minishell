@@ -58,39 +58,30 @@ t_cmd	*create_new_cmd(void)
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		handle_error(NULL, "malloc failed", 1, 1);
-	new_cmd->argv = NULL; 
+	new_cmd->argv = NULL;
 	new_cmd->redirs = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
 
-//REFATORAR : 26 LINHAS
 char	**ft_realloc_argv(char **argv, const char *new_arg)
 {
 	int		size;
 	char	**new_argv;
+	int		i;
 
-	size = 0;
-	if (argv)
-	{
-		while (argv[size])
-			size++;
-	}
+	size = ft_count_args(argv);
 	new_argv = malloc(sizeof(char *) * (size + 2));
+	i = 0;
 	if (!new_argv)
 		return (NULL);
-	size = 0;
-	if (argv)
+	while (i < size)
 	{
-		while (argv[size])
-		{
-			new_argv[size] = argv[size];
-			size++;
-		}
+		new_argv[i] = argv[i];
+		i++;
 	}
-	new_argv[size] = ft_strdup(new_arg);
-	new_argv[size + 1] = NULL;
-	if (argv)
-		free(argv);
+	new_argv[i] = ft_strdup(new_arg);
+	new_argv[i + 1] = NULL;
+	free(argv);
 	return (new_argv);
 }

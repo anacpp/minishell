@@ -57,37 +57,3 @@ static void	free_redirections(t_redir *redirs)
 	}
 }
 
-// REFATORAR : 30 LINHAS
-void	print_command_table(t_cmd *cmds)
-{
-	int		i;
-	int		cmd_num;
-	t_redir	*redirs;
-
-	cmd_num = 1;
-	while (cmds)
-	{
-		printf("\n--- Command %d ---\n", cmd_num++);
-		printf("  Args (argv):\n");
-		if (cmds->argv)
-		{
-			i = 0;
-			while (cmds->argv[i])
-			{
-				printf("    argv[%d]: \"%s\"\n", i, cmds->argv[i]);
-				i++;
-			}
-		}
-		printf("  Redirections:\n");
-		if (!cmds->redirs)
-			printf("    (none)\n");
-		redirs = cmds->redirs;
-		while (redirs)
-		{
-			printf("    Type: %s, File: \"%s\"\n", token_type_str(redirs->type),
-				redirs->filename);
-			redirs = redirs->next;
-		}
-		cmds = cmds->next;
-	}
-}
