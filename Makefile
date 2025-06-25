@@ -35,7 +35,7 @@ SRC = 	$(SRC_DIR)/main.c \
 		$(PARSER_DIR)/parser_rules.c \
 		$(PARSER_DIR)/parser_segment_args.c \
 		$(PARSER_DIR)/parser_utils.c \
-		$(UTILS_DIR)/general_utils.c
+		$(UTILS_DIR)/general_utils.c \
 		$(EXPANDER_DIR)/expand_all.c \
 		$(EXPANDER_DIR)/expander.c \
 		$(EXPANDER_DIR)/utils_expand.c

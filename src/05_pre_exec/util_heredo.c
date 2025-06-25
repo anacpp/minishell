@@ -17,65 +17,45 @@
 */
 #include "../../includes/minishell.h"
 
-
-static int	check_delimiter(const char *line, const char *delimiter)
+char	*generate_temp_name(int suffix)
 {
-	int	i;
+	char	*base;
+	char	*number;
+	char	*full_path;
 
-	i = 0;
-	while (delimiter[i])
-	{
-		if (line[i] != delimiter[i])
-			return (0);
-		i++;
-	}
-	if (line[i] != '\0')
-		return (0);
-	return (1);
+	base = "/tmp/minishell_heredoc_";
+	number = ft_itoa(suffix);
+	if (!number)
+		return (NULL);
+	full_path = ft_strjoin(base, number);
+	free(number);
+	return (full_path);
 }
 
-static void	print_prompt(void)
-{
-	write(1, "> ", 2);
-}
-
-static void	heredoc_loop(int fd, const char *delimiter)
-{
-	char	*line;
-
-	while (1)
-	{
-		print_prompt();
-		line = readline("");
-		if (!line)
-		{
-			write(1, "warning: heredoc ended by EOF\n", 31);
-			break ;
-		}
-		if (check_delimiter(line, delimiter))
-		{
-			free(line);
-			break ;
-		}
-		write(fd, line, (int)ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
-}
-
-int	create_heredoc(char *delimiter)
+int	create_temp_file(char *buffer, size_t size)
 {
 	int		fd;
-	char	tmpfile[256];
+	int		suffix;
+	char	*full_path;
 
-	fd = create_temp_file(tmpfile, sizeof(tmpfile));
-	if (fd < 0)
-		handle_error("heredoc", strerror(errno), 1, 1);
-	heredoc_loop(fd, delimiter);
-	close(fd);
-	fd = open(tmpfile, O_RDONLY);
-	if (fd < 0)
-		handle_error("heredoc", strerror(errno), 1, 1);
-	unlink(tmpfile);
-	return (fd);
+	suffix = (int)getpid();
+	while (1)
+	{
+		full_path = generate_temp_name(suffix++);
+		if (!full_path)
+			return (-1);
+		if (ft_strlen(full_path) >= size)
+		{
+			free(full_path);
+			return (-1);
+		}
+		ft_strcpy(buffer, full_path);
+		free(full_path);
+		fd = open(buffer, O_CREAT | O_EXCL | O_RDWR, 0600);
+		if (fd >= 0)
+			return (fd);
+		if (suffix > (int)getpid() + 1000)
+			break ;
+	}
+	return (-1);
 }
