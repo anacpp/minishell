@@ -23,7 +23,6 @@ char	*ft_strjoin(char *s1, char *s2)
 		ft_strlcpy(join, s1, ft_strlen(s1) + 1);
 	ft_strlcpy(join + ft_strlen(s1), s2, ft_strlen(s2) + 1);
 	join[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-	if (s1 != NULL)
 	free(s1);
 	free(s2);
 	return (join);
