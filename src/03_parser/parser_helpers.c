@@ -56,6 +56,7 @@ t_cmd	*create_new_cmd(void)
 	t_cmd	*new_cmd;
 
 	new_cmd = malloc(sizeof(t_cmd));
+	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		handle_error(NULL, "malloc failed", 1, 1);
 	new_cmd->argv = NULL;
