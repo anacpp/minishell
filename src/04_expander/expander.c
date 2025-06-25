@@ -18,3 +18,134 @@
 
 #include "../../includes/minishell.h"
 
+char	*handle_dollar(char *str, int *i, int status);
+char	*append_char_and_advance(char *str, char c);
+
+
+char	*expand_variables(char *input, int status)
+{
+	int		i;
+	int		in_squote;
+	int		in_dquote;
+	char	*result;
+	char	*tmp;
+
+    i = 0;
+    in_dquote = 0;
+    in_squote = 0;
+    result = ft_strdup("");
+    while (input[i])
+	{
+		update_quotes(input[i], &in_squote, &in_dquote);
+		if (input[i] == '$' && !in_squote)
+		{
+			tmp = append_expanded(result, input, &i, status);
+			if (!tmp)
+			{
+				free(result);
+				return (NULL);
+			}
+			result = tmp;
+			continue ; 
+		}
+		else
+		{
+			tmp = append_char_and_advance(result, input[i]);
+			if (!tmp)
+			{
+				free(result);
+				return (NULL);
+			}
+			result = tmp;
+			i++;
+		}
+	}
+    return (result);
+}
+/*
+char	*handle_dollar(char *str, int *i, int status)
+{
+	int		j = 1;
+	char	*name;
+	char	*value;
+
+	(*i)++; // pula '$'
+	if (str[1] == '?')
+	{
+		(*i)++;
+		return (ft_itoa(status));
+	}
+	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
+		j++;
+	if (j == 1)
+		return (ft_strdup("$"));
+	name = ft_substr(str, 1, j - 1); 
+	value = getenv(name);
+	free(name);
+	(*i) += (j - 1); 
+	if (!value)
+		return (ft_strdup("")); 
+	return (ft_strdup(value));
+}*/
+char *handle_dollar(char *str, int *i, int status)
+{
+    int j;
+    char *name;
+    char *value;
+
+    j = 0;
+    (*i)++;
+    if (str[1] == '?')  
+    {
+        (*i)++;
+        return (ft_itoa(status));
+    }
+    while (str[1 + j] && (ft_isalnum(str[1 + j]) || str[1 + j] == '_'))
+        j++;
+    if (j == 0)
+        return ft_strdup("$"); 
+    name = ft_substr(str, 1, j); 
+    value = getenv(name);   
+    free(name);
+    (*i) += j;
+    if (!value)
+        return ft_strdup("");  
+    printf("[EXPAND_DEBUG] $%.*s -> %s\n", j, str + 1, value ? value : "(null)");
+    return (ft_strdup(value));
+}
+
+
+char	*append_char_and_advance(char *str, char c)
+{
+	int		len;
+	char	*new;
+
+	len = ft_strlen(str);
+	new = malloc(len + 2);
+	if (!new)
+		return (NULL);
+	ft_memcpy(new, str, len);
+	new[len] = c;
+	new[len + 1] = '\0';
+	free(str);
+	return (new);
+}
+void expand_tokens(t_token *tokens, int last_status)
+{
+	t_token *tmp;
+
+	tmp = tokens;
+	while (tmp)
+	{
+		if (tmp->quote_type != 1)
+		{
+			char *expanded = expand_variables(tmp->value, last_status);
+			if (!expanded)
+				break; 
+			free(tmp->value);
+			tmp->value = expanded;
+		}
+		tmp = tmp->next;
+	}
+}
+

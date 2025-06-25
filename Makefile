@@ -17,6 +17,7 @@ INPUTS_DIR = $(SRC_DIR)/01_inputs
 TOKEN_DIR = $(SRC_DIR)/02_token
 PARSER_DIR = $(SRC_DIR)/03_parser
 UTILS_DIR = $(SRC_DIR)/utils
+EXPANDER_DIR = $(SRC_DIR)/04_expander
 
 SRC = 	$(SRC_DIR)/main.c \
 		$(INPUTS_DIR)/input_minishell.c \
@@ -32,7 +33,10 @@ SRC = 	$(SRC_DIR)/main.c \
 		$(PARSER_DIR)/parser_utils.c \
 		$(PARSER_DIR)/parser_helpers.c \
 		$(PARSER_DIR)/parser_redirect.c \
-		$(UTILS_DIR)/general_utils.c
+		$(UTILS_DIR)/general_utils.c \
+		$(EXPANDER_DIR)/expand_all.c \
+		$(EXPANDER_DIR)/expander.c \
+		$(EXPANDER_DIR)/utils_expand.c
 
 OBJ = $(SRC:.c=.o)
 

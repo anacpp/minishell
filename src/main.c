@@ -14,8 +14,7 @@
 	->CHECK NORMINETTE;
 	->tirar os prints e print_tokens quando for fazer a entrega;
 	->refatorar a main em funções secundárias para manter na norma (25 linhas máximo);
-	->adicionar tratamento para quando o input escrito não corresponder a nenhum tipo de comando externo ou interno; retuornar erro : comando não encontrado;
-
+	
 	OBS:
 	-> LEAKS APENAS DA BIBLIOTECA READLINE, QUE SÃO ESPERADAS(NÃO PRECISA SE PREOCUPAR);
 */
@@ -27,7 +26,9 @@ int	main(void)
 	char	*trimmed_input;
 	t_token	*tokens;
 	t_cmd	*commands;
+	int	last_status;
 
+	last_status = 0;
 	while (1)
 	{
 		input = readline("minishell$ ");
@@ -46,6 +47,7 @@ int	main(void)
 			continue ;
 		}
 		tokens = tokenize_input(trimmed_input);
+		expand_tokens(tokens, last_status);
 		free(trimmed_input);
 		if (!tokens)
 			continue ;
@@ -53,7 +55,6 @@ int	main(void)
 		free_tokens(tokens);
 		if (!commands)
 			continue ;
-
 		printf("\n✅ Parsing successful. Command table:\n");
 		print_command_table(commands);
 		printf("\n----------------------------------------\n");

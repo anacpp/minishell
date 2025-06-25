@@ -45,6 +45,7 @@ typedef struct s_token
 	char			*value;
 	t_token_type	type;
 	struct s_token	*next;
+	int				quote_type; 
 }					t_token;
 
 typedef struct s_redir
@@ -76,7 +77,7 @@ void				update_quote_state(char c, int *in_single, int *in_double);
 // Tokenizer functions
 t_token				*tokenize_input(const char *input);
 t_token				*get_last_token(t_token *head);
-void				add_token(t_token **head, char *value, t_token_type type);
+void				add_token(t_token **head, char *value, t_token_type type, int quote_type);
 void				free_tokens(t_token *head);
 char				*ft_strndup(const char *s, size_t n);
 t_token_type		get_token_type(const char *str);
@@ -88,6 +89,14 @@ int					is_heredoc_context(t_token *last);
 char				*handle_char(const char *str, int *i);
 t_token				*get_next_token(t_token *current);
 int					token_is_operator(t_token *token);
+void get_token_next(const char *str, int *i, t_token **head);
+char	*get_operator(const char *str, int *i);
+char *get_token_value(const char *str, int *i, int *quote_type);
+
+
+
+
+
 
 // --- NOVAS FUNÇÕES DO PARSER ---
 t_cmd				*parse(t_token *tokens);
@@ -103,6 +112,15 @@ char				**ft_realloc_argv(char **argv, const char *new_arg);
 
 int	ft_lstsize(t_stack *lst);
 
+// expander functions
+
+char	*expand_variables(char *input, int status);
+void	expand_all_variables(t_cmd *cmds, int last_status);
+void 	expand_tokens(t_token *tokens, int last_status);
+void	update_quotes(char c, int *in_squote, int *in_dquote);
+char	*append_expanded(char *result, char *input, int *i, int status);
+char	*handle_dollar(char *str, int *i, int status);
+
 // builtin functions
 
 int is_builtin(char *cmd);
@@ -116,6 +134,7 @@ int is_n_flag(char *str);
 int	is_valid_key(char *key);
 void	builtin_export(char **argv);
 void	builtin_unset(char **argv);
+
 
 // Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR
 void				print_tokens(t_token *head);
