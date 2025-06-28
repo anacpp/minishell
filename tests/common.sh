@@ -14,12 +14,12 @@ fi
 
 # --- Lógica do Valgrind ---
 VALGRIND_CMD=""
-# Se a variável de ambiente USE_VALGRIND for definida como '1' ou 'true', ativa o valgrind
 if [[ "$USE_VALGRIND" == "1" || "$USE_VALGRIND" == "true" ]]; then
     echo -e "${YELLOW}VALGRIND ATIVADO!${NC} Os testes serão mais lentos."
-    # Usamos --leak-check=full para uma verificação completa e --track-origins=yes para rastrear a origem de valores não inicializados.
-    # Adicionamos --suppressions=tests/readline.supp para ignorar os leaks conhecidos da biblioteca readline (ver obs. no final).
-    VALGRIND_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=$PROJECT_ROOT/tests/readline.supp"
+    # NOVA LINHA: Redireciona a saída do Valgrind para seu próprio arquivo de log.
+    VALGRIND_LOG_FILE="valgrind_report.log"
+    # --log-file=... é a correção chave.
+    VALGRIND_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=$PROJECT_ROOT/tests/readline.supp --log-file=$VALGRIND_LOG_FILE"
 fi
 # --- Fim da Lógica do Valgrind ---
 
@@ -101,7 +101,8 @@ run_test_stdout_contains() {
 summary_and_exit() {
     echo -e "\n${YELLOW}--- 🏁 Testes Finalizados ---${NC}"
     echo -e "Resultados: ${GREEN}${PASSED_COUNT} Aprovados${NC}, ${RED}${FAILED_COUNT} Reprovados${NC}\n"
-    rm -f "$TMP_STDERR" "$TMP_STDOUT"
+    # Adicionado VALGRIND_LOG_FILE para limpeza
+    rm -f "$TMP_STDERR" "$TMP_STDOUT" "$VALGRIND_LOG_FILE"
     if [ $FAILED_COUNT -ne 0 ]; then
         exit 1
     fi
