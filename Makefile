@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 NAME = minishell
 RM = rm -f
 
@@ -28,10 +28,12 @@ SRC = 	$(SRC_DIR)/main.c \
 		$(PARSER_DIR)/parser.c \
 		$(PARSER_DIR)/parser_cleanup.c \
 		$(PARSER_DIR)/parser_error.c \
-		$(PARSER_DIR)/parser_rules.c \
-		$(PARSER_DIR)/parser_utils.c \
 		$(PARSER_DIR)/parser_helpers.c \
+		$(PARSER_DIR)/parser_print_test.c \
 		$(PARSER_DIR)/parser_redirect.c \
+		$(PARSER_DIR)/parser_rules.c \
+		$(PARSER_DIR)/parser_segment_args.c \
+		$(PARSER_DIR)/parser_utils.c \
 		$(UTILS_DIR)/general_utils.c
 
 OBJ = $(SRC:.c=.o)
@@ -69,10 +71,15 @@ re: fclean all
 .PHONY: all clean fclean re test
 
 test: all
-	@echo "\nRunning parser tests..."
-	@bash tests/test_parser.sh || true
-	@echo "\nRunning expansion tests..."
-	@bash tests/test_expansion.sh || true
+	@echo "Running built-in tests..."
+	@bash tests/test_builtin.sh || true
 	@echo "\nRunning execution tests..."
 	@bash tests/test_execution.sh || true
+	@echo "\nRunning expansion tests..."
+	@bash tests/test_expansion.sh || true
+	@echo "\nRunning pipes and redirection tests..."
+	@bash tests/test_pipes_and_redirs_exec.sh || true
+	@echo "\nRunning parser tests..."
+	@bash tests/test_parser.sh || true
+
 

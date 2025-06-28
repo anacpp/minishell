@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/10 02:15:28 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/06/21 05:38:11 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,11 @@ int					add_redirection(t_cmd *cmd, t_token **token_ptr);
 char				*remove_quotes(char *str);
 t_cmd				*create_new_cmd(void);
 char				**ft_realloc_argv(char **argv, const char *new_arg);
+int					ft_count_args(char **argv);
+
+//Parser segment
+int					fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);
+int					count_segment_args(t_token *token);
 
 // Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR
 void				print_tokens(t_token *head);
