@@ -6,7 +6,7 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/30 11:29:18 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:40:53 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void setup_signal_handlers(void)
 {
      struct sigaction    sa_int;
      int                 ret_sigaction;
-     int                 ret_signal;
+	void	(*ret_signal)(int);
 
      sa_int.sa_handler = handle_sigint;
      sigemptyset(&sa_int.sa_mask);
@@ -54,7 +54,7 @@ void setup_signal_handlers(void)
      if (ret_sigaction == -1)
           handle_error(NULL, "sigaction failed", 1, 1);
 
-     ret_signal = (int)signal(SIGQUIT, SIG_IGN);
-     if (ret_signal == (int)SIG_ERR)
+     ret_signal = signal(SIGQUIT, SIG_IGN);
+     if (ret_signal == SIG_ERR)
           handle_error(NULL, "signal failed", 1, 1);
 }
