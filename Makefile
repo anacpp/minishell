@@ -16,6 +16,7 @@ SRC_DIR = ./src/
 INPUTS_DIR = $(SRC_DIR)/01_inputs
 TOKEN_DIR = $(SRC_DIR)/02_token
 PARSER_DIR = $(SRC_DIR)/03_parser
+SIGNALS_DIR = $(SRC_DIR)/07_signals
 UTILS_DIR = $(SRC_DIR)/utils
 
 SRC = 	$(SRC_DIR)/main.c \
@@ -34,6 +35,7 @@ SRC = 	$(SRC_DIR)/main.c \
 		$(PARSER_DIR)/parser_rules.c \
 		$(PARSER_DIR)/parser_segment_args.c \
 		$(PARSER_DIR)/parser_utils.c \
+		$(SIGNALS_DIR)/signals.c \
 		$(UTILS_DIR)/general_utils.c
 
 OBJ = $(SRC:.c=.o)
