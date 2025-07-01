@@ -108,6 +108,7 @@ int					ft_count_args(char **argv);
 //list functions
 
 int	ft_lstsize(t_stack *lst);
+int count_cmds(t_cmd *cmds);
 
 // expander functions
 
@@ -130,6 +131,7 @@ int	create_heredoc(char *delimiter);
 char	*generate_temp_name(int suffix);
 int	create_temp_file(char *buffer, size_t size);
 char	*ft_strjoin_no_free(char *s1, char *s2);
+int	**create_pipes(int total_cmds);
 
 
 
