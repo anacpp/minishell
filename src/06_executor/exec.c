@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 /*
-	TODO: NORMINETTE
+	TODO: NORMINETTE, função set_redir/exec_external/save pid / wait all children
 	    
 */
 
@@ -46,19 +46,69 @@ void	prepare_heredocs(t_cmd *cmds)
 	}
 }
 
+int is_command_valid(t_cmd *cmd)
+{
+    if (!cmd || !cmd->argv || !cmd->argv[0])
+        return (0);
+    if (is_builtin(cmd))
+        return (1);
+    if (is_external_command(cmd))
+        return (1);
+    return (0);
+}
 int executor(t_cmd *cmd)
 {
-	int total_cmd;
+    int total_cmd;
+    pid_t pid;
+    t_cmd *current_cmd;
 
-	total_cmd = count_cmds(cmd);
-	if (total_cmd > 1)
-		create_pipes(total_cmd);
-	if (!cmd || cmd->argv[0] == NULL)
-		return (1);		
-	is_valid_cmd(cmd);
+    if (!cmd || !cmd->argv || !cmd->argv[0])
+        return (1);
+    total_cmd = count_cmds(cmd);
+    if (total_cmd > 1)
+        create_pipes(total_cmd);
+    current_cmd = cmd;
+    while (current_cmd)
+    {
+        if (!is_valid_cmd(current_cmd))
+        {
+            ft_printf("minishell: %s: command not found\n", current_cmd->argv[0]);
+            return (127);
+        }
+        if (is_builtin(current_cmd->argv[0]) && total_cmd == 1)
+        {
+            if (current_cmd->redirs != NULL)
+                setup_redir(current_cmd->redirs); // fazer a função ainda 
+            run_builtin(current_cmd);
+        }
+        else
+        {
+            pid = fork();
+            if (pid < 0)
+            {
+                perror("fork");
+                return (1);
+            }
+            else if (pid == 0) // filho
+            {
+                if (current_cmd->redirs != NULL)
+                    setup_redir(current_cmd->redirs);
+                if (is_builtin(current_cmd->argv[0]))
+                    run_builtin(current_cmd);
+                else
+                    exec_external(current_cmd);
+                exit(EXIT_FAILURE); // caso exec falhe
+            }
+            else
+            {
+                save_pid(pid); // fazer função ainda ela vai salvar o pid
+            }
+        }
+        current_cmd = current_cmd->next;
+    }
+    wait_all_children(); // espera todos os filhos terminarem e atualiza $? global
+    return (0);
 }
 
-
-// continuação 
 
 

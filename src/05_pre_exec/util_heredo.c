@@ -11,6 +11,18 @@
 /* ************************************************************************** */
 
 /*
+	Este arquivo contém funções auxiliares usadas para criar arquivos temporários
+	necessários no funcionamento do heredoc (<<).
+
+	Funções:
+	- create_temp_file: cria um arquivo único em /tmp usando o PID do processo.
+	- generate_temp_name: monta o nome do arquivo com base no PID e um sufixo.
+	- ft_strjoin_no_free: junta duas strings sem liberar a primeira.
+
+	Usado por create_heredoc para armazenar o conteúdo digitado pelo usuário.
+*/
+
+/*
 	TODO: NORMINETTE
 
     DONE : 

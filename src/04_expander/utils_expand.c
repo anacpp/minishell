@@ -11,10 +11,21 @@
 /* ************************************************************************** */
 
 /*
-	TODO: NORMINETTE
+	UTILS_EXPAND.C
 
-    DONE : 
+	Funções auxiliares usadas no processo de expansão de variáveis, mantendo 
+	o código modular e reutilizável.
+
+	- append_expanded: trata e junta a expansão de uma variável ao resultado.
+	- update_quotes: atualiza os estados de aspas simples/duplas durante a leitura da string.
+	- process_dollar_sequence: lida com um token de variável começando com '$'.
+	- process_regular_char: adiciona caractere normal ao resultado e avança o índice.
+
+	Essas funções são usadas por `expand_variables` para gerenciar 
+	o fluxo de expansão corretamente.
 */
+
+//TODO: NORMINETTE
 
 #include "../../includes/minishell.h"
 

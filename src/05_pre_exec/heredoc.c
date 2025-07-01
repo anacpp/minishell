@@ -9,6 +9,18 @@
 /*   Updated: 2025/06/11 17:14:43 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/*
+	Implementa o comportamento do heredoc (<<), que lê entradas do usuário 
+	até encontrar um delimitador.
+
+	Funções:
+	- create_heredoc: cria e retorna um arquivo temporário com o conteúdo do heredoc.
+	- heredoc_loop: lê linha por linha até o delimitador e escreve no arquivo.
+	- check_delimiter: compara a linha digitada com o delimitador.
+	- print_prompt: exibe o prompt "> ".
+
+	Esse conteúdo será usado como entrada padrão (stdin) no comando.
+*/
 
 /*
 	TODO: NORMINETTE

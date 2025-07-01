@@ -9,12 +9,26 @@
 /*   Updated: 2025/06/11 17:14:43 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 /*
-	TODO: NORMINETTE
+	EXPANDER.C
 
-    DONE : 
+	Contém a função principal de expansão de variáveis dentro de uma string. 
+	Respeita o comportamento do Bash para:
+	- Expansão de $VAR e ${VAR}
+	- Expansão de $? (último status de saída)
+	- Não expandir dentro de aspas simples
+	- Permitir expansão dentro de aspas duplas
+
+	Fluxo:
+	- expand_variables: percorre a string original e substitui os tokens com '$'.
+	- handle_dollar: extrai o nome da variável e retorna seu valor (ou "" se indefinida).
+	- append_char_and_advance: adiciona caractere literal à string resultante.
+	- expand_tokens: aplica a expansão a todos os tokens do parser que não estão entre aspas simples.
+
+	Depende de funções auxiliares em utils_expand.c.
 */
+
+//TODO: NORMINETTE
 
 #include "../../includes/minishell.h"
 

@@ -1,3 +1,15 @@
+/*
+	BUILTIN.C
+
+	Executa os comandos built-in reconhecidos pela minishell: cd, exit, echo, pwd, env, export, unset.
+
+	Funções:
+	- run_builtin: roteia a execução com base no nome do comando.
+	- builtin_cd: muda o diretório atual (ou vai para $HOME se nenhum argumento).
+	- builtin_exit: encerra o shell com o status opcional.
+	- builtin_echo: imprime argumentos com suporte à flag -n.
+*/
+
 #include "../../includes/minishell.h"
 
 void run_builtin(t_cmd *cmd)
@@ -49,9 +61,11 @@ void builtin_exit(char **argv)
 
 void builtin_echo(char **argv)
 {
-    int i = 1;
-    int newline = 1;
+    int i;
+    int newline;
 
+    i = 1;
+    newline = 1;
     while (argv[i] && is_n_flag(argv[i]))
     {
         newline = 0;
@@ -79,3 +93,48 @@ static void	print_args(char **argv, int i)
 		i++;
 	}
 }
+
+/*
+Main teste 
+
+#include "minishell.h"
+
+int	main(void)
+{
+	char	*line;
+	char	**args;
+	t_cmd	cmd;
+
+	while (1)
+	{
+		line = readline("builtin-test$ ");
+		if (!line)
+			break;
+
+		if (*line)
+			add_history(line);
+
+		args = ft_split(line, ' '); // Simples split por espaço
+		if (!args || !args[0])
+		{
+			free(line);
+			continue;
+		}
+
+		// Prepara o comando manualmente
+		cmd.argv = args;
+		cmd.redirs = NULL;
+		cmd.next = NULL;
+
+		// Verifica se é builtin
+		if (is_builtin(cmd.argv[0]))
+			run_builtin(&cmd);
+		else
+			ft_printf("Comando '%s' não é builtin.\n", cmd.argv[0]);
+
+		free(line);
+		free_split(args); // função que libera array de strings
+	}
+	return (0);
+}
+*/

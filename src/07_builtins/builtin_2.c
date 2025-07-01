@@ -1,3 +1,18 @@
+/*
+	BUILTIN_2.C
+
+	Implementa comandos built-in adicionais da minishell.
+
+	Funções:
+	- builtin_pwd: exibe o diretório atual.
+	- builtin_env: imprime variáveis de ambiente.
+	- builtin_export: adiciona/atualiza variáveis de ambiente.
+	- builtin_unset: remove variáveis de ambiente.
+
+	Utiliza a variável global `environ` para acessar/modificar o ambiente.
+*/
+
+
 #include "../../includes/minishell.h"
 
 void	builtin_pwd(void)
@@ -26,22 +41,14 @@ void	builtin_env(void)
 		i++;
 	}
 }
+
 void	builtin_export(char **argv)
 {
 	int		i;
-	char	*key;
 
 	if (!argv[1])
 	{
-		for (int j = 0; environ[j]; j++)
-		{
-			if (ft_strchr(environ[j], '='))
-			{
-				key = ft_substr(environ[j], 0, ft_strchr(environ[j], '=') - environ[j]);
-				ft_printf("declare -x %s=\"%s\"\n", key, getenv(key));
-				free(key);
-			}
-		}
+		print_env_sorted();
 		return ;
 	}
 	i = 1;
@@ -50,10 +57,11 @@ void	builtin_export(char **argv)
 		if (!is_valid_key(argv[i]))
 			ft_printf("minishell: export: `%s`: not a valid identifier\n", argv[i]);
 		else
-			putenv(ft_strdup(argv[i]));
+			putenv(ft_strdup(argv[i])); // INfelizmente não podemos usar essa função é necesário trocar
 		i++;
 	}
 }
+
 
 void	builtin_unset(char **argv)
 {
@@ -65,7 +73,7 @@ void	builtin_unset(char **argv)
 		if (!is_valid_key(argv[i]))
 			ft_printf("minishell: unset: `%s`: not a valid identifier\n", argv[i]);
 		else
-			unsetenv(argv[i]);
+			unsetenv(argv[i]);// ESSE comando tb não pode ser usado :C
 		i++;
 	}
 }

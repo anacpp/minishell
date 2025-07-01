@@ -11,10 +11,21 @@
 /* ************************************************************************** */
 
 /*
-	TODO: NORMINETTE
+	EXPAND_ALL.C
 
-    DONE : 
+	Este arquivo centraliza a expansão de variáveis em comandos (`t_cmd`), 
+	aplicando a substituição de variáveis tanto nos argumentos (`argv`) quanto 
+	nos redirecionamentos (`redir->filename`).
+
+	Fluxo:
+	- expand_all_variables: itera sobre a lista de comandos e expande variáveis.
+	- expand_argv: aplica expansão em cada string do vetor argv.
+	- expand_redirs: aplica expansão em cada redirecionamento (filename).
+
+	Usa a função `expand_variables` definida no expander.c.
 */
+
+//TODO : NORMINETTE
 
 #include "../includes/minishell.h"
 

@@ -11,6 +11,19 @@
 /* ************************************************************************** */
 
 /*
+	Cria os pipes necessários para conectar múltiplos comandos encadeados 
+	(por exemplo: ls | grep a | wc -l).
+
+	Funções:
+	- create_pipes: aloca e cria todos os pipes (1 a menos que o número de comandos).
+	- free_pipes: libera todos os pipes criados.
+	- handle_pipe_error: exibe erro, libera recursos e evita vazamentos.
+
+	Retorna um array de pares de file descriptors usados no redirecionamento 
+	entre processos.
+*/
+
+/*
 	TODO: NORMINETTE
 
     DONE : 

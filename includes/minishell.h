@@ -20,7 +20,6 @@
 // Essa diretiva ativa as definições POSIX
 // nos headers do sistema, conforme recomendado pela glibc, garantindo o uso
 // correto e compatível. (verificar se no pc da 42 funciona sem)
-#define _DEFAULT_SOURCE
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/libft.h"
 # include <errno.h>
@@ -34,6 +33,9 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+#define ERROR_CODE 127
+//#define _DEFAULT_SOURCE
 
 extern volatile sig_atomic_t g_signal_status;
 
@@ -130,9 +132,6 @@ char *process_regular_char(char *result, char current, int *i);
 char *process_dollar_sequence(char *result, char *input, int *i, int status);
 char	*append_char_and_advance(char *str, char c);
 
-//Parser segment
-int					fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);
-int					count_segment_args(t_token *token);
 
 // Pre-exec functions
 int	create_heredoc(char *delimiter);
@@ -142,10 +141,9 @@ char	*ft_strjoin_no_free(char *s1, char *s2);
 int	**create_pipes(int total_cmds);
 
 
-
 // builtin functions
 
-int is_builtin(char *cmd);
+int is_builtin(t_cmd *cmd);
 void builtin_echo(char **argv);
 void builtin_exit(char **argv);
 void	builtin_cd(char **argv);
@@ -156,6 +154,7 @@ int is_n_flag(char *str);
 int	is_valid_key(char *key);
 void	builtin_export(char **argv);
 void	builtin_unset(char **argv);
+void	print_env_sorted(void);
 
 //Parser segment
 int					fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);
