@@ -6,7 +6,7 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/09 00:41:47 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:27:29 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,23 @@ int	main(void)
 	char	*trimmed_input;
 	t_token	*tokens;
 	t_cmd	*commands;
+	int     exit_status;
 	int	last_status;
 
+	exit_status = 0;
+	setup_signal_handlers();
 	last_status = 0;
 	while (1)
 	{
+		if (g_signal_status != 0)
+		{
+			exit_status = g_signal_status;
+			g_signal_status = 0;
+		}
 		input = readline("minishell$ ");
 		if (!input)
 		{
-			printf("\n[Encerrado com Ctrl+D]\n");
+			write(STDOUT_FILENO, "exit\n", 5);
 			break ;
 		}
 		if (*input)
@@ -65,5 +73,5 @@ int	main(void)
 		free_command_table(commands);
 	}
 	clear_history();
-	return (0);
+	return (exit_status);
 }

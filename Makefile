@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 NAME = minishell
 RM = rm -f
 
@@ -16,6 +16,7 @@ SRC_DIR = ./src/
 INPUTS_DIR = $(SRC_DIR)/01_inputs
 TOKEN_DIR = $(SRC_DIR)/02_token
 PARSER_DIR = $(SRC_DIR)/03_parser
+SIGNALS_DIR = $(SRC_DIR)/07_signals
 UTILS_DIR = $(SRC_DIR)/utils
 EXPANDER_DIR = $(SRC_DIR)/04_expander
 
@@ -31,7 +32,13 @@ SRC = 	$(SRC_DIR)/main.c \
 		$(PARSER_DIR)/parser_error.c \
 		$(PARSER_DIR)/parser_helpers.c \
 		$(PARSER_DIR)/parser_print_test.c \
+		$(PARSER_DIR)/parser_print_test.c \
 		$(PARSER_DIR)/parser_redirect.c \
+		$(PARSER_DIR)/parser_rules.c \
+		$(PARSER_DIR)/parser_segment_args.c \
+		$(PARSER_DIR)/parser_utils.c \
+		$(SIGNALS_DIR)/signals.c \
+		$(UTILS_DIR)/general_utils.c
 		$(PARSER_DIR)/parser_rules.c \
 		$(PARSER_DIR)/parser_segment_args.c \
 		$(PARSER_DIR)/parser_utils.c \
@@ -79,8 +86,17 @@ test: all
 	@bash tests/test_builtin.sh || true
 	@echo "\nRunning execution tests..."
 	@bash tests/test_execution.sh || true
+	@echo "Running built-in tests..."
+	@bash tests/test_builtin.sh || true
+	@echo "\nRunning execution tests..."
+	@bash tests/test_execution.sh || true
 	@echo "\nRunning expansion tests..."
 	@bash tests/test_expansion.sh || true
+	@echo "\nRunning pipes and redirection tests..."
+	@bash tests/test_pipes_and_redirs_exec.sh || true
+	@echo "\nRunning parser tests..."
+	@bash tests/test_parser.sh || true
+
 	@echo "\nRunning pipes and redirection tests..."
 	@bash tests/test_pipes_and_redirs_exec.sh || true
 	@echo "\nRunning parser tests..."
