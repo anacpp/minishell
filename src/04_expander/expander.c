@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 /*
-	TODO: NORMA, VALGRIND, NORMINETTE
+	TODO: NORMINETTE
 
     DONE : 
 */

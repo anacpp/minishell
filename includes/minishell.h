@@ -6,7 +6,7 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/10 02:15:28 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:27:15 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+//Para acessarmos corretamente a struct sigaction e constantes
+//como SA_RESTART, é necessário definir a macro _DEFAULT_SOURCE.
+// Essa diretiva ativa as definições POSIX
+// nos headers do sistema, conforme recomendado pela glibc, garantindo o uso
+// correto e compatível. (verificar se no pc da 42 funciona sem)
+#define _DEFAULT_SOURCE
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/libft.h"
 # include <errno.h>
@@ -28,6 +34,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+extern volatile sig_atomic_t g_signal_status;
 
 typedef enum e_token_type
 {
@@ -149,8 +157,15 @@ int	is_valid_key(char *key);
 void	builtin_export(char **argv);
 void	builtin_unset(char **argv);
 
+//Parser segment
+int					fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);
+int					count_segment_args(t_token *token);
 
 // Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR
 void				print_tokens(t_token *head);
 const char			*token_type_str(t_token_type type);
+
+// Signal handling functions
+void setup_signal_handlers(void);
+
 #endif
