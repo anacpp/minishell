@@ -59,5 +59,6 @@ int executor(t_cmd *cmd)
 }
 
 
+// continuação 
 
 
