@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 
 /*
-	TODO: NORMA, VALGRIND
-
-    DONE : NORMINETTE - OK
+	TODO: NORMINETTE
+	    
 */
 
 #include "../../includes/minishell.h"
@@ -56,10 +55,9 @@ int executor(t_cmd *cmd)
 		create_pipes(total_cmd);
 	if (!cmd || cmd->argv[0] == NULL)
 		return (1);		
-	is_valid_cmd(cmd) 
-
-
+	is_valid_cmd(cmd);
 }
+
 
 
 

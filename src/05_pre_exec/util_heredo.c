@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 /*
-	TODO: NORMA, VALGRIND
+	TODO: NORMINETTE
 
-    DONE : NORMINETTE - OK
+    DONE : 
 */
 #include "../../includes/minishell.h"
 
