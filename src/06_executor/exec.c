@@ -75,11 +75,14 @@ int executor(t_cmd *cmd)
             ft_printf("minishell: %s: command not found\n", current_cmd->argv[0]);
             return (127);
         }
-        if (is_builtin(current_cmd->argv[0]) && total_cmd == 1)
+        if (is_builtin(cmd->argv[0]) && total_cmd == 1)
         {
-            if (current_cmd->redirs != NULL)
-                setup_redir(current_cmd->redirs); // fazer a função ainda 
-            run_builtin(current_cmd);
+	        int stdio_backup[2];
+        	save_stdio(stdio_backup);
+        	if (cmd->redirs)
+		        setup_redir(cmd->redirs);
+        	run_builtin(cmd);
+        	restore_stdio(stdio_backup);
         }
         else
         {

@@ -20,6 +20,7 @@
 // Essa diretiva ativa as definições POSIX
 // nos headers do sistema, conforme recomendado pela glibc, garantindo o uso
 // correto e compatível. (verificar se no pc da 42 funciona sem)
+
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/libft.h"
 # include <errno.h>
@@ -35,6 +36,7 @@
 # include <unistd.h>
 
 #define ERROR_CODE 127
+#define EXIT_FAILURE 1
 //#define _DEFAULT_SOURCE
 
 extern volatile sig_atomic_t g_signal_status;
