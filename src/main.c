@@ -64,13 +64,7 @@ int	main(void)
 		if (!commands)
 			continue ;
 		expand_all_variables(commands, last_status); 
-		
-
-		/*printf("\n✅ Parsing successful. Command table:\n");
-		print_command_table(commands);
-		printf("\n----------------------------------------\n");
-		*/
-		// TODO: execução
+		executor(commands);
 
 		// TODO:Remover depois de testar
 		free_command_table(commands);

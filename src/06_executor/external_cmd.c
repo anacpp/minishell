@@ -1,9 +1,5 @@
 #include "../../includes/minishell.h"
 
-/**
- * Verifica se o caminho é executável.
- * Se for um caminho absoluto/relativo com '/' (ex: ./a.out, /bin/ls)
- */
 static char *check_direct_exec(char *cmd)
 {
 	if (access(cmd, X_OK) == 0)
@@ -11,10 +7,7 @@ static char *check_direct_exec(char *cmd)
 	return (NULL);
 }
 
-/**
- * Tenta encontrar o comando no PATH.
- * Retorna uma string com o caminho completo (malloc), ou NULL.
- */
+//relative path -> path relative to the currenty directory you are (ex: shit.sh). / absolute path is full path from the root (ex: /home/acesar/script/shit.sh)
 static char	*find_cmd_path(char *cmd)
 {
 	char	**paths;
@@ -46,10 +39,7 @@ static char	*find_cmd_path(char *cmd)
 	return (NULL);
 }
 extern char **environ;
-/**
- * Executa comandos externos com execve.
- * Essa função só é chamada no processo filho (fork).
- */
+
 void	exec_external(t_cmd *cmd)
 {
 	char	*cmd_path;
@@ -60,11 +50,8 @@ void	exec_external(t_cmd *cmd)
 		ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n", cmd->argv[0]);
 		exit(127); // padrão bash para "command not found"
 	}
-
 	execve(cmd_path, cmd->argv, environ);
-
-	// Só chega aqui se execve falhar
-	ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", cmd->argv[0], strerror(errno));
+	ft_printf("minishell: %s: %s\n", cmd->argv[0], strerror(errno));
 	free(cmd_path);
-	exit(126); // padrão bash para "permission denied" ou erro de exec
+	exit(126); // "permission denied"
 }

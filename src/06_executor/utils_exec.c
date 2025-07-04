@@ -73,9 +73,6 @@ void	setup_redir(t_redir *redir)
 	}
 }
 
-/**
- * Salva os FDs padrão (stdin, stdout) em `fds[0]` e `fds[1]`
- */
 void	save_stdio(int fds[2])
 {
 	fds[0] = dup(STDIN_FILENO);
@@ -87,9 +84,6 @@ void	save_stdio(int fds[2])
 	}
 }
 
-/**
- * Restaura os FDs padrão após redirecionamento de builtins
- */
 void	restore_stdio(int fds[2])
 {
 	if (dup2(fds[0], STDIN_FILENO) < 0)
