@@ -35,10 +35,15 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-#define ERROR_CODE 127
-#define EXIT_FAILURE 1
-//#define _DEFAULT_SOURCE
+#ifndef MAX_PIDS, ERROR_CODE, EXIT_FAILURE, _DEFAULT_SOURCE
+# define ERROR_CODE 127
+# define EXIT_FAILURE 1
+# define MAX_PIDS 1024
+# define _DEFAULT_SOURCE
+#endif
 
+extern pid_t g_child_pids[MAX_PIDS];
+extern int g_num_pids;
 extern volatile sig_atomic_t g_signal_status;
 
 typedef enum e_token_type

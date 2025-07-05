@@ -14,7 +14,6 @@
 	TODO: NORMINETTE, função set_redir/exec_external/save pid / wait all children
 	    
 */
-
 #include "../../includes/minishell.h"
 
 void	prepare_heredocs(t_cmd *cmds)
@@ -61,7 +60,10 @@ int executor(t_cmd *cmd)
     int total_cmd;
     pid_t pid;
     t_cmd *current_cmd;
+    pid_t g_child_pids[MAX_PIDS];
+    int   g_num_pids;
 
+    g_num_pids = 0;
     if (!cmd || !cmd->argv || !cmd->argv[0])
         return (1);
     total_cmd = count_cmds(cmd);
@@ -92,7 +94,7 @@ int executor(t_cmd *cmd)
                 perror("fork");
                 return (1);
             }
-            else if (pid == 0) // filho
+            else if (pid == 0) //filho
             {
                 if (current_cmd->redirs != NULL)
                     setup_redir(current_cmd->redirs);
@@ -100,18 +102,16 @@ int executor(t_cmd *cmd)
                     run_builtin(current_cmd);
                 else
                     exec_external(current_cmd);
-                exit(EXIT_FAILURE); // caso exec falhe
+                exit(EXIT_FAILURE); //caso exec falhe
             }
             else
             {
-                save_pid(pid); // fazer função ainda ela vai salvar o pid
+                save_pid(pid); //ela vai salvar o pid do processo
             }
         }
         current_cmd = current_cmd->next;
     }
-    wait_all_children(); // espera todos os filhos terminarem e atualiza $? global
+    wait_all_children(); //espera todos os filhos terminarem e atualiza $? global
     return (0);
 }
-
-
 

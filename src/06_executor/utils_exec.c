@@ -9,10 +9,10 @@ int is_builtin(t_cmd *cmd)
     while (builtins[i])
     {
         if (ft_strcmp(cmd->argv[0], builtins[i]) == 0)
-            return 1;
+            return (1);
         i++;
     }
-    return 0;
+    return (0);
 }
 
 static int is_executable_path(char *path)
@@ -36,7 +36,7 @@ int is_external_command(t_cmd *cmd)
         return (is_executable_path(cmd_name));
     path_env = getenv("PATH");
     if (!path_env)
-        return 0;
+        return (0);
     return ; // aqui eu preciso retornar o path da função externa... preciso fazer essa função ainda
 }
 

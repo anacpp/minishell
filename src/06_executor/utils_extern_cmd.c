@@ -9,9 +9,12 @@ char *ft_strjoin_triple_free(char *s1, char *sep, char *s2,
 	tmp = ft_strjoin_free(s1, sep, free_s1, free_sep);
 	if (!tmp)
 	{
-		if (!free_s1) free(s1);
-		if (!free_sep) free(sep);
-		if (free_s2) free(s2);
+		if (!free_s1)
+			free(s1);
+		if (!free_sep)
+			free(sep);
+		if (free_s2)
+			free(s2);
 		return (NULL);
 	}
 	res = ft_strjoin_free(tmp, s2, 1, free_s2);
