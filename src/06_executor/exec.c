@@ -1,60 +1,63 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes.c                                            :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/11 17:14:55 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:14:43 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-	TODO: NORMA, NORMINETTE, VALGRIND
-    
-     DONE : NORMINETTE - OK
+	TODO: NORMINETTE
+	    
 */
+
 #include "../../includes/minishell.h"
 
-static int	open_pipes(t_cmd *cmd_list, int *pipefds)
+void	prepare_heredocs(t_cmd *cmds)
 {
-	t_cmd	*cmd;
-	int		i;
+	t_cmd		*cmd;
+	t_redir		*redir;
+	int			fd;
+	char		*tmp_filename;
 
-	i = 0;
-	cmd = cmd_list;
-	while (cmd && cmd->next)
+	cmd = cmds;
+	while (cmd)
 	{
-		if (pipe(pipefds + i * 2) == -1)
-			return (-1);
-		i++;
+		redir = cmd->redirs;
+		while (redir)
+		{
+			if (redir->type == T_HEREDOC)
+			{
+				fd = create_heredoc(redir->filename);
+				if (fd < 0)
+				{
+					perror("heredoc");
+				}
+				free(redir->filename);
+				redir->type = T_REDIR_IN;
+			}
+			redir = redir->next;
+		}
 		cmd = cmd->next;
 	}
-	return (i);
 }
 
-static void	close_all_pipes(int *pipefds, int count)
+int executor(t_cmd *cmd)
 {
-	int	i;
+	int total_cmd;
 
-	i = 0;
-	while (i < count * 2)
-	{
-		close(pipefds[i]);
-		i++;
-	}
+	total_cmd = count_cmds(cmd);
+	if (total_cmd > 1)
+		create_pipes(total_cmd);
+	if (!cmd || cmd->argv[0] == NULL)
+		return (1);		
+	is_valid_cmd(cmd);
 }
 
-static void	setup_pipes(t_cmd *cmd, int i, int pipe_count, int *pipefds)
-{
-	if (i > 0)
-	{
-		dup2(pipefds[(i - 1) * 2], STDIN_FILENO);
-	}
-	if (i < pipe_count)
-	{
-		dup2(pipefds[i * 2 + 1], STDOUT_FILENO);
-	}
-	close_all_pipes(pipefds, pipe_count);
-}
+
+
+

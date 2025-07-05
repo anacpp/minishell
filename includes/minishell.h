@@ -102,10 +102,6 @@ char	*get_operator(const char *str, int *i);
 char *get_token_value(const char *str, int *i, int *quote_type);
 
 
-
-
-
-
 // --- NOVAS FUNÇÕES DO PARSER ---
 t_cmd				*parse(t_token *tokens);
 void				free_command_table(t_cmd *cmd_table);
@@ -120,6 +116,7 @@ int					ft_count_args(char **argv);
 //list functions
 
 int	ft_lstsize(t_stack *lst);
+int count_cmds(t_cmd *cmds);
 
 // expander functions
 
@@ -136,6 +133,15 @@ char	*append_char_and_advance(char *str, char c);
 //Parser segment
 int					fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);
 int					count_segment_args(t_token *token);
+
+// Pre-exec functions
+int	create_heredoc(char *delimiter);
+char	*generate_temp_name(int suffix);
+int	create_temp_file(char *buffer, size_t size);
+char	*ft_strjoin_no_free(char *s1, char *s2);
+int	**create_pipes(int total_cmds);
+
+
 
 // builtin functions
 

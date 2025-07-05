@@ -47,3 +47,16 @@ int	ft_lstsize(t_stack *lst)
 	}
 	return (count);
 }
+
+int count_cmds(t_cmd *cmds)
+{
+    int count;
+
+    count = 0;
+    while (cmds != NULL)
+    {
+        count++;
+        cmds = cmds->next;
+    }
+    return (count);
+}

@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 /*
-	TODO: NORMA, VALGRIND
+	TODO: NORMINETTE
 
-    DONE : NORMINETTE - OK
+    DONE : 
 */
 #include "../../includes/minishell.h"
 
@@ -27,8 +27,8 @@ char	*generate_temp_name(int suffix)
 	number = ft_itoa(suffix);
 	if (!number)
 		return (NULL);
-	full_path = ft_strjoin(base, number);
-	free(number);
+	full_path = ft_strjoin_no_free(base, number);
+    free(number);
 	return (full_path);
 }
 
@@ -49,7 +49,7 @@ int	create_temp_file(char *buffer, size_t size)
 			free(full_path);
 			return (-1);
 		}
-		ft_strcpy(buffer, full_path);
+		ft_strlcpy(buffer, full_path, size);
 		free(full_path);
 		fd = open(buffer, O_CREAT | O_EXCL | O_RDWR, 0600);
 		if (fd >= 0)
@@ -59,3 +59,18 @@ int	create_temp_file(char *buffer, size_t size)
 	}
 	return (-1);
 }
+
+char	*ft_strjoin_no_free(char *s1, char *s2)
+{
+	char	*join;
+
+	join = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (join == NULL)
+		return (NULL);
+	if (s1 != NULL)
+		ft_strlcpy(join, s1, ft_strlen(s1) + 1);
+	ft_strlcpy(join + ft_strlen(s1), s2, ft_strlen(s2) + 1);
+	join[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+    return (join);
+}
+

@@ -19,6 +19,7 @@ PARSER_DIR = $(SRC_DIR)/03_parser
 SIGNALS_DIR = $(SRC_DIR)/07_signals
 UTILS_DIR = $(SRC_DIR)/utils
 EXPANDER_DIR = $(SRC_DIR)/04_expander
+PRE_EXEC_DIR = $(SRC_DIR)/05_pre_exec
 
 SRC = 	$(SRC_DIR)/main.c \
 		$(INPUTS_DIR)/input_minishell.c \
@@ -45,7 +46,10 @@ SRC = 	$(SRC_DIR)/main.c \
 		$(UTILS_DIR)/general_utils.c \
 		$(EXPANDER_DIR)/expand_all.c \
 		$(EXPANDER_DIR)/expander.c \
-		$(EXPANDER_DIR)/utils_expand.c
+		$(EXPANDER_DIR)/utils_expand.c \
+		$(PRE_EXEC_DIR)/heredoc.c \
+		$(PRE_EXEC_DIR)/util_heredo.c
+
 
 OBJ = $(SRC:.c=.o)
 

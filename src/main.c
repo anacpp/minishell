@@ -63,6 +63,7 @@ int	main(void)
 		free_tokens(tokens);
 		if (!commands)
 			continue ;
+		expand_all_variables(commands, last_status); 
 		printf("\n✅ Parsing successful. Command table:\n");
 		print_command_table(commands);
 		printf("\n----------------------------------------\n");
