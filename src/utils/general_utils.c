@@ -34,3 +34,16 @@ void	handle_error(char *data, char *msg, int code, int should_exit)
 	if (should_exit)
 		exit(code);
 }
+
+int	ft_lstsize(t_stack *lst)
+{
+	int	count;
+
+	count = 0;
+	while (lst != NULL)
+	{
+		count++;
+		lst = lst->next;
+	}
+	return (count);
+}

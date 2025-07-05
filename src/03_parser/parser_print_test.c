@@ -51,3 +51,4 @@ void	print_command_table(t_cmd *cmds)
 		cmds = cmds->next;
 	}
 }
+

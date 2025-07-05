@@ -14,7 +14,7 @@
 
 #include "../../includes/minishell.h"
 
-void	add_token(t_token **head, char *value, t_token_type type)
+void add_token(t_token **head, char *value, t_token_type type, int quote_type)
 {
 	t_token	*new;
 	t_token	*temp;
@@ -31,6 +31,7 @@ void	add_token(t_token **head, char *value, t_token_type type)
 		return ;
 	}
 	new->type = type;
+	new->quote_type = quote_type;
 	new->next = NULL;
 	if (!*head)
 		*head = new;
@@ -42,6 +43,7 @@ void	add_token(t_token **head, char *value, t_token_type type)
 		temp->next = new;
 	}
 }
+
 
 void	free_tokens(t_token *head)
 {

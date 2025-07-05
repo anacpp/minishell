@@ -56,3 +56,4 @@ static void	free_redirections(t_redir *redirs)
 		redirs = tmp_redir;
 	}
 }
+

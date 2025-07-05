@@ -53,6 +53,7 @@ typedef struct s_token
 	char			*value;
 	t_token_type	type;
 	struct s_token	*next;
+	int				quote_type; 
 }					t_token;
 
 typedef struct s_redir
@@ -84,7 +85,7 @@ void				update_quote_state(char c, int *in_single, int *in_double);
 // Tokenizer functions
 t_token				*tokenize_input(const char *input);
 t_token				*get_last_token(t_token *head);
-void				add_token(t_token **head, char *value, t_token_type type);
+void				add_token(t_token **head, char *value, t_token_type type, int quote_type);
 void				free_tokens(t_token *head);
 char				*ft_strndup(const char *s, size_t n);
 t_token_type		get_token_type(const char *str);
@@ -96,6 +97,14 @@ int					is_heredoc_context(t_token *last);
 char				*handle_char(const char *str, int *i);
 t_token				*get_next_token(t_token *current);
 int					token_is_operator(t_token *token);
+void get_token_next(const char *str, int *i, t_token **head);
+char	*get_operator(const char *str, int *i);
+char *get_token_value(const char *str, int *i, int *quote_type);
+
+
+
+
+
 
 // --- NOVAS FUNÇÕES DO PARSER ---
 t_cmd				*parse(t_token *tokens);
@@ -107,6 +116,40 @@ char				*remove_quotes(char *str);
 t_cmd				*create_new_cmd(void);
 char				**ft_realloc_argv(char **argv, const char *new_arg);
 int					ft_count_args(char **argv);
+
+//list functions
+
+int	ft_lstsize(t_stack *lst);
+
+// expander functions
+
+char	*expand_variables(char *input, int status);
+void	expand_all_variables(t_cmd *cmds, int last_status);
+void 	expand_tokens(t_token *tokens, int last_status);
+void	update_quotes(char c, int *in_squote, int *in_dquote);
+char	*append_expanded(char *result, char *input, int *i, int status);
+char	*handle_dollar(char *str, int *i, int status);
+char *process_regular_char(char *result, char current, int *i);
+char *process_dollar_sequence(char *result, char *input, int *i, int status);
+char	*append_char_and_advance(char *str, char c);
+
+//Parser segment
+int					fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);
+int					count_segment_args(t_token *token);
+
+// builtin functions
+
+int is_builtin(char *cmd);
+void builtin_echo(char **argv);
+void builtin_exit(char **argv);
+void	builtin_cd(char **argv);
+void run_builtin(t_cmd *cmd);
+void	builtin_env(void);
+void	builtin_pwd(void);
+int is_n_flag(char *str);
+int	is_valid_key(char *key);
+void	builtin_export(char **argv);
+void	builtin_unset(char **argv);
 
 //Parser segment
 int					fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);

@@ -44,7 +44,6 @@ int	is_heredoc_context(t_token *last)
 	return (last && last->type == T_HEREDOC);
 }
 
-
 // FUNÇÕES DE DEPURAÇÃO ABAIXO :
 void	print_tokens(t_token *head)
 {
@@ -59,22 +58,4 @@ void	print_tokens(t_token *head)
 	}
 }
 
-const char	*token_type_str(t_token_type type)
-{
-	if (type == T_WORD)
-		return ("Word");
-	else if (type == T_PIPE)
-		return ("Pipe");
-	else if (type == T_REDIR_IN)
-		return ("Redir In");
-	else if (type == T_REDIR_OUT)
-		return ("Redir Out");
-	else if (type == T_HEREDOC)
-		return ("Heredoc");
-	else if (type == T_APPEND)
-		return ("Append");
-	else if (type == T_ARGUMENT)
-		return ("Argument");
-	else
-		return ("Unknown");
-}
+
