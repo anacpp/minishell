@@ -6,13 +6,11 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/30 11:40:53 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:17:39 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-// Definição da variável global
-volatile sig_atomic_t g_signal_status = 0;
 
 /**
  * @brief Manipulador para o sinal SIGINT (ctrl-C).
@@ -42,19 +40,16 @@ static void	handle_sigint(int signo)
  */
 void setup_signal_handlers(void)
 {
-     struct sigaction    sa_int;
-     int                 ret_sigaction;
-	void	(*ret_signal)(int);
+    struct sigaction sa_int;
 
-     sa_int.sa_handler = handle_sigint;
-     sigemptyset(&sa_int.sa_mask);
-     sa_int.sa_flags = SA_RESTART;
+    // O manipulador para SIGINT (Ctrl-C)
+    sa_int.sa_handler = handle_sigint;
+    sigemptyset(&sa_int.sa_mask);
+    sa_int.sa_flags = SA_RESTART; // Evita que chamadas de sistema sejam interrompidas
+    if (sigaction(SIGINT, &sa_int, NULL) == -1)
+        handle_error(NULL, "sigaction failed", 1, 1);
 
-     ret_sigaction = sigaction(SIGINT, &sa_int, NULL);
-     if (ret_sigaction == -1)
-          handle_error(NULL, "sigaction failed", 1, 1);
-
-     ret_signal = signal(SIGQUIT, SIG_IGN);
-     if (ret_signal == SIG_ERR)
-          handle_error(NULL, "signal failed", 1, 1);
+    // Ignora o SIGQUIT (Ctrl-\) no modo interativo, como o bash.
+    if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+        handle_error(NULL, "signal failed", 1, 1);
 }
