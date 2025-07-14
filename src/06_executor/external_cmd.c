@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   external_cmd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
+/*   Updated: 2025/07/14 20:13:25 by rjacques         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static char *check_direct_exec(char *cmd)
@@ -7,8 +19,15 @@ static char *check_direct_exec(char *cmd)
 	return (NULL);
 }
 
-//relative path -> path relative to the currenty directory you are (ex: shit.sh). / absolute path is full path from the root (ex: /home/acesar/script/shit.sh)
-static char	*find_cmd_path(char *cmd)
+
+
+/**
+ * @brief Encontra o caminho completo de um comando executável.
+ * @param cmd O comando a ser encontrado.
+ * @param envp O ambiente atual para buscar a variável PATH.
+ * @return O caminho completo alocado dinamicamente ou NULL.
+ */
+static char	*find_cmd_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path_var;
@@ -16,8 +35,8 @@ static char	*find_cmd_path(char *cmd)
 	int		i;
 
 	if (!cmd || ft_strchr(cmd, '/')) // já tem caminho
-		return check_direct_exec(cmd);
-	path_var = getenv("PATH");
+		return (check_direct_exec(cmd));
+	path_var = get_env_value("PATH", envp);
 	if (!path_var)
 		return (NULL);
 	paths = ft_split(path_var, ':');
@@ -40,18 +59,32 @@ static char	*find_cmd_path(char *cmd)
 }
 extern char **environ;
 
-void	exec_external(t_cmd *cmd)
+void	exec_external(t_cmd *cmd,  t_shell *shell_context)
 {
 	char	*cmd_path;
+	char	**current_env; // Variável para guardar nosso ambiente
 
-	cmd_path = find_cmd_path(cmd->argv[0]);
+	current_env = shell_context->envp;
+
+	// Passa o ambiente para a função que busca o comando no PATH.
+	cmd_path = find_cmd_path(cmd->argv[0], current_env);
+
 	if (!cmd_path)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n", cmd->argv[0]);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+        	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
+        	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		exit(127); // padrão bash para "command not found"
 	}
-	execve(cmd_path, cmd->argv, environ);
-	ft_printf("minishell: %s: %s\n", cmd->argv[0], strerror(errno));
+
+	execve(cmd_path, cmd->argv, current_env);
+
+	// Se execve retornar, é porque houve um erro. (se execve funciona, o programa termina aqui)
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	free(cmd_path);
 	exit(126); // "permission denied"
 }
