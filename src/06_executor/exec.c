@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/11 17:14:43 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:35:50 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 	TODO: NORMINETTE, função set_redir/exec_external/save pid / wait all children
-	    
+
 */
 #include "../../includes/minishell.h"
 
-void	prepare_heredocs(t_cmd *cmds)
+static int	execute_single_builtin(t_cmd *cmd, t_shell *shell_context);
+static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context);
+static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd, t_shell *shell_context);
+static void	prepare_heredocs(t_cmd *cmds);
+
+/**
+ * @brief Prepara os heredocs para os comandos, criando arquivos temporários.
+ * Cada heredoc é substituído por um arquivo temporário que contém o texto do heredoc.
+ * @param cmds A lista de comandos que contêm os heredocs.
+ */
+static void	prepare_heredocs(t_cmd *cmds)
 {
 	t_cmd		*cmd;
 	t_redir		*redir;
@@ -37,6 +47,8 @@ void	prepare_heredocs(t_cmd *cmds)
 					perror("heredoc");
 				}
 				free(redir->filename);
+				tmp_filename = ft_itoa(fd);
+				redir->filename = tmp_filename;
 				redir->type = T_REDIR_IN;
 			}
 			redir = redir->next;
@@ -45,73 +57,103 @@ void	prepare_heredocs(t_cmd *cmds)
 	}
 }
 
-int is_command_valid(t_cmd *cmd)
+/**
+ * @brief Executa os comandos no contexto do shell.
+ * Se for um único comando built-in, executa diretamente.
+ * Se for uma pipeline, cria processos filhos para cada comando.
+ * @param cmds A lista de comandos a serem executados.
+ * @param shell_context O contexto do shell que contém o ambiente e o último status.
+ * @return O status de saída do comando executado (0 para sucesso, >0 para erro).
+ */
+int	executor(t_cmd *cmds, t_shell *shell_context)
 {
-    if (!cmd || !cmd->argv || !cmd->argv[0])
-        return (0);
-    if (is_builtin(cmd))
-        return (1);
-    if (is_external_command(cmd))
-        return (1);
-    return (0);
-}
-int executor(t_cmd *cmd)
-{
-    int total_cmd;
-    pid_t pid;
-    t_cmd *current_cmd;
-    pid_t g_child_pids[MAX_PIDS];
-    int   g_num_pids;
-
-    g_num_pids = 0;
-    if (!cmd || !cmd->argv || !cmd->argv[0])
-        return (1);
-    total_cmd = count_cmds(cmd);
-    if (total_cmd > 1)
-        create_pipes(total_cmd);
-    current_cmd = cmd;
-    while (current_cmd)
-    {
-        if (!is_valid_cmd(current_cmd))
-        {
-            ft_printf("minishell: %s: command not found\n", current_cmd->argv[0]);
-            return (127);
-        }
-        if (is_builtin(cmd->argv[0]) && total_cmd == 1)
-        {
-	        int stdio_backup[2];
-        	save_stdio(stdio_backup);
-        	if (cmd->redirs)
-		        setup_redir(cmd->redirs);
-        	run_builtin(cmd);
-        	restore_stdio(stdio_backup);
-        }
-        else
-        {
-            pid = fork();
-            if (pid < 0)
-            {
-                perror("fork");
-                return (1);
-            }
-            else if (pid == 0) //filho
-            {
-                if (current_cmd->redirs != NULL)
-                    setup_redir(current_cmd->redirs);
-                if (is_builtin(current_cmd->argv[0]))
-                    run_builtin(current_cmd);
-                else
-                    exec_external(current_cmd);
-                exit(EXIT_FAILURE); //caso exec falhe
-            }
-            else
-            {
-                save_pid(pid); //ela vai salvar o pid do processo
-            }
-        }
-        current_cmd = current_cmd->next;
-    }
-    wait_all_children(); //espera todos os filhos terminarem e atualiza $? global
-    return (0);
+	if (!cmds)
+		return (0);
+	prepare_heredocs(cmds);
+	if (!cmds->next && is_builtin(cmds))
+	{
+		return (execute_single_builtin(cmds, shell_context));
+	}
+	return (execute_pipeline(cmds, shell_context));
 }
 
+/**
+ * @brief Executa um único built-in no processo pai.
+ */
+static int	execute_single_builtin(t_cmd *cmd, t_shell *shell_context)
+{
+	int	stdio_backup[2];
+	int	status;
+
+	save_stdio(stdio_backup);
+	if (cmd->redirs)
+	{
+		setup_redir(cmd->redirs);
+	}
+	status = run_builtin(cmd, shell_context);
+	restore_stdio(stdio_backup);
+	return (status);
+}
+
+/**
+ * @brief Executa uma pipeline de comandos em processos filhos.
+ */
+static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context)
+{
+	int		pipe_fds[2];
+	int		in_fd;
+	pid_t	pid;
+	t_cmd	*current;
+
+	in_fd = STDIN_FILENO;
+	current = cmds;
+	g_num_pids = 0;
+	while (current)
+	{
+		if (current->next)
+			pipe(pipe_fds);
+		pid = fork();
+		if (pid == -1)
+			return (perror("fork"), 1);
+		if (pid == 0)
+			execute_child_process(current, pipe_fds, in_fd, shell_context);
+		save_pid(pid);
+		if (in_fd != STDIN_FILENO)
+			close(in_fd);
+		if (current->next)
+		{
+			close(pipe_fds[1]);
+			in_fd = pipe_fds[0];
+		}
+		current = current->next;
+	}
+	wait_all_children();
+	return (g_signal_status);
+}
+
+/**
+ * @brief Código executado dentro de um processo filho.
+ */
+static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd, t_shell *shell_context)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	if (in_fd != STDIN_FILENO)
+	{
+		dup2(in_fd, STDIN_FILENO);
+		close(in_fd);
+	}
+	if (cmd->next)
+	{
+		close(pipe_fds[0]);
+		dup2(pipe_fds[1], STDOUT_FILENO);
+		close(pipe_fds[1]);
+	}
+	if (cmd->redirs)
+		setup_redir(cmd->redirs);
+	if (is_builtin(cmd))
+		exit(run_builtin(cmd, shell_context));
+	else
+		exec_external(cmd, shell_context);
+	exit(EXIT_FAILURE);
+}
