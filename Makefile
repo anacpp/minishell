@@ -1,105 +1,84 @@
+# Compiler and flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-NAME = minishell
-RM = rm -f
 
+# Name of the final executable
+NAME = minishell
+
+# Define all your source files here
+SRCS = src/main.c \
+       src/01_inputs/input_minishell.c \
+       src/01_inputs/utils_input.c \
+       src/02_token/tokenizer.c \
+       src/02_token/utils_token.c \
+       src/02_token/utils_token2.c \
+       src/02_token/utils_token3.c \
+       src/03_parser/parser.c \
+       src/03_parser/parser_cleanup.c \
+       src/03_parser/parser_error.c \
+       src/03_parser/parser_helpers.c \
+       src/03_parser/parser_print_test.c \
+       src/03_parser/parser_redirect.c \
+       src/03_parser/parser_rules.c \
+       src/03_parser/parser_segment_args.c \
+       src/03_parser/parser_utils.c \
+       src/04_expander/expand_all.c \
+       src/04_expander/expander.c \
+       src/04_expander/utils_expand.c \
+       src/05_pre_exec/heredoc.c \
+       src/05_pre_exec/pipe_create.c \
+       src/05_pre_exec/util_heredo.c \
+       src/06_executor/exec.c \
+       src/06_executor/external_cmd.c \
+       src/06_executor/utils_exec.c \
+	  src/06_executor/utils_extern_cmd.c \
+       src/06_executor/utils_fork_process.c \
+       src/07_signals/signals.c \
+       src/07_builtins/builtin.c \
+       src/07_builtins/builtin_2.c \
+       src/07_builtins/builtin_utils.c \
+       src/08_environment/env_manager.c \
+       src/utils/general_utils.c \
+	  src/utils/globals.c
+
+# Automatically generate object file names from source files
+OBJS = ${SRCS:.c=.o}
+
+# Header file directory
+INCLUDES = -I includes -I libft
+
+# Libft
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-READLINE_INCLUDE = /usr/include
-READLINE_LIB = /usr/lib/x86_64-linux-gnu
-INCLUDES = -I$(LIBFT_DIR) -Iincludes -I$(READLINE_INCLUDE)
-LIBS = -L$(READLINE_LIB) -lreadline
+# Readline library
+LDFLAGS = -lreadline
 
-SRC_DIR = ./src/
+# --- Rules ---
 
-INPUTS_DIR = $(SRC_DIR)/01_inputs
-TOKEN_DIR = $(SRC_DIR)/02_token
-PARSER_DIR = $(SRC_DIR)/03_parser
-SIGNALS_DIR = $(SRC_DIR)/07_signals
-UTILS_DIR = $(SRC_DIR)/utils
-EXPANDER_DIR = $(SRC_DIR)/04_expander
-PRE_EXEC_DIR = $(SRC_DIR)/05_pre_exec
+all: $(NAME)
 
-SRC = 	$(SRC_DIR)/main.c \
-		$(INPUTS_DIR)/input_minishell.c \
-		$(INPUTS_DIR)/utils_input.c \
-		$(TOKEN_DIR)/tokenizer.c \
-		$(TOKEN_DIR)/utils_token.c \
-		$(TOKEN_DIR)/utils_token2.c \
-		$(TOKEN_DIR)/utils_token3.c \
-		$(PARSER_DIR)/parser.c \
-		$(PARSER_DIR)/parser_cleanup.c \
-		$(PARSER_DIR)/parser_error.c \
-		$(PARSER_DIR)/parser_helpers.c \
-		$(PARSER_DIR)/parser_print_test.c \
-		$(PARSER_DIR)/parser_print_test.c \
-		$(PARSER_DIR)/parser_redirect.c \
-		$(PARSER_DIR)/parser_rules.c \
-		$(PARSER_DIR)/parser_segment_args.c \
-		$(PARSER_DIR)/parser_utils.c \
-		$(SIGNALS_DIR)/signals.c \
-		$(UTILS_DIR)/general_utils.c \
-		$(UTILS_DIR)/general_utils.c \
-		$(EXPANDER_DIR)/expand_all.c \
-		$(EXPANDER_DIR)/expander.c \
-		$(EXPANDER_DIR)/utils_expand.c \
-		$(PRE_EXEC_DIR)/heredoc.c \
-		$(PRE_EXEC_DIR)/util_heredo.c
+# Rule to link everything together
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) $(LDFLAGS)
 
-
-OBJ = $(SRC:.c=.o)
-
-all: $(LIBFT) $(NAME)
-
-$(NAME): $(OBJ)
-	@echo "Linking $(NAME)..."
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LIBS)
-	@echo "Linking done."
-
+# Rule for libft
 $(LIBFT):
-	@echo "Building libft..."
-	$(MAKE) -C $(LIBFT_DIR)
-	@echo "libft built."
+	make -C $(LIBFT_DIR)
 
-.c.o:
-	@echo "Compiling $<..."
+# Generic rule to compile .c files into .o files
+%.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+# Clean rules
 clean:
-	@echo "Cleaning object files..."
-	@$(RM) $(OBJ)
-	@$(MAKE) -C $(LIBFT_DIR) clean
+	make -C $(LIBFT_DIR) clean
+	rm -f $(OBJS)
 
 fclean: clean
-	@echo "Removing $(NAME)..."
-	@$(RM) $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@echo "Cleaning test temporary files..."
-	@$(RM) tests/stderr.tmp
+	make -C $(LIBFT_DIR) fclean
+	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re test
-
-test: all
-	@echo "Running built-in tests..."
-	@bash tests/test_builtin.sh || true
-	@echo "\nRunning execution tests..."
-	@bash tests/test_execution.sh || true
-	@echo "Running built-in tests..."
-	@bash tests/test_builtin.sh || true
-	@echo "\nRunning execution tests..."
-	@bash tests/test_execution.sh || true
-	@echo "\nRunning expansion tests..."
-	@bash tests/test_expansion.sh || true
-	@echo "\nRunning pipes and redirection tests..."
-	@bash tests/test_pipes_and_redirs_exec.sh || true
-	@echo "\nRunning parser tests..."
-	@bash tests/test_parser.sh || true
-
-	@echo "\nRunning pipes and redirection tests..."
-	@bash tests/test_pipes_and_redirs_exec.sh || true
-	@echo "\nRunning parser tests..."
-	@bash tests/test_parser.sh || true
-
+.PHONY: all clean fclean re
