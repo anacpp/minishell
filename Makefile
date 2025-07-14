@@ -5,6 +5,9 @@ CFLAGS = -Wall -Wextra -Werror -g
 # Name of the final executable
 NAME = minishell
 
+# Command to remove files
+RM = rm -f
+
 # Define all your source files here
 SRCS = src/main.c \
        src/01_inputs/input_minishell.c \
@@ -31,7 +34,7 @@ SRCS = src/main.c \
        src/06_executor/exec.c \
        src/06_executor/external_cmd.c \
        src/06_executor/utils_exec.c \
-	  src/06_executor/utils_extern_cmd.c \
+       src/06_executor/utils_extern_cmd.c \
        src/06_executor/utils_fork_process.c \
        src/07_signals/signals.c \
        src/07_builtins/builtin.c \
@@ -39,7 +42,7 @@ SRCS = src/main.c \
        src/07_builtins/builtin_utils.c \
        src/08_environment/env_manager.c \
        src/utils/general_utils.c \
-	  src/utils/globals.c
+       src/utils/globals.c
 
 # Automatically generate object file names from source files
 OBJS = ${SRCS:.c=.o}
@@ -60,24 +63,29 @@ all: $(NAME)
 
 # Rule to link everything together
 $(NAME): $(OBJS) $(LIBFT)
+	@echo "Linking $(NAME)..."
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) $(LDFLAGS)
+	@echo "$(NAME) is ready!"
 
 # Rule for libft
 $(LIBFT):
-	make -C $(LIBFT_DIR)
+	@make -C $(LIBFT_DIR)
 
 # Generic rule to compile .c files into .o files
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@echo "Compiling $<..."
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Clean rules
 clean:
-	make -C $(LIBFT_DIR) clean
-	rm -f $(OBJS)
+	@echo "Cleaning object files..."
+	@make -C $(LIBFT_DIR) clean
+	@$(RM) $(OBJS)
 
 fclean: clean
-	make -C $(LIBFT_DIR) fclean
-	rm -f $(NAME)
+	@echo "Removing $(NAME)..."
+	@$(RM) $(NAME)
+	@make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
