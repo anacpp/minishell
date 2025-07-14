@@ -6,20 +6,29 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/30 11:27:15 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:36:07 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// TODO : CHECK NORMINETTE
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//Para acessarmos corretamente a struct sigaction e constantes
-//como SA_RESTART, é necessário definir a macro _DEFAULT_SOURCE.
-// Essa diretiva ativa as definições POSIX
-// nos headers do sistema, conforme recomendado pela glibc, garantindo o uso
-// correto e compatível. (verificar se no pc da 42 funciona sem)
+#ifndef _DEFAULT_SOURCE
+# define _DEFAULT_SOURCE
+#endif
+
+#ifndef MAX_PIDS
+# define MAX_PIDS 1024
+#endif
+
+#ifndef ERROR_CODE
+# define ERROR_CODE 127
+#endif
+
+#ifndef EXIT_FAILURE
+# define EXIT_FAILURE 1
+#endif
 
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/libft.h"
@@ -34,17 +43,17 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
-#ifndef MAX_PIDS, ERROR_CODE, EXIT_FAILURE, _DEFAULT_SOURCE
-# define ERROR_CODE 127
-# define EXIT_FAILURE 1
-# define MAX_PIDS 1024
-# define _DEFAULT_SOURCE
-#endif
+#include <sys/stat.h>
 
 extern pid_t g_child_pids[MAX_PIDS];
 extern int g_num_pids;
 extern volatile sig_atomic_t g_signal_status;
+
+typedef struct s_shell
+{
+    char    **envp;
+    int     last_status;
+} t_shell;
 
 typedef enum e_token_type
 {
@@ -62,7 +71,7 @@ typedef struct s_token
 	char			*value;
 	t_token_type	type;
 	struct s_token	*next;
-	int				quote_type; 
+	int				quote_type;
 }					t_token;
 
 typedef struct s_redir
@@ -111,7 +120,7 @@ char	*get_operator(const char *str, int *i);
 char *get_token_value(const char *str, int *i, int *quote_type);
 
 
-// --- NOVAS FUNÇÕES DO PARSER ---
+// --- Parser Functions ---
 t_cmd				*parse(t_token *tokens);
 void				free_command_table(t_cmd *cmd_table);
 void	print_command_table(t_cmd *cmds); // Para depuração
@@ -121,14 +130,15 @@ char				*remove_quotes(char *str);
 t_cmd				*create_new_cmd(void);
 char				**ft_realloc_argv(char **argv, const char *new_arg);
 int					ft_count_args(char **argv);
+int					fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);
+int					count_segment_args(t_token *token);
 
-//list functions
 
+// --- List utils ---
 int	ft_lstsize(t_stack *lst);
 int count_cmds(t_cmd *cmds);
 
-// expander functions
-
+// --- Expander functions ---
 char	*expand_variables(char *input, int status);
 void	expand_all_variables(t_cmd *cmds, int last_status);
 void 	expand_tokens(t_token *tokens, int last_status);
@@ -140,38 +150,54 @@ char *process_dollar_sequence(char *result, char *input, int *i, int status);
 char	*append_char_and_advance(char *str, char c);
 
 
-// Pre-exec functions
+// --- Pre-exec functions ---
 int	create_heredoc(char *delimiter);
 char	*generate_temp_name(int suffix);
 int	create_temp_file(char *buffer, size_t size);
 char	*ft_strjoin_no_free(char *s1, char *s2);
 int	**create_pipes(int total_cmds);
 
+// --- Executor functions ---
+int executor(t_cmd *cmds, t_shell *shell_context);
+void exec_external(t_cmd *cmd, t_shell *shell_context);
+void save_stdio(int fds[2]);
+void restore_stdio(int fds[2]);
+void setup_redir(t_redir *redir);
+void save_pid(pid_t pid);
+void wait_all_children(void);
 
-// builtin functions
-
+// --- Builtin functions ---
 int is_builtin(t_cmd *cmd);
-void builtin_echo(char **argv);
-void builtin_exit(char **argv);
-void	builtin_cd(char **argv);
-void run_builtin(t_cmd *cmd);
-void	builtin_env(void);
-void	builtin_pwd(void);
+int	run_builtin(t_cmd *cmd, t_shell *shell_context);
+int builtin_echo(char **argv);
+int	builtin_cd(char **argv, t_shell *shell_context);
+int	builtin_pwd(void);
+int	builtin_export(char **argv, t_shell *shell_context);
+int	builtin_unset(char **argv, t_shell *shell_context);
+int	builtin_env(char **argv, t_shell *shell_context);
+int	builtin_exit(char **argv, t_shell *shell_context);
 int is_n_flag(char *str);
 int	is_valid_key(char *key);
-void	builtin_export(char **argv);
-void	builtin_unset(char **argv);
-void	print_env_sorted(void);
+void	print_env_sorted(char **envp);
 
-//Parser segment
-int					fill_segment_data(t_cmd *cmd, t_token **start, t_token *end);
-int					count_segment_args(t_token *token);
-
-// Funções de depuração para impressão de tokens, APAGAR QUANDO FOR ENTREGAR
+// --- Debug functions ---
 void				print_tokens(t_token *head);
 const char			*token_type_str(t_token_type type);
 
-// Signal handling functions
+// --- Signal handling functions ---
 void setup_signal_handlers(void);
+
+//Executor utils functions
+char	*ft_strjoin_triple(const char *s1, const char *s2, const char *s3);
+void	free_split(char **arr);
+
+// --- Environment functions ---
+void	init_shell_context(t_shell *shell_context);
+void	free_environment(t_shell *shell_context);
+char	**get_environment(void);
+void	add_env_var(const char *var_string, t_shell *shell_context);
+void	remove_env_var(const char *key, t_shell *shell_context);
+char	**find_env_var(const char *key, char **envp);
+char	*get_env_value(const char *key, char **envp);
 
 #endif
