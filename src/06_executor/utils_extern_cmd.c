@@ -1,23 +1,19 @@
 #include "../../includes/minishell.h"
 
-char *ft_strjoin_triple_free(char *s1, char *sep, char *s2,
-								int free_s1, int free_sep, int free_s2)
+char	*ft_strjoin_triple(const char *s1, const char *s2, const char *s3)
 {
 	char	*tmp;
 	char	*res;
 
-	tmp = ft_strjoin_free(s1, sep, free_s1, free_sep);
-	if (!tmp)
-	{
-		if (!free_s1)
-			free(s1);
-		if (!free_sep)
-			free(sep);
-		if (free_s2)
-			free(s2);
+	if (!s1 || !s2 || !s3)
 		return (NULL);
-	}
-	res = ft_strjoin_free(tmp, s2, 1, free_s2);
+		//TODO: USAR STR NO FREE
+	tmp = ft_strjoin(s1, s2);
+	if (!tmp)
+		return (NULL);
+		//TODO: USAR STR NO FREE
+	res = ft_strjoin(tmp, s3);
+	free(tmp);
 	return (res);
 }
 
@@ -34,25 +30,4 @@ void	free_split(char **arr)
 		i++;
 	}
 	free(arr);
-}
-
-char *ft_strjoin_free(char *s1, char *s2, int free_s1, int free_s2)
-{
-	char	*joined;
-	size_t	len1;
-	size_t	len2;
-    
-    len2 = ft_strlen(s2);
-    len1 = ft_strlen(s1);
-    joined = malloc(len1 + len2 + 1);
-	if (!joined)
-		return (NULL);
-	ft_memcpy(joined, s1, len1);
-	ft_memcpy(joined + len1, s2, len2);
-	joined[len1 + len2] = '\0';
-	if (free_s1)
-		free(s1);
-	if (free_s2)
-		free(s2);
-	return (joined);
 }
