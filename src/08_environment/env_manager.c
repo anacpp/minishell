@@ -98,8 +98,8 @@ char	**find_env_var(const char *key, char **envp)
 	i = 0;
 	while (envp && envp[i])
 	{
-		if (ft_strncmp(envp[i], key, key_len) == 0 &&
-			(envp[i][key_len] == '=' || envp[i][key_len] == '\0'))
+		if (ft_strncmp(envp[i], key, key_len) == 0 && (envp[i][key_len] == '='
+				|| envp[i][key_len] == '\0'))
 		{
 			return (&envp[i]);
 		}
@@ -179,13 +179,14 @@ void	remove_env_var(const char *key, t_shell *shell_context)
  * @brief Procura uma variável de ambiente em envp e retorna seu valor.
  * @param key A chave a ser procurada (ex: "PATH").
  * @param envp O array do ambiente.
- * @return O valor da variável (a string após o '=') ou NULL se não for encontrada.
+
+	* @return O valor da variável (a string após o '=') ou NULL se não for encontrada.
  * A string retornada aponta para a memória dentro de envp, não é uma cópia.
  */
 char	*get_env_value(const char *key, char **envp)
 {
-	int		i;
-	int		key_len;
+	int	i;
+	int	key_len;
 
 	if (!key || !envp)
 		return (NULL);
@@ -193,8 +194,7 @@ char	*get_env_value(const char *key, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], key, key_len) == 0
-			&& envp[i][key_len] == '=')
+		if (ft_strncmp(envp[i], key, key_len) == 0 && envp[i][key_len] == '=')
 		{
 			return (envp[i] + key_len + 1);
 		}

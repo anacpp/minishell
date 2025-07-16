@@ -3,35 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/14 18:35:50 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:39:14 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-	TODO: NORMINETTE, função set_redir/exec_external/save pid / wait all children
+	TODO: Redução de função -> execute_pipeline.c heredoc
 
 */
 #include "../../includes/minishell.h"
 
 static int	execute_single_builtin(t_cmd *cmd, t_shell *shell_context);
 static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context);
-static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd, t_shell *shell_context);
+static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd,
+				t_shell *shell_context);
 static void	prepare_heredocs(t_cmd *cmds);
 
 /**
- * @brief Prepara os heredocs para os comandos, criando arquivos temporários.
- * Cada heredoc é substituído por um arquivo temporário que contém o texto do heredoc.
+ * @brief Prepara os heredocs para os comandos,
+ * criando arquivos temporários.
+
+	* Cada heredoc é substituído por um arquivo
+	temporário que contém o texto do heredoc.
  * @param cmds A lista de comandos que contêm os heredocs.
  */
 static void	prepare_heredocs(t_cmd *cmds)
 {
-	t_cmd		*cmd;
-	t_redir		*redir;
-	int			fd;
-	char		*tmp_filename;
+	t_cmd	*cmd;
+	t_redir	*redir;
+	int		fd;
+	char	*tmp_filename;
 
 	cmd = cmds;
 	while (cmd)
@@ -62,8 +66,11 @@ static void	prepare_heredocs(t_cmd *cmds)
  * Se for um único comando built-in, executa diretamente.
  * Se for uma pipeline, cria processos filhos para cada comando.
  * @param cmds A lista de comandos a serem executados.
- * @param shell_context O contexto do shell que contém o ambiente e o último status.
- * @return O status de saída do comando executado (0 para sucesso, >0 para erro).
+
+	* @param shell_context O contexto do shell que contém
+	o ambiente e o último status.
+ * @return O status de saída do comando executado (0 para sucesso,
+	>0 para erro).
  */
 int	executor(t_cmd *cmds, t_shell *shell_context)
 {
@@ -134,7 +141,8 @@ static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context)
 /**
  * @brief Código executado dentro de um processo filho.
  */
-static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd, t_shell *shell_context)
+static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd,
+		t_shell *shell_context)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

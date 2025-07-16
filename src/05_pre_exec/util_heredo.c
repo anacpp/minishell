@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   util_heredo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/11 17:14:43 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:41:15 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 /*
 	TODO: NORMINETTE
 
-    DONE : 
+	DONE :
 */
 #include "../../includes/minishell.h"
 
@@ -40,7 +40,7 @@ char	*generate_temp_name(int suffix)
 	if (!number)
 		return (NULL);
 	full_path = ft_strjoin_no_free(base, number);
-    free(number);
+	free(number);
 	return (full_path);
 }
 
@@ -83,6 +83,5 @@ char	*ft_strjoin_no_free(char *s1, char *s2)
 		ft_strlcpy(join, s1, ft_strlen(s1) + 1);
 	ft_strlcpy(join + ft_strlen(s1), s2, ft_strlen(s2) + 1);
 	join[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-    return (join);
+	return (join);
 }
-

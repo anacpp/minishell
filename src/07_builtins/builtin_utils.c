@@ -11,7 +11,6 @@
 	Essas funções ajudam a garantir que os comandos built-in funcionem corretamente e de forma padronizada.
 */
 
-
 #include "../../includes/minishell.h"
 
 /**
@@ -19,20 +18,20 @@
  * @param str A string a ser verificada.
  * @return 1 se for a flag `-n`, 0 caso contrário.
  * */
-int is_n_flag(char *str)
+int	is_n_flag(char *str)
 {
-    int i;
+	int	i;
 
-    if (!str || str[0] != '-' || str[1] != 'n')
-        return (0);
-    i = 2;
-    while (str[i])
-    {
-        if (str[i] != 'n')
-            return (0);
-        i++;
-    }
-    return (1);
+	if (!str || str[0] != '-' || str[1] != 'n')
+		return (0);
+	i = 2;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 /**
@@ -113,7 +112,7 @@ void	print_env_sorted(char **envp)
 	i = 0;
 	while (i < count)
 	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		//ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putstr_fd(env_copy[i], STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		i++;

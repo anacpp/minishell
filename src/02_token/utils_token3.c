@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/11 17:04:45 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:28:20 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*handle_char(const char *str, int *i)
 	(*i)++;
 	return (tmp);
 }
+
 const char	*token_type_str(t_token_type type)
 {
 	if (type == T_WORD)
@@ -54,17 +55,17 @@ const char	*token_type_str(t_token_type type)
 		return ("Unknown");
 }
 
-char *handle_word_token(const char *str, int *i, int *quote_type)
+char	*handle_word_token(const char *str, int *i, int *quote_type)
 {
-	int in_squote;
-	int in_dquote;
-	int temp_i;
+	int	in_squote;
+	int	in_dquote;
+	int	temp_i;
 
 	in_dquote = 0;
 	in_squote = 0;
 	temp_i = *i;
-	while (str[temp_i] && !is_operator_char(str[temp_i])
-		&& str[temp_i] != ' ' && str[temp_i] != '\t')
+	while (str[temp_i] && !is_operator_char(str[temp_i]) && str[temp_i] != ' '
+		&& str[temp_i] != '\t')
 	{
 		update_quote_flags(str[temp_i], &in_squote, &in_dquote);
 		temp_i++;
@@ -73,13 +74,13 @@ char *handle_word_token(const char *str, int *i, int *quote_type)
 		*quote_type = 1;
 	else if (in_dquote)
 		*quote_type = 2;
-	return get_token_value(str, i, quote_type);
+	return (get_token_value(str, i, quote_type));
 }
 
-void get_token_next(const char *str, int *i, t_token **head)
+void	get_token_next(const char *str, int *i, t_token **head)
 {
-	char *value;
-	int quote_type;
+	char	*value;
+	int		quote_type;
 
 	quote_type = 0;
 	if (is_operator_char(str[*i]))
@@ -92,4 +93,3 @@ void get_token_next(const char *str, int *i, t_token **head)
 	while (str[*i] == ' ' || str[*i] == '\t')
 		(*i)++;
 }
-

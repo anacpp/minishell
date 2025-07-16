@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cleanup.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/21 04:52:07 by rdos-san         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:42:00 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,3 @@ static void	free_redirections(t_redir *redirs)
 		redirs = tmp_redir;
 	}
 }
-

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expande_all.c                                      :+:      :+:    :+:   */
+/*   expand_all.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/11 17:14:43 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:41:25 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 	EXPAND_ALL.C
 
-	Este arquivo centraliza a expansão de variáveis em comandos (`t_cmd`), 
-	aplicando a substituição de variáveis tanto nos argumentos (`argv`) quanto 
+	Este arquivo centraliza a expansão de variáveis em comandos (`t_cmd`),
+	aplicando a substituição de variáveis tanto nos argumentos (`argv`) quanto
 	nos redirecionamentos (`redir->filename`).
 
 	Fluxo:
@@ -25,7 +25,7 @@
 	Usa a função `expand_variables` definida no expander.c.
 */
 
-//TODO : NORMINETTE
+// TODO : NORMINETTE
 
 #include "../includes/minishell.h"
 

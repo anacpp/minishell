@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_print_test.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 04:50:40 by rdos-san          #+#    #+#             */
-/*   Updated: 2025/06/21 05:19:31 by rdos-san         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:42:14 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static void	print_redirs(t_redir *redirs)
 		ft_printf("    (none)\n");
 	while (redirs)
 	{
-		ft_printf("    Type: %s, File: \"%s\"\n",
-			token_type_str(redirs->type), redirs->filename);
+		ft_printf("    Type: %s, File: \"%s\"\n", token_type_str(redirs->type),
+			redirs->filename);
 		redirs = redirs->next;
 	}
 }
@@ -51,4 +51,3 @@ void	print_command_table(t_cmd *cmds)
 		cmds = cmds->next;
 	}
 }
-

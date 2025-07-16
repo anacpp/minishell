@@ -1,7 +1,8 @@
 /*
 	BUILTIN.C
 
-	Executa os comandos built-in reconhecidos pela minishell: cd, exit, echo, pwd, env, export, unset.
+	Executa os comandos built-in reconhecidos pela minishell: cd, exit, echo,
+		pwd, env, export, unset.
 
 	Funções:
 	- run_builtin: roteia a execução com base no nome do comando.
@@ -11,6 +12,7 @@
 */
 
 #include "../../includes/minishell.h"
+
 /**
  * @brief Roteia para a função built-in correta e retorna seu status.
  * @param cmd O comando a ser executado.
@@ -163,7 +165,8 @@ static int	is_numeric_string(const char *str)
  *
  * @param argv Argumentos do comando.
  * @param shell_context Contexto do shell para obter o último status.
- * @return Não retorna se bem-sucedido. Retorna 1 em caso de "too many arguments".
+
+	* @return Não retorna se bem-sucedido. Retorna 1 em caso de "too many arguments".
  */
 int	builtin_exit(char **argv, t_shell *shell_context)
 {
@@ -174,7 +177,7 @@ int	builtin_exit(char **argv, t_shell *shell_context)
 	{
 		exit(shell_context->last_status);
 	}
-	//TODO: Verificar se o exit aceita coisas diferentes de números
+	// TODO: Verificar se o exit aceita coisas diferentes de números
 	if (!is_numeric_string(argv[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
@@ -187,10 +190,7 @@ int	builtin_exit(char **argv, t_shell *shell_context)
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
-	//Precisa ser um lon long pq aceita qualquer número enviado pelo usuário
+	// Precisa ser um lon long pq aceita qualquer número enviado pelo usuário
 	status = ft_atoll(argv[1]);
 	exit((unsigned char)status);
 }
-
-
-

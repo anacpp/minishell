@@ -1,6 +1,4 @@
 /*
-	BUILTIN_2.C
-
 	Implementa comandos built-in adicionais da minishell.
 
 	Funções:
@@ -8,12 +6,12 @@
 	- builtin_env: imprime variáveis de ambiente.
 	- builtin_export: adiciona/atualiza variáveis de ambiente.
 	- builtin_unset: remove variáveis de ambiente.
-
+	
 	Utiliza a variável global `environ` para acessar/modificar o ambiente.
 */
 
-
 #include "../../includes/minishell.h"
+
 /**
  * @brief Imprime uma mensagem de erro padronizada para um builtin.
  *
@@ -21,7 +19,8 @@
  * @param arg O argumento que causou o erro (pode ser NULL).
  * @param msg A mensagem de erro específica.
  */
-static void	print_builtin_error(const char *cmd, const char *arg, const char *msg)
+static void	print_builtin_error(const char *cmd, const char *arg,
+		const char *msg)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd((char *)cmd, STDERR_FILENO);
@@ -46,8 +45,7 @@ static void	print_builtin_error(const char *cmd, const char *arg, const char *ms
  */
 int	builtin_pwd(void)
 {
-	char	cwd[1024]; //tamanho maximo do caminho
-
+	char cwd[1024]; // tamanho maximo do caminho
 	// getcwd: obter o diretório de trabalho atual
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
@@ -73,7 +71,8 @@ int	builtin_env(char **argv, t_shell *shell_context)
 {
 	char	**env;
 	int		i;
-	//env não funciona se tiver argumentos, então argv[1] deve ser NULL
+
+	// env não funciona se tiver argumentos, então argv[1] deve ser NULL
 	if (argv[1])
 	{
 		print_builtin_error("env", argv[1], "No such file or directory");

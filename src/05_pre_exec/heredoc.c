@@ -6,29 +6,26 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/11 17:14:43 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:36:11 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 /*
-	Implementa o comportamento do heredoc (<<), que lê entradas do usuário 
+	Implementa o comportamento do heredoc (<<), que lê entradas do usuário
 	até encontrar um delimitador.
 
 	Funções:
-	- create_heredoc: cria e retorna um arquivo temporário com o conteúdo do heredoc.
-	- heredoc_loop: lê linha por linha até o delimitador e escreve no arquivo.
+	- create_heredoc: cria e retorna um arquivo
+	temporário com o conteúdo do heredoc.
+	- heredoc_loop: lê linha por linha até 
+	o delimitador e escreve no arquivo.
 	- check_delimiter: compara a linha digitada com o delimitador.
 	- print_prompt: exibe o prompt "> ".
 
 	Esse conteúdo será usado como entrada padrão (stdin) no comando.
 */
 
-/*
-	TODO: NORMINETTE
-
-    DONE : 
-*/
 #include "../../includes/minishell.h"
-
 
 static int	check_delimiter(const char *line, const char *delimiter)
 {
@@ -48,7 +45,7 @@ static int	check_delimiter(const char *line, const char *delimiter)
 
 static void	print_prompt(void)
 {
-	write(1, "> ", 2);
+	write(1, "heredoc> ", 2);
 }
 
 static void	heredoc_loop(int fd, const char *delimiter)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/21 04:49:19 by rdos-san         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:42:35 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token	*get_next_token(t_token *current)
 }
 
 int	ft_count_args(char **argv)
-{	
+{
 	int	count;
 
 	count = 0;

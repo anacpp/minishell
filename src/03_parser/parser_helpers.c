@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/06/21 04:47:54 by rdos-san         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:29:53 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_cmd	*create_new_cmd(void)
 {
 	t_cmd	*new_cmd;
 
-	new_cmd = malloc(sizeof(t_cmd));
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		handle_error(NULL, "malloc failed", 1, 1);

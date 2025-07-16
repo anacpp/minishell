@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/14 18:45:11 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/16 18:57:58 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 	->refatorar a main em funções secundárias para manter na norma (25 linhas máximo);
 
 	OBS:
-	-> LEAKS APENAS DA BIBLIOTECA READLINE, QUE SÃO ESPERADAS(NÃO PRECISA SE PREOCUPAR);
+	-> LEAKS APENAS DA BIBLIOTECA READLINE,
+		QUE SÃO ESPERADAS(NÃO PRECISA SE PREOCUPAR);
 */
 
 #include "minishell.h"
@@ -25,9 +26,12 @@
 /**
  * @brief Processa uma linha de comando, utilizando o contexto do shell.
  * @param input A linha de comando bruta.
- * @param shell_context O ponteiro para a struct que contém o estado do shell (envp, last_status).
+
+	* @param shell_context O ponteiro para a struct que contém o estado do shell (envp,
+	last_status).
  */
-static void	process_input(char *input, t_shell *shell_context, int is_interactive)
+static void	process_input(char *input, t_shell *shell_context,
+		int is_interactive)
 {
 	char	*trimmed_input;
 	t_token	*tokens;
@@ -42,10 +46,10 @@ static void	process_input(char *input, t_shell *shell_context, int is_interactiv
 		if (*trimmed_input)
 			shell_context->last_status = 2; // Erro de sintaxe
 		free(trimmed_input);
-		return;
+		return ;
 	}
 	tokens = tokenize_input(trimmed_input);
-	expand_tokens(tokens, shell_context->last_status);
+	//expand_tokens(tokens, shell_context->last_status);
 	free(trimmed_input);
 	commands = parse(tokens);
 	free_tokens(tokens);
@@ -81,7 +85,7 @@ int	main(void)
 		{
 			if (is_interactive)
 				write(STDOUT_FILENO, "exit\n", 5);
-			break;
+			break ;
 		}
 		process_input(input, &shell_context, is_interactive);
 	}

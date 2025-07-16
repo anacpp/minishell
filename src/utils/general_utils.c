@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/09 01:24:22 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:39:32 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ int	ft_lstsize(t_stack *lst)
 	return (count);
 }
 
-int count_cmds(t_cmd *cmds)
+int	count_cmds(t_cmd *cmds)
 {
-    int count;
+	int count;
 
-    count = 0;
-    while (cmds != NULL)
-    {
-        count++;
-        cmds = cmds->next;
-    }
-    return (count);
+	count = 0;
+	while (cmds != NULL)
+	{
+		count++;
+		cmds = cmds->next;
+	}
+	return (count);
 }
