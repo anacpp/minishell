@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:25:40 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 16:44:32 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:56:41 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void				*ft_calloc(size_t count, size_t size);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				**ft_split(char const *s, char c);
 char				*ft_strtrim(char const *s1, char const *set);
-char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoin(char *s1, char *s2);
 char				*ft_strdup(const char *s1);
 char				*ft_itoa(int n);
 int					ft_atoi(const char *nptr);

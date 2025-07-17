@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/16 19:48:38 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:52:12 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 
 #include "../../includes/minishell.h"
 
-char	*ft_strjoin_triple(const char *s1, const char *s2, const char *s3)
+char	*ft_strjoin_triple(char *s1, char *s2, char *s3)
 {
 	char	*tmp;
 	char	*res;
 
 	if (!s1 || !s2 || !s3)
 		return (NULL);
-	tmp = ft_strjoin(s1, s2);
+	tmp = ft_strjoin_no_free(s1, s2);
 	if (!tmp)
 		return (NULL);
-	res = ft_strjoin(tmp, s3);
+	res = ft_strjoin_no_free(tmp, s3);
 	free(tmp);
 	return (res);
 }

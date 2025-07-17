@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/17 18:36:22 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:54:45 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,8 +204,8 @@ const char						*token_type_str(t_token_type type);
 void							setup_signal_handlers(void);
 
 // Executor utils functions
-char							*ft_strjoin_triple(const char *s1,
-									const char *s2, const char *s3);
+char							*ft_strjoin_triple(char *s1,
+									char *s2, char *s3);
 void							free_split(char **arr);
 
 // --- Environment functions ---
