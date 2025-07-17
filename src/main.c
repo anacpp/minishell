@@ -6,28 +6,24 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 18:57:58 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:05:57 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*TODO :
 	->CHECK NORMINETTE;
 	->tirar os prints e print_tokens quando for fazer a entrega;
-	->refatorar a main em funções secundárias para manter na norma (25 linhas máximo);
-
-	OBS:
-	-> LEAKS APENAS DA BIBLIOTECA READLINE,
-		QUE SÃO ESPERADAS(NÃO PRECISA SE PREOCUPAR);
+	->reduzir as funções > process_input e main
 */
 
-#include "minishell.h"
-#include <unistd.h> // TODO:REMOVER DEPOIS Para a função isatty
+#include "../includes/minishell.h"
 
 /**
  * @brief Processa uma linha de comando, utilizando o contexto do shell.
  * @param input A linha de comando bruta.
 
-	* @param shell_context O ponteiro para a struct que contém o estado do shell (envp,
+	* @param shell_context O ponteiro para a struct
+	que contém o estado do shell (envp,
 	last_status).
  */
 static void	process_input(char *input, t_shell *shell_context,
@@ -44,12 +40,12 @@ static void	process_input(char *input, t_shell *shell_context,
 	if (!*trimmed_input || !is_valid_input_syntax(trimmed_input))
 	{
 		if (*trimmed_input)
-			shell_context->last_status = 2; // Erro de sintaxe
+			shell_context->last_status = 2;
 		free(trimmed_input);
 		return ;
 	}
 	tokens = tokenize_input(trimmed_input);
-	//expand_tokens(tokens, shell_context->last_status);
+	//expand_tokens(tokens, shell_context->last_status); tenho que ver ainda 
 	free(trimmed_input);
 	commands = parse(tokens);
 	free_tokens(tokens);
@@ -80,7 +76,7 @@ int	main(void)
 		if (is_interactive)
 			input = readline("minishell$ ");
 		else
-			input = readline(NULL); // Lê sem imprimir prompt
+			input = readline(NULL);
 		if (!input)
 		{
 			if (is_interactive)

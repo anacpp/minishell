@@ -1,4 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_manager.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
+/*   Updated: 2025/07/17 18:02:29 by acesar-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
+
+/*TODO : reduzir -> add_env_var 
+		 alocar -> funções auxiliares para outro arquivo
+		 (max 5 fun por arquivo)
+*/
 
 // Declaração de funções estáticas (helpers locais)
 static int	get_env_count(char **env);
@@ -99,7 +116,7 @@ char	**find_env_var(const char *key, char **envp)
 	while (envp && envp[i])
 	{
 		if (ft_strncmp(envp[i], key, key_len) == 0 && (envp[i][key_len] == '='
-				|| envp[i][key_len] == '\0'))
+			|| envp[i][key_len] == '\0'))
 		{
 			return (&envp[i]);
 		}
@@ -132,12 +149,12 @@ void	add_env_var(const char *var_string, t_shell *shell_context)
 
 	key = extract_key_from_string(var_string);
 	var_ptr = find_env_var(key, shell_context->envp);
-	if (var_ptr && ft_strchr(var_string, '=')) // Atualiza variável existente
+	if (var_ptr && ft_strchr(var_string, '='))
 	{
 		free(*var_ptr);
 		*var_ptr = ft_strdup(var_string);
 	}
-	else if (!var_ptr) // Adiciona nova variável
+	else if (!var_ptr)
 	{
 		count = 0;
 		while (shell_context->envp && shell_context->envp[count])
@@ -180,8 +197,10 @@ void	remove_env_var(const char *key, t_shell *shell_context)
  * @param key A chave a ser procurada (ex: "PATH").
  * @param envp O array do ambiente.
 
-	* @return O valor da variável (a string após o '=') ou NULL se não for encontrada.
- * A string retornada aponta para a memória dentro de envp, não é uma cópia.
+	* @return O valor da variável (a string após o '=')
+	ou NULL se não for encontrada.
+ * A string retornada aponta para a memória dentro de envp,
+   não é uma cópia.
  */
 char	*get_env_value(const char *key, char **envp)
 {

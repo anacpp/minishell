@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 16:40:03 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:07:43 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ char							*get_token_value(const char *str, int *i,
 // --- Parser Functions ---
 t_cmd							*parse(t_token *tokens);
 void							free_command_table(t_cmd *cmd_table);
-void	print_command_table(t_cmd *cmds); // Para depuração
+void							print_command_table(t_cmd *cmds);
 int								token_is_redirection(t_token *token);
 int								add_redirection(t_cmd *cmd,
 									t_token **token_ptr);

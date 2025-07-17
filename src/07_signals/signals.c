@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/16 16:39:19 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:01:34 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,11 @@ void	setup_signal_handlers(void)
 {
 	struct sigaction	sa_int;
 
-	// O manipulador para SIGINT (Ctrl-C)
 	sa_int.sa_handler = handle_sigint;
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_flags = SA_RESTART;
-		// Evita que chamadas de sistema sejam interrompidas
 	if (sigaction(SIGINT, &sa_int, NULL) == -1)
 		handle_error(NULL, "sigaction failed", 1, 1);
-	// Ignora o SIGQUIT (Ctrl-\) no modo interativo, como o bash.
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		handle_error(NULL, "signal failed", 1, 1);
 }

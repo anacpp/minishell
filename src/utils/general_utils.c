@@ -6,17 +6,11 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 16:39:32 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:03:22 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* TODO: comment to test manually ->
-(void)data;
-(void)code;
-Comment -> if(data) to exit(code) lines to test manually
-
-	OBS:
-	-> NORMINETTE - OK
+/* TODO: 
 */
 
 #include "../../includes/minishell.h"
@@ -50,7 +44,7 @@ int	ft_lstsize(t_stack *lst)
 
 int	count_cmds(t_cmd *cmds)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (cmds != NULL)
