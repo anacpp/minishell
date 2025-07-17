@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/17 18:05:57 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:27:39 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ static void	process_input(char *input, t_shell *shell_context,
 		return ;
 	}
 	tokens = tokenize_input(trimmed_input);
-	//expand_tokens(tokens, shell_context->last_status); tenho que ver ainda 
+	expand_tokens(tokens, shell_context->last_status);
 	free(trimmed_input);
 	commands = parse(tokens);
 	free_tokens(tokens);
 	if (commands)
 	{
-		expand_all_variables(commands, shell_context->last_status);
+		
 		shell_context->last_status = executor(commands, shell_context);
 		free_command_table(commands);
 	}

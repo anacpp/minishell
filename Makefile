@@ -25,7 +25,6 @@ SRCS = src/main.c \
        src/03_parser/parser_rules.c \
        src/03_parser/parser_segment_args.c \
        src/03_parser/parser_utils.c \
-       src/04_expander/expand_all.c \
        src/04_expander/expander.c \
        src/04_expander/utils_expand.c \
        src/05_pre_exec/heredoc.c \

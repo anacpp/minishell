@@ -6,14 +6,14 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 19:35:21 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:30:40 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 	Contém a função principal de expansão de variáveis dentro de uma string.
 	Respeita o comportamento do Bash para:
-	- Expansão de $VAR e ${VAR}
+	- Expansão de $VAR
 	- Expansão de $? (último status de saída)
 	- Não expandir dentro de aspas simples
 	- Permitir expansão dentro de aspas duplas

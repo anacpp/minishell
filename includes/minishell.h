@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/17 18:07:43 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:36:22 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,6 @@ int								count_cmds(t_cmd *cmds);
 
 // --- Expander functions ---
 char							*expand_variables(char *input, int status);
-void							expand_all_variables(t_cmd *cmds,
-									int last_status);
 void							expand_tokens(t_token *tokens, int last_status);
 void							update_quotes(char c, int *in_squote,
 									int *in_dquote);
