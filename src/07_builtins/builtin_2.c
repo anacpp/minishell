@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
+/*   Updated: 2025/07/17 17:59:22 by acesar-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 	Implementa comandos built-in adicionais da minishell.
 
@@ -45,8 +57,8 @@ static void	print_builtin_error(const char *cmd, const char *arg,
  */
 int	builtin_pwd(void)
 {
-	char cwd[1024]; // tamanho maximo do caminho
-	// getcwd: obter o diretório de trabalho atual
+	char	cwd[1024];
+
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		ft_putstr_fd(cwd, STDOUT_FILENO);
@@ -72,7 +84,6 @@ int	builtin_env(char **argv, t_shell *shell_context)
 	char	**env;
 	int		i;
 
-	// env não funciona se tiver argumentos, então argv[1] deve ser NULL
 	if (argv[1])
 	{
 		print_builtin_error("env", argv[1], "No such file or directory");

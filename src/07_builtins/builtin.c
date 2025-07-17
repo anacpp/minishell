@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
+/*   Updated: 2025/07/17 17:58:52 by acesar-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 	BUILTIN.C
 
@@ -10,7 +22,8 @@
 	- builtin_exit: encerra o shell com o status opcional.
 	- builtin_echo: imprime argumentos com suporte à flag -n.
 */
-
+/*TODO : transferir funções a mais para outro arquivo, repeitando
+o max de 5 funções por arquivo*/
 #include "../../includes/minishell.h"
 
 /**
@@ -39,7 +52,7 @@ int	run_builtin(t_cmd *cmd, t_shell *shell_context)
 		return (builtin_env(cmd->argv, shell_context));
 	if (ft_strcmp(cmd_name, "exit") == 0)
 		return (builtin_exit(cmd->argv, shell_context));
-	return (127); // Indica que não é um built-in
+	return (127);
 }
 
 /**
@@ -154,19 +167,22 @@ static int	is_numeric_string(const char *str)
 }
 
 /**
- * @brief Termina o shell com um status de saída, com validação de argumentos.
+ * @brief Termina o shell com um status de saída,
+ * com validação de argumentos.
  *
  * Comportamentos implementados:
  * 1.  `exit` (sem args): Sai com o status do último comando.
  * 2.  `exit [arg]`:
  * - Se [arg] não for numérico, imprime erro e sai com status 2.
- * - Se houver mais de um argumento, imprime erro, retorna status 1 e NÃO sai.
+ * - Se houver mais de um argumento, imprime erro,
+ * retorna status 1 e NÃO sai.
  * - Se [arg] for numérico, sai com o status `[arg] % 256`.
  *
  * @param argv Argumentos do comando.
  * @param shell_context Contexto do shell para obter o último status.
 
-	* @return Não retorna se bem-sucedido. Retorna 1 em caso de "too many arguments".
+	* @return Não retorna se bem-sucedido. Retorna 1
+	em caso de "too many arguments".
  */
 int	builtin_exit(char **argv, t_shell *shell_context)
 {
@@ -190,7 +206,6 @@ int	builtin_exit(char **argv, t_shell *shell_context)
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
-	// Precisa ser um lon long pq aceita qualquer número enviado pelo usuário
 	status = ft_atoll(argv[1]);
 	exit((unsigned char)status);
 }

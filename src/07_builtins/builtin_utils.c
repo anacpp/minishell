@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
+/*   Updated: 2025/07/17 18:00:01 by acesar-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 	BUILTIN_UTILS.C
 
@@ -8,7 +20,8 @@
 	- is_valid_key: valida nomes de variáveis para export/unset.
 	- print_env_sorted: imprime variáveis de ambiente em ordem de export.
 
-	Essas funções ajudam a garantir que os comandos built-in funcionem corretamente e de forma padronizada.
+	Essas funções ajudam a garantir que os comandos
+	built-in funcionem corretamente e de forma padronizada.
 */
 
 #include "../../includes/minishell.h"
@@ -57,6 +70,7 @@ int	is_valid_key(char *key)
  * @param env O array de ponteiros de string a ser ordenado.
  * @param count O número de elementos no array.
  */
+
 static void	sort_env_array(char **env, int count)
 {
 	int		i;
@@ -82,10 +96,12 @@ static void	sort_env_array(char **env, int count)
 }
 
 /**
- * @brief Imprime as variáveis de ambiente no formato 'declare -x KEY=VALUE',
+ * @brief Imprime as variáveis de ambiente no formato 
+ * 'declare -x KEY=VALUE',
  * em ordem alfabética.
  *
- * Esta função cria uma cópia do array de ponteiros do ambiente para
+ * Esta função cria uma cópia do array de ponteiros do 
+ * ambiente para
  * não modificar a ordem do ambiente original do shell.
  *
  * @param envp O ambiente do shell a ser impresso.
