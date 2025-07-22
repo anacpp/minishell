@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 19:39:14 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:31:41 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ static void	prepare_heredocs(t_cmd *cmds)
 {
 	t_cmd	*cmd;
 	t_redir	*redir;
-	int		fd;
-	char	*tmp_filename;
-
+	
 	cmd = cmds;
 	while (cmd)
 	{
@@ -45,14 +43,14 @@ static void	prepare_heredocs(t_cmd *cmds)
 		{
 			if (redir->type == T_HEREDOC)
 			{
-				fd = create_heredoc(redir->filename);
-				if (fd < 0)
+				char *tmp_path;
+
+				if (create_heredoc(redir->filename, &tmp_path) < 0)
 				{
 					perror("heredoc");
 				}
 				free(redir->filename);
-				tmp_filename = ft_itoa(fd);
-				redir->filename = tmp_filename;
+				redir->filename = tmp_path;
 				redir->type = T_REDIR_IN;
 			}
 			redir = redir->next;
@@ -159,6 +157,23 @@ static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd,
 	}
 	if (cmd->redirs)
 		setup_redir(cmd->redirs);
+	if (cmd->redirs)
+	{
+		setup_redir(cmd->redirs);
+
+		t_redir *redir = cmd->redirs;
+		while (redir)
+		{
+			if (redir->type == T_REDIR_IN &&
+				redir->filename &&
+				ft_strncmp(redir->filename, "./.heredoc_", 11) == 0)
+			{
+				unlink(redir->filename);
+			}
+			redir = redir->next;
+		}
+	}
+
 	if (is_builtin(cmd))
 		exit(run_builtin(cmd, shell_context));
 	else

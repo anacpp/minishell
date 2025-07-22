@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/17 18:54:45 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:03:56 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ char							*process_dollar_sequence(char *result,
 char							*append_char_and_advance(char *str, char c);
 
 // --- Pre-exec functions ---
-int								create_heredoc(char *delimiter);
+int								create_heredoc(char *delimiter, char **temp_path);
 char							*generate_temp_name(int suffix);
 int								create_temp_file(char *buffer, size_t size);
 char							*ft_strjoin_no_free(char *s1, char *s2);

@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 19:36:11 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:14:54 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ static int	check_delimiter(const char *line, const char *delimiter)
 
 static void	print_prompt(void)
 {
-	write(1, "heredoc> ", 2);
+	const char *prompt = "heredoc> ";
+	write(1, prompt, strlen(prompt));
 }
+
 
 static void	heredoc_loop(int fd, const char *delimiter)
 {
@@ -72,19 +74,22 @@ static void	heredoc_loop(int fd, const char *delimiter)
 	}
 }
 
-int	create_heredoc(char *delimiter)
+int	create_heredoc(char *delimiter, char **tmp_path)
 {
 	int		fd;
-	char	tmpfile[256];
+	char	*tmpfile;
 
-	fd = create_temp_file(tmpfile, sizeof(tmpfile));
+	tmpfile = malloc(256);
+	if (!tmpfile)
+		handle_error("heredoc", "malloc failed", 1, 1);
+
+	fd = create_temp_file(tmpfile, 256);
 	if (fd < 0)
 		handle_error("heredoc", strerror(errno), 1, 1);
+
 	heredoc_loop(fd, delimiter);
 	close(fd);
-	fd = open(tmpfile, O_RDONLY);
-	if (fd < 0)
-		handle_error("heredoc", strerror(errno), 1, 1);
-	unlink(tmpfile);
-	return (fd);
+
+	*tmp_path = tmpfile;
+	return (0);
 }

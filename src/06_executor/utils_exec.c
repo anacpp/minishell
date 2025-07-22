@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/16 19:47:01 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:05:53 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void	setup_redir(t_redir *redir)
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (redir->type == T_APPEND)
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (redir->type == T_HEREDOC)
-			fd = create_heredoc(redir->filename);
 		else
 		{
 			redir = redir->next;
@@ -65,7 +63,7 @@ void	setup_redir(t_redir *redir)
 			perror(redir->filename);
 			exit(EXIT_FAILURE);
 		}
-		if (redir->type == T_REDIR_IN || redir->type == T_HEREDOC)
+		if (redir->type == T_REDIR_IN)
 			dup2(fd, STDIN_FILENO);
 		else
 			dup2(fd, STDOUT_FILENO);
@@ -73,6 +71,7 @@ void	setup_redir(t_redir *redir)
 		redir = redir->next;
 	}
 }
+
 
 /**
  * @brief Salva os descritores de arquivo padrão (stdin e stdout)
