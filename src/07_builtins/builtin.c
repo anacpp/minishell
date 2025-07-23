@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 20:14:12 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 20:27:16 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ int	builtin_echo(char **argv)
 }
 
 /**
- * @brief Imprime uma mensagem de erro padronizada para o comando cd.
+ * @brief Prints a standardized error message for the cd command.
  *
- * @param path O caminho que causou o erro.
- * @param msg A mensagem de erro específica.
+ * @param path The path that caused the error.
+ * @param msg The specific error message.
  */
 static void	print_cd_error(const char *path, const char *msg)
 {

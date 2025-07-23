@@ -6,13 +6,13 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 19:26:47 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 20:27:15 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* OBS :
 	-> NORMINETTE - ok
-	-> CHECK LEAKS - ok (LEAKS APENAS DA BIBLIOTECA READLINE, QUE SÃO ESPERADAS)
+	-> CHECK LEAKS - ok (LEAKS ONLY FROM READLINE LIBRARY, WHICH ARE EXPECTED)
 
 
 */

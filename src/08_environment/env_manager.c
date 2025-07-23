@@ -6,15 +6,15 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/23 20:14:14 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 20:27:17 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*TODO : reduzir -> add_env_var 
-		 alocar -> funções auxiliares para outro arquivo
-		 (max 5 fun por arquivo)
+/*TODO : reduce -> add_env_var 
+		 allocate -> auxiliary functions to another file
+		 (max 5 fun per file)
 */
 
 // Declaration of static functions (local helpers)

@@ -6,28 +6,28 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 18:28:22 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 20:27:14 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-	Contém a função principal de expansão de variáveis dentro de uma string.
-	Respeita o comportamento do Bash para:
-	- Expansão de $VAR
-	- Expansão de $? (último status de saída)
-	- Não expandir dentro de aspas simples
-	- Permitir expansão dentro de aspas duplas
+	Contains the main function for expanding variables within a string.
+	Respects Bash behavior for:
+	- Expansion of $VAR
+	- Expansion of $? (last exit status)
+	- Do not expand within single quotes
+	- Allow expansion within double quotes
 
-	Fluxo:
-	- expand_variables: percorre a string original
-	e substitui os tokens com '$'.
-	- handle_dollar: extrai o nome da variável
-	e retorna seu valor (ou "" se indefinida).
-	- append_char_and_advance: adiciona caractere literal à string resultante.
-	- expand_tokens: aplica a expansão a todos os tokens
-	do parser que não estão entre aspas simples.
+	Flow:
+	- expand_variables: traverses the original string
+	and replaces tokens with '$'.
+	- handle_dollar: extracts the variable name
+	and returns its value (or "" if undefined).
+	- append_char_and_advance: adds literal character to the resulting string.
+	- expand_tokens: applies expansion to all tokens
+	from the parser that are not within single quotes.
 
-	Depende de funções auxiliares em utils_expand.c.
+	Depends on auxiliary functions in utils_expand.c.
 */
 
 // TODO: NORMINETTE

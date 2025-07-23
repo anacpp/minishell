@@ -6,24 +6,24 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/17 18:27:39 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 20:27:12 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*TODO :
 	->CHECK NORMINETTE;
-	->tirar os prints e print_tokens quando for fazer a entrega;
-	->reduzir as funções > process_input e main
+	->remove prints and print_tokens when making the delivery;
+	->reduce functions > process_input and main
 */
 
 #include "../includes/minishell.h"
 
 /**
- * @brief Processa uma linha de comando, utilizando o contexto do shell.
- * @param input A linha de comando bruta.
+ * @brief Processes a command line, using the shell context.
+ * @param input The raw command line.
 
-	* @param shell_context O ponteiro para a struct
-	que contém o estado do shell (envp,
+	* @param shell_context The pointer to the struct
+	that contains the shell state (envp,
 	last_status).
  */
 static void	process_input(char *input, t_shell *shell_context,

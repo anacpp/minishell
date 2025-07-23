@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 16:43:01 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 20:27:14 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 	->NORMINETTE - OK
 
 	TODO :
-	->APAGAR AS FUNÇÕES DE PRINT E TOKEN_TYPE_STR QUANDO FOR ENTREGAR
+	->DELETE PRINT AND TOKEN_TYPE_STR FUNCTIONS WHEN DELIVERING
 */
 
 #include "../../includes/minishell.h"
@@ -44,7 +44,7 @@ int	is_heredoc_context(t_token *last)
 	return (last && last->type == T_HEREDOC);
 }
 
-// FUNÇÕES DE DEPURAÇÃO ABAIXO :
+// DEBUG FUNCTIONS BELOW :
 void	print_tokens(t_token *head)
 {
 	while (head)

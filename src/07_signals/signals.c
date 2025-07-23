@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/23 20:14:14 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 20:27:17 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static void	handle_sigint(int signo)
 }
 
 /**
- * @brief Configura os manipuladores de sinal para o minishell.
+ * @brief Configures signal handlers for minishell.
  *
- * `sigaction` é usado para `SIGINT` (ctrl-C) para ter um controle mais
- * robusto. O handler `handle_sigint` é associado a ele.
- * * `signal` com `SIG_IGN` é usado para `SIGQUIT` (ctrl-\) para que
- * o shell o ignore completamente no modo interativo, como o bash faz.
+ * `sigaction` is used for `SIGINT` (ctrl-C) to have more
+ * robust control. The `handle_sigint` handler is associated with it.
+ * * `signal` with `SIG_IGN` is used for `SIGQUIT` (ctrl-\) so that
+ * the shell ignores it completely in interactive mode, as bash does.
  */
 void	setup_signal_handlers(void)
 {
