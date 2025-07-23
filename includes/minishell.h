@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/22 19:01:58 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:14:36 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-extern pid_t					g_child_pids[MAX_PIDS];
-extern int						g_num_pids;
 extern volatile sig_atomic_t	g_signal_status;
 
 typedef struct s_shell
@@ -148,7 +146,7 @@ int								ft_lstsize(t_stack *lst);
 int								count_cmds(t_cmd *cmds);
 
 // --- Expander functions ---
-char							*expand_variables(char *input, int status);
+char 						    *expand_variables(char *input, int status, int quote_type);
 void							expand_tokens(t_token *tokens, int last_status);
 void							update_quotes(char c, int *in_squote,
 									int *in_dquote);

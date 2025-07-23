@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 19:34:40 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:18:43 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*append_expanded(char *result, char *input, int *i, int status)
 	return (tmp);
 }
 
+
 void	update_quotes(char c, int *in_squote, int *in_dquote)
 {
 	if (c == '\'' && !*in_dquote)
@@ -61,12 +62,10 @@ char	*process_dollar_sequence(char *result, char *input, int *i, int status)
 
 	tmp = append_expanded(result, input, i, status);
 	if (!tmp)
-	{
-		free(result);
 		return (NULL);
-	}
 	return (tmp);
 }
+
 
 char	*process_regular_char(char *result, char current, int *i)
 {
