@@ -6,14 +6,14 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/21 16:20:42 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:43:18 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*  OBS : 
+/*  OBS :
 	->NORMINETTE - OK
-	
-    TODO :
+
+	TODO :
 	->tem que verificar se podemos dar um return com condicional.
 */
 

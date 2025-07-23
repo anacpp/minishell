@@ -61,3 +61,7 @@ USE_VALGRIND=1 bash tests/test_parser.sh
 
 ## 📄 Licença
 Projeto educacional para a 42 rj. Sem fins lucrativos.
+
+
+## TODOS:
+- [] Lidar com comandos que tenham ; (lançar erro)

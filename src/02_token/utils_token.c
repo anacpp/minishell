@@ -6,15 +6,16 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/16 20:16:33 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:28:44 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// OBS : NORMINETTE - OK
+// OBS : NORMINETTE - OK, diminuir a função add_token
 
 #include "../../includes/minishell.h"
 
-void add_token(t_token **head, char *value, t_token_type type, int quote_type)
+void	add_token(t_token **head, char *value, t_token_type type,
+		int quote_type)
 {
 	t_token	*new;
 	t_token	*temp;
@@ -43,7 +44,6 @@ void add_token(t_token **head, char *value, t_token_type type, int quote_type)
 		temp->next = new;
 	}
 }
-
 
 void	free_tokens(t_token *head)
 {

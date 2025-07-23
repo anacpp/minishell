@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   util_heredo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/06/11 17:14:43 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:41:15 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
+	Este arquivo contém funções auxiliares usadas para criar arquivos temporários
+	necessários no funcionamento do heredoc (<<).
+
+	Funções:
+	- create_temp_file: cria um arquivo único em /tmp usando o PID do processo.
+	- generate_temp_name: monta o nome do arquivo com base no PID e um sufixo.
+	- ft_strjoin_no_free: junta duas strings sem liberar a primeira.
+
+	Usado por create_heredoc para armazenar o conteúdo digitado pelo usuário.
+*/
+
+/*
 	TODO: NORMINETTE
 
-    DONE : 
+	DONE :
 */
 #include "../../includes/minishell.h"
 
@@ -28,7 +40,7 @@ char	*generate_temp_name(int suffix)
 	if (!number)
 		return (NULL);
 	full_path = ft_strjoin_no_free(base, number);
-    free(number);
+	free(number);
 	return (full_path);
 }
 
@@ -71,6 +83,5 @@ char	*ft_strjoin_no_free(char *s1, char *s2)
 		ft_strlcpy(join, s1, ft_strlen(s1) + 1);
 	ft_strlcpy(join + ft_strlen(s1), s2, ft_strlen(s2) + 1);
 	join[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-    return (join);
+	return (join);
 }
-
