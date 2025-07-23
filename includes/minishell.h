@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/22 18:03:56 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/22 19:01:58 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,8 +175,8 @@ void							exec_external(t_cmd *cmd,
 void							save_stdio(int fds[2]);
 void							restore_stdio(int fds[2]);
 void							setup_redir(t_redir *redir);
-void							save_pid(pid_t pid);
-void							wait_all_children(void);
+void							save_pid(pid_t pid, int *num_pids, pid_t *child_pids);
+void							wait_all_children(int *num_pids, pid_t *child_pids);
 
 // --- Builtin functions ---
 int								is_builtin(t_cmd *cmd);

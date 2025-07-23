@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/22 18:31:41 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 17:02:14 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	prepare_heredocs(t_cmd *cmds)
 {
 	t_cmd	*cmd;
 	t_redir	*redir;
+	char *tmp_path;
 	
 	cmd = cmds;
 	while (cmd)
@@ -43,8 +44,6 @@ static void	prepare_heredocs(t_cmd *cmds)
 		{
 			if (redir->type == T_HEREDOC)
 			{
-				char *tmp_path;
-
 				if (create_heredoc(redir->filename, &tmp_path) < 0)
 				{
 					perror("heredoc");
@@ -109,10 +108,14 @@ static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context)
 	int		in_fd;
 	pid_t	pid;
 	t_cmd	*current;
+	int 	num_pids;
+	pid_t child_pids[MAX_PIDS];
+
+	
 
 	in_fd = STDIN_FILENO;
 	current = cmds;
-	g_num_pids = 0;
+	num_pids = 0;
 	while (current)
 	{
 		if (current->next)
@@ -122,7 +125,7 @@ static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context)
 			return (perror("fork"), 1);
 		if (pid == 0)
 			execute_child_process(current, pipe_fds, in_fd, shell_context);
-		save_pid(pid);
+		save_pid(pid, &num_pids, child_pids);
 		if (in_fd != STDIN_FILENO)
 			close(in_fd);
 		if (current->next)
@@ -132,7 +135,7 @@ static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context)
 		}
 		current = current->next;
 	}
-	wait_all_children();
+	wait_all_children(&num_pids, child_pids);
 	return (g_signal_status);
 }
 
