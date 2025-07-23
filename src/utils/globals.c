@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*TODO: esse arquivo não será mais necesário já que as globais de pid
-não serão mais utilizadas*/
+/*TODO: this file will no longer be necessary since pid 
+globals will no longer be used*/
 
 #include "../../includes/minishell.h"
 
-// Define as variáveis globais que foram declaradas com 'extern' no header.
+// Defines the global variables that were declared with 'extern' in the header.
 //pid_t					g_child_pids[MAX_PIDS];
 //int						g_num_pids;
 volatile sig_atomic_t	g_signal_status = 0;

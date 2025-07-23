@@ -17,15 +17,15 @@
 		 (max 5 fun por arquivo)
 */
 
-// Declaração de funções estáticas (helpers locais)
+// Declaration of static functions (local helpers)
 static int	get_env_count(char **env);
 static char	**duplicate_initial_environment(void);
 static char	*extract_key_from_string(const char *var_string);
 
 /**
- * @brief Conta o número de variáveis de ambiente no array.
- * @param env O array de strings do ambiente.
- * @return O número de variáveis de ambiente.
+ * @brief Counts the number of environment variables in the array.
+ * @param env The environment string array.
+ * @return The number of environment variables.
  */
 static int	get_env_count(char **env)
 {
@@ -80,8 +80,8 @@ void	init_shell_context(t_shell *shell_context)
 }
 
 /**
- * @brief Libera a memória alocada para o ambiente do shell.
- * @param shell_context O contexto do shell.
+ * @brief Frees the memory allocated for the shell environment.
+ * @param shell_context The shell context.
  */
 void	free_environment(t_shell *shell_context)
 {
@@ -101,10 +101,10 @@ void	free_environment(t_shell *shell_context)
 }
 
 /**
- * @brief Encontra uma variável no ambiente do shell.
- * @param key A chave da variável a ser procurada.
- * @param envp O ambiente do shell.
- * @return Um ponteiro para a string da variável no ambiente, ou NULL.
+ * @brief Finds a variable in the shell environment.
+ * @param key The key of the variable to be searched.
+ * @param envp The shell environment.
+ * @return A pointer to the variable string in the environment, or NULL.
  */
 char	**find_env_var(const char *key, char **envp)
 {
@@ -136,9 +136,9 @@ static char	*extract_key_from_string(const char *var_string)
 }
 
 /**
- * @brief Adiciona ou atualiza uma variável de ambiente no contexto do shell.
- * @param var_string A string da variável ("KEY=value" ou "KEY").
- * @param shell_context O contexto do shell cujo ambiente será modificado.
+ * @brief Adds or updates an environment variable in the shell context.
+ * @param var_string The variable string ("KEY=value" or "KEY").
+ * @param shell_context The shell context whose environment will be modified.
  */
 void	add_env_var(const char *var_string, t_shell *shell_context)
 {
@@ -172,9 +172,9 @@ void	add_env_var(const char *var_string, t_shell *shell_context)
 }
 
 /**
- * @brief Remove uma variável de ambiente do contexto do shell.
- * @param key A chave da variável a ser removida.
- * @param shell_context O contexto do shell.
+ * @brief Removes an environment variable from the shell context.
+ * @param key The key of the variable to be removed.
+ * @param shell_context The shell context.
  */
 void	remove_env_var(const char *key, t_shell *shell_context)
 {
@@ -193,14 +193,14 @@ void	remove_env_var(const char *key, t_shell *shell_context)
 }
 
 /**
- * @brief Procura uma variável de ambiente em envp e retorna seu valor.
- * @param key A chave a ser procurada (ex: "PATH").
- * @param envp O array do ambiente.
+ * @brief Searches for an environment variable in envp and returns its value.
+ * @param key The key to be searched (e.g., "PATH").
+ * @param envp The environment array.
 
-	* @return O valor da variável (a string após o '=')
-	ou NULL se não for encontrada.
- * A string retornada aponta para a memória dentro de envp,
-   não é uma cópia.
+	* @return The variable value (the string after '=')
+	or NULL if not found.
+ * The returned string points to memory inside envp,
+   it's not a copy.
  */
 char	*get_env_value(const char *key, char **envp)
 {

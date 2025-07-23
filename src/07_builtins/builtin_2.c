@@ -48,12 +48,12 @@ static void	print_builtin_error(const char *cmd, const char *arg,
 }
 
 /**
- * @brief Exibe o diretório de trabalho atual.
+ * @brief Displays the current working directory.
  *
- * Não aceita argumentos. Em caso de erro ao obter o diretório,
- * imprime uma mensagem de erro customizada.
+ * Does not accept arguments. In case of error getting the directory,
+ * prints a custom error message.
  *
- * @return Retorna 0 em sucesso, 1 em caso de erro.
+ * @return Returns 0 on success, 1 on error.
  */
 int	builtin_pwd(void)
 {
@@ -73,11 +73,11 @@ int	builtin_pwd(void)
 }
 
 /**
- * @brief Imprime as variáveis de ambiente do contexto atual.
+ * @brief Prints the environment variables of the current context.
  *
- * @param argv O vetor de argumentos do comando.
- * @param shell_context O contexto do shell.
- * @return Retorna 0 em sucesso, 127 se argumentos inválidos forem passados.
+ * @param argv The command argument vector.
+ * @param shell_context The shell context.
+ * @return Returns 0 on success, 127 if invalid arguments are passed.
  */
 int	builtin_env(char **argv, t_shell *shell_context)
 {

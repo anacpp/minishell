@@ -14,7 +14,7 @@
 	->NORMINETTE - OK
 
 	TODO :
-	->tem que verificar se podemos dar um return com condicional.
+	->need to check if we can return with conditional.
 */
 
 #include "../../includes/minishell.h"

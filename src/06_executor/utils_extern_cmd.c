@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 /*TODO: 
-	USAR STR_no_free em vez de ft_strjoin na funçõa join_triple */
+	USE STR_no_free instead of ft_strjoin in join_triple function */
 
 #include "../../includes/minishell.h"
 

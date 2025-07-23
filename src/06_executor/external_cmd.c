@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 /*TODO: 
-	Redução de função : find_cmd_path */
+	Function reduction : find_cmd_path */
 
 #include "../../includes/minishell.h"
 
@@ -23,10 +23,10 @@ static char	*check_direct_exec(char *cmd)
 }
 
 /**
- * @brief Encontra o caminho completo de um comando executável.
- * @param cmd O comando a ser encontrado.
- * @param envp O ambiente atual para buscar a variável PATH.
- * @return O caminho completo alocado dinamicamente ou NULL.
+ * @brief Finds the complete path of an executable command.
+ * @param cmd The command to be found.
+ * @param envp The current environment to search for the PATH variable.
+ * @return The dynamically allocated complete path or NULL.
  */
 static char	*find_cmd_path(char *cmd, char **envp)
 {

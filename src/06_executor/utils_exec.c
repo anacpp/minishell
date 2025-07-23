@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 /*TODO: 
-	Redução de função : setup_redir */
+	Function reduction : setup_redir */
 
 #include "../../includes/minishell.h"
 
@@ -34,11 +34,11 @@ int	is_builtin(t_cmd *cmd)
 }
 
 /**
- * @brief Configura os redirecionamentos de entrada e saída para os comandos.
+ * @brief Configures input and output redirections for commands.
 
-	* Cada redirecionamento é processado e o descritor 
-	de arquivo correspondente é aberto.
- * @param redir A lista de redirecionamentos a serem configurados.
+	* Each redirection is processed and the corresponding 
+	file descriptor is opened.
+ * @param redir The list of redirections to be configured.
  * @return void
  * */
 void	setup_redir(t_redir *redir)
@@ -74,9 +74,9 @@ void	setup_redir(t_redir *redir)
 
 
 /**
- * @brief Salva os descritores de arquivo padrão (stdin e stdout)
- * para posterior restauração.
- * @param fds Array onde os descritores serão salvos.
+ * @brief Saves the standard file descriptors (stdin and stdout)
+ * for later restoration.
+ * @param fds Array where the descriptors will be saved.
  */
 void	save_stdio(int fds[2])
 {	
@@ -91,9 +91,9 @@ void	save_stdio(int fds[2])
 
 /**
 
-	* @brief Restaura os descritores de arquivo 
-	padrão (stdin e stdout) a partir dos valores salvos.
- * @param fds Array contendo os descritores de arquivo a serem restaurados.
+	* @brief Restores the standard file descriptors 
+	(stdin and stdout) from the saved values.
+ * @param fds Array containing the file descriptors to be restored.
  */
 void	restore_stdio(int fds[2])
 {

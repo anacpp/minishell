@@ -13,13 +13,13 @@
 #include "../../includes/minishell.h"
 
 /**
- * @brief Manipulador para o sinal SIGINT (ctrl-C).
- * * Esta função é chamada quando o processo recebe um SIGINT.
- * Ela escreve uma nova linha na saída padrão, informa à biblioteca readline
- * que o cursor se moveu, limpa o buffer de linha atual e redisplaya o prompt.
- * Isso efetivamente cancela a linha de comando atual e prepara uma nova.
- * * @param signo O número do sinal (não utilizado,
-	mas exigido pela assinatura).
+ * @brief Handler for the SIGINT signal (ctrl-C).
+ * * This function is called when the process receives a SIGINT.
+ * It writes a new line to standard output, informs the readline library
+ * that the cursor has moved, clears the current line buffer and redisplays the prompt.
+ * This effectively cancels the current command line and prepares a new one.
+ * * @param signo The signal number (not used,
+	but required by the signature).
  */
 static void	handle_sigint(int signo)
 {

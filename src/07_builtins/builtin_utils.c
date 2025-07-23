@@ -13,23 +13,23 @@
 /*
 	BUILTIN_UTILS.C
 
-	Funções auxiliares para suporte aos comandos built-in.
+	Auxiliary functions to support built-in commands.
 
-	Funções:
-	- is_n_flag: checa se a flag `-n` do echo está presente corretamente.
-	- is_valid_key: valida nomes de variáveis para export/unset.
-	- print_env_sorted: imprime variáveis de ambiente em ordem de export.
+	Functions:
+	- is_n_flag: checks if the echo `-n` flag is correctly present.
+	- is_valid_key: validates variable names for export/unset.
+	- print_env_sorted: prints environment variables in export order.
 
-	Essas funções ajudam a garantir que os comandos
-	built-in funcionem corretamente e de forma padronizada.
+	These functions help ensure that built-in commands
+	work correctly and in a standardized way.
 */
 
 #include "../../includes/minishell.h"
 
 /**
- * @brief Verifica se a string representa a flag `-n` do comando `echo`.
- * @param str A string a ser verificada.
- * @return 1 se for a flag `-n`, 0 caso contrário.
+ * @brief Checks if the string represents the `-n` flag of the `echo` command.
+ * @param str The string to be checked.
+ * @return 1 if it's the `-n` flag, 0 otherwise.
  * */
 int	is_n_flag(char *str)
 {
@@ -48,7 +48,7 @@ int	is_n_flag(char *str)
 }
 
 /**
- * @brief Verifica se a chave de uma variável de ambiente é válida.
+ * @brief Checks if an environment variable key is valid.
  */
 int	is_valid_key(char *key)
 {
@@ -66,9 +66,9 @@ int	is_valid_key(char *key)
 	return (1);
 }
 /**
- * @brief Ordena um array de strings em ordem alfabética (Bubble Sort).
- * @param env O array de ponteiros de string a ser ordenado.
- * @param count O número de elementos no array.
+ * @brief Sorts an array of strings in alphabetical order (Bubble Sort).
+ * @param env The array of string pointers to be sorted.
+ * @param count The number of elements in the array.
  */
 
 static void	sort_env_array(char **env, int count)
@@ -96,15 +96,15 @@ static void	sort_env_array(char **env, int count)
 }
 
 /**
- * @brief Imprime as variáveis de ambiente no formato 
+ * @brief Prints environment variables in the format 
  * 'declare -x KEY=VALUE',
- * em ordem alfabética.
+ * in alphabetical order.
  *
- * Esta função cria uma cópia do array de ponteiros do 
- * ambiente para
- * não modificar a ordem do ambiente original do shell.
+ * This function creates a copy of the environment 
+ * pointer array to
+ * not modify the original shell environment order.
  *
- * @param envp O ambiente do shell a ser impresso.
+ * @param envp The shell environment to be printed.
  */
 void	print_env_sorted(char **envp)
 {

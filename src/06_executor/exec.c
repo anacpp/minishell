@@ -6,12 +6,12 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 17:02:14 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 19:58:41 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-	TODO: Redução de função -> execute_pipeline.c heredoc
+	TODO: Function reduction -> execute_pipeline.c heredoc
 
 */
 #include "../../includes/minishell.h"
@@ -23,12 +23,12 @@ static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd,
 static void	prepare_heredocs(t_cmd *cmds);
 
 /**
- * @brief Prepara os heredocs para os comandos,
- * criando arquivos temporários.
+ * @brief Prepares heredocs for commands,
+ * creating temporary files.
 
-	* Cada heredoc é substituído por um arquivo
-	temporário que contém o texto do heredoc.
- * @param cmds A lista de comandos que contêm os heredocs.
+	* Each heredoc is replaced by a temporary
+	file that contains the heredoc text.
+ * @param cmds The list of commands that contain the heredocs.
  */
 static void	prepare_heredocs(t_cmd *cmds)
 {
@@ -59,15 +59,15 @@ static void	prepare_heredocs(t_cmd *cmds)
 }
 
 /**
- * @brief Executa os comandos no contexto do shell.
- * Se for um único comando built-in, executa diretamente.
- * Se for uma pipeline, cria processos filhos para cada comando.
- * @param cmds A lista de comandos a serem executados.
+ * @brief Executes commands in the shell context.
+ * If it's a single built-in command, executes directly.
+ * If it's a pipeline, creates child processes for each command.
+ * @param cmds The list of commands to be executed.
 
-	* @param shell_context O contexto do shell que contém
-	o ambiente e o último status.
- * @return O status de saída do comando executado (0 para sucesso,
-	>0 para erro).
+	* @param shell_context The shell context that contains
+	the environment and last status.
+ * @return The exit status of the executed command (0 for success,
+	>0 for error).
  */
 int	executor(t_cmd *cmds, t_shell *shell_context)
 {
@@ -82,7 +82,7 @@ int	executor(t_cmd *cmds, t_shell *shell_context)
 }
 
 /**
- * @brief Executa um único built-in no processo pai.
+ * @brief Executes a single built-in in the parent process.
  */
 static int	execute_single_builtin(t_cmd *cmd, t_shell *shell_context)
 {
@@ -100,7 +100,7 @@ static int	execute_single_builtin(t_cmd *cmd, t_shell *shell_context)
 }
 
 /**
- * @brief Executa uma pipeline de comandos em processos filhos.
+ * @brief Executes a pipeline of commands in child processes.
  */
 static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context)
 {
@@ -110,8 +110,6 @@ static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context)
 	t_cmd	*current;
 	int 	num_pids;
 	pid_t child_pids[MAX_PIDS];
-
-	
 
 	in_fd = STDIN_FILENO;
 	current = cmds;
@@ -140,7 +138,7 @@ static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context)
 }
 
 /**
- * @brief Código executado dentro de um processo filho.
+ * @brief Code executed inside a child process.
  */
 static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd,
 		t_shell *shell_context)
