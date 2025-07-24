@@ -6,12 +6,9 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/24 16:58:48 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:27:25 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*TODO: 
-	Function reduction : setup_redir */
 
 #include "../../includes/minishell.h"
 
@@ -99,24 +96,4 @@ void	save_stdio(int fds[2])
 	}
 }
 
-/**
 
-	* @brief Restores the standard file descriptors 
-	(stdin and stdout) from the saved values.
- * @param fds Array containing the file descriptors to be restored.
- */
-void	restore_stdio(int fds[2])
-{
-	if (dup2(fds[0], STDIN_FILENO) < 0)
-	{
-		perror("restore stdin");
-		exit(EXIT_FAILURE);
-	}
-	if (dup2(fds[1], STDOUT_FILENO) < 0)
-	{
-		perror("restore stdout");
-		exit(EXIT_FAILURE);
-	}
-	close(fds[0]);
-	close(fds[1]);
-}

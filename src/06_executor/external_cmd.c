@@ -6,12 +6,9 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/24 16:58:47 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:25:08 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*TODO: 
-	Function reduction : find_cmd_path */
 
 #include "../../includes/minishell.h"
 

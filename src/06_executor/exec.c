@@ -6,14 +6,10 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 16:58:46 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:21:51 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-	TODO: Function reduction -> execute_pipeline.c heredoc
-
-*/
 #include "../../includes/minishell.h"
 
 static int	execute_single_builtin(t_cmd *cmd, t_shell *shell_context);

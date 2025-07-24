@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/24 16:57:46 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:25:52 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,19 @@ void	wait_all_children(int *num_pids, pid_t *child_pids)
 		i++;
 	}
 	*num_pids = 0;
+}
+void	restore_stdio(int fds[2])
+{
+	if (dup2(fds[0], STDIN_FILENO) < 0)
+	{
+		perror("restore stdin");
+		exit(EXIT_FAILURE);
+	}
+	if (dup2(fds[1], STDOUT_FILENO) < 0)
+	{
+		perror("restore stdout");
+		exit(EXIT_FAILURE);
+	}
+	close(fds[0]);
+	close(fds[1]);
 }

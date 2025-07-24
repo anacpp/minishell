@@ -6,11 +6,9 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 15:39:25 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:28:11 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// OBS : NORMINETTE - OK, reduce the add_token function
 
 #include "../../includes/minishell.h"
 

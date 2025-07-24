@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 20:27:16 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:29:55 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 */
 /*TODO : transfer more functions to another file, respecting
 the max of 5 functions per file*/
+
 #include "../../includes/minishell.h"
 
 /**
