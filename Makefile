@@ -40,8 +40,7 @@ SRCS = src/main.c \
        src/07_builtins/builtin_2.c \
        src/07_builtins/builtin_utils.c \
        src/08_environment/env_manager.c \
-       src/utils/general_utils.c \
-       src/utils/globals.c
+       src/utils/general_utils.c
 
 # Automatically generate object file names from source files
 OBJS = ${SRCS:.c=.o}
