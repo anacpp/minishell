@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 16:37:27 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:34:52 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 */
 
 #include "../includes/minishell.h"
+
+volatile sig_atomic_t	g_signal_status = 0;
 
 /**
  * @brief Processes a command line, using the shell context.
