@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 17:29:55 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 20:07:21 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,6 @@ int	builtin_exit(char **argv, t_shell *shell_context)
 	{
 		exit(shell_context->last_status);
 	}
-	// TODO: Check if exit accepts things other than numbers
 	if (!is_numeric_string(argv[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
