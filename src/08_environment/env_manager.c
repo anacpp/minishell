@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/23 20:27:17 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 19:01:55 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*TODO : reduce -> add_env_var 
+/*TODO : reduce -> add_env_var
 		 allocate -> auxiliary functions to another file
 		 (max 5 fun per file)
 */
@@ -144,8 +144,6 @@ void	add_env_var(const char *var_string, t_shell *shell_context)
 {
 	char	*key;
 	char	**var_ptr;
-	int		count;
-	char	**new_env;
 
 	key = extract_key_from_string(var_string);
 	var_ptr = find_env_var(key, shell_context->envp);
@@ -156,17 +154,17 @@ void	add_env_var(const char *var_string, t_shell *shell_context)
 	}
 	else if (!var_ptr)
 	{
-		count = 0;
-		while (shell_context->envp && shell_context->envp[count])
-			count++;
-		new_env = malloc(sizeof(char *) * (count + 2));
-		if (!new_env)
+		int		count;
+		char	**new_envp;
+
+		count = ft_count_args(shell_context->envp);
+		new_envp = ft_calloc(count + 2, sizeof(char *));
+		if (!new_envp)
 			handle_error(NULL, "malloc failed", 1, 1);
-		ft_memcpy(new_env, shell_context->envp, count * sizeof(char *));
-		new_env[count] = ft_strdup(var_string);
-		new_env[count + 1] = NULL;
+		ft_memcpy(new_envp, shell_context->envp, count * sizeof(char *));
+		new_envp[count] = ft_strdup(var_string);
 		free(shell_context->envp);
-		shell_context->envp = new_env;
+		shell_context->envp = new_envp;
 	}
 	free(key);
 }
