@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/17 18:27:39 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 00:40:14 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 */
 
 #include "../includes/minishell.h"
+
+volatile sig_atomic_t g_signal_status = 0;
 
 /**
  * @brief Processa uma linha de comando, utilizando o contexto do shell.
@@ -51,7 +53,7 @@ static void	process_input(char *input, t_shell *shell_context,
 	free_tokens(tokens);
 	if (commands)
 	{
-		
+
 		shell_context->last_status = executor(commands, shell_context);
 		free_command_table(commands);
 	}
