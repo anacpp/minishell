@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 20:29:44 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:38:42 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ static void	sort_env_array(char **env, int count)
 }
 
 /**
- * @brief Prints environment variables in the format 
+ * @brief Prints environment variables in the format
  * 'declare -x KEY=VALUE',
  * in alphabetical order.
  *
- * This function creates a copy of the environment 
+ * This function creates a copy of the environment
  * pointer array to
  * not modify the original shell environment order.
  *
@@ -127,11 +127,6 @@ void	print_env_sorted(char **envp)
 	sort_env_array(env_copy, count);
 	i = 0;
 	while (i < count)
-	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putstr_fd(env_copy[i], STDOUT_FILENO);
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		i++;
-	}
+		ft_printf("declare -x %s\n", env_copy[i++]);
 	free(env_copy);
 }
