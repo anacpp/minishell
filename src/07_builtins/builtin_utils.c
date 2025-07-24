@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 20:14:12 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 20:29:44 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	print_env_sorted(char **envp)
 	i = 0;
 	while (i < count)
 	{
-		//ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putstr_fd(env_copy[i], STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		i++;

@@ -6,14 +6,10 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 19:25:45 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:22:16 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* OBS:
-	-> NORMINETTE - ok
-	-> CHECK LEAKS - ok (LEAKS APENAS DA BIBLIOTECA READLINE, QUE SÃO ESPERADAS)
- */
 
 #include "../../includes/minishell.h"
 
