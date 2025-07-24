@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 20:27:13 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:53:19 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@
 
 	Returns an array of file descriptor pairs
 	used in redirection between processes.
-*/
-
-/*
-	TODO: NORMINETTE
-
-	DONE :
 */
 
 #include "../../includes/minishell.h"

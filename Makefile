@@ -27,6 +27,7 @@ SRCS = src/main.c \
        src/03_parser/parser_utils.c \
        src/04_expander/expander.c \
        src/04_expander/utils_expand.c \
+       src/04_expander/utils_expand_2.c \
        src/05_pre_exec/heredoc.c \
        src/05_pre_exec/pipe_create.c \
        src/05_pre_exec/util_heredo.c \
@@ -35,6 +36,8 @@ SRCS = src/main.c \
        src/06_executor/utils_exec.c \
        src/06_executor/utils_extern_cmd.c \
        src/06_executor/utils_fork_process.c \
+       src/06_executor/pipeline.c \
+       src/06_executor/child_process.c \
        src/07_signals/signals.c \
        src/07_builtins/builtin.c \
        src/07_builtins/builtin_2.c \

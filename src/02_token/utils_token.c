@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 20:27:14 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:39:25 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,44 @@
 
 #include "../../includes/minishell.h"
 
-void	add_token(t_token **head, char *value, t_token_type type,
-		int quote_type)
+static t_token	*create_token(char *value, t_token_type type, int quote_type)
+{
+	t_token	*new;
+
+	new = malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->value = ft_strdup(value);
+	if (!new->value)
+	{
+		free(new);
+		return (NULL);
+	}
+	new->type = type;
+	new->quote_type = quote_type;
+	new->next = NULL;
+	return (new);
+}
+
+void	add_token(t_token **head, char *value, t_token_type type, int quote_type)
 {
 	t_token	*new;
 	t_token	*temp;
 
 	if (!value)
 		return ;
-	new = malloc(sizeof(t_token));
+	new = create_token(value, type, quote_type);
 	if (!new)
 		return ;
-	new->value = ft_strdup(value);
-	if (!new->value)
+	if (!*head)
 	{
-		free(new);
+		*head = new;
 		return ;
 	}
-	new->type = type;
-	new->quote_type = quote_type;
-	new->next = NULL;
-	if (!*head)
-		*head = new;
-	else
-	{
-		temp = *head;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new;
-	}
+	temp = *head;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new;
 }
 
 void	free_tokens(t_token *head)
@@ -96,10 +105,4 @@ t_token_type	get_token_type(const char *str)
 	return (T_WORD);
 }
 
-void	update_quote_flags(char c, int *in_squote, int *in_dquote)
-{
-	if (c == '\'' && !(*in_dquote))
-		*in_squote = !(*in_squote);
-	else if (c == '\"' && !(*in_squote))
-		*in_dquote = !(*in_dquote);
-}
+

@@ -6,7 +6,7 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 18:14:36 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:05:04 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,21 @@ typedef struct s_cmd
 	struct s_cmd				*next;
 }								t_cmd;
 
+typedef struct s_fork_ctx {
+	int *pipe_fds;
+	int in_fd;
+	int *num_pids;
+	pid_t *child_pids;
+} t_fork_ctx;
+
+typedef struct s_pipeline_ctx {
+	int pipe_fds[2];
+	int in_fd;
+	int num_pids;
+	pid_t child_pids[MAX_PIDS];
+	t_fork_ctx fork_ctx;
+} t_pipeline_ctx;
+
 // Error handling functions
 void							handle_error(char *data, char *msg, int code,
 									int should_exit);
@@ -158,6 +173,9 @@ char							*process_regular_char(char *result,
 char							*process_dollar_sequence(char *result,
 									char *input, int *i, int status);
 char							*append_char_and_advance(char *str, char c);
+int execute_pipeline(t_cmd *cmds, t_shell *shell_context);
+void execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd, t_shell *shell_context);
+void unlink_heredocs(t_redir *redir);
 
 // --- Pre-exec functions ---
 int								create_heredoc(char *delimiter, char **temp_path);
