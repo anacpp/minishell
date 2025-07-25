@@ -6,144 +6,96 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 18:28:22 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:51:51 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-	Contém a função principal de expansão de variáveis dentro de uma string.
-	Respeita o comportamento do Bash para:
-	- Expansão de $VAR
-	- Expansão de $? (último status de saída)
-	- Não expandir dentro de aspas simples
-	- Permitir expansão dentro de aspas duplas
+	Contains the main function for expanding variables within a string.
+	Respects Bash behavior for:
+	- Expansion of $VAR
+	- Expansion of $? (last exit status)
+	- Do not expand within single quotes
+	- Allow expansion within double quotes
 
-	Fluxo:
-	- expand_variables: percorre a string original
-	e substitui os tokens com '$'.
-	- handle_dollar: extrai o nome da variável
-	e retorna seu valor (ou "" se indefinida).
-	- append_char_and_advance: adiciona caractere literal à string resultante.
-	- expand_tokens: aplica a expansão a todos os tokens
-	do parser que não estão entre aspas simples.
+	Flow:
+	- expand_variables: traverses the original string
+	and replaces tokens with '$'.
+	- handle_dollar: extracts the variable name
+	and returns its value (or "" if undefined).
+	- append_char_and_advance: adds literal character to the resulting string.
+	- expand_tokens: applies expansion to all tokens
+	from the parser that are not within single quotes.
 
-	Depende de funções auxiliares em utils_expand.c.
+	Depends on auxiliary functions in utils_expand.c.
 */
-
-// TODO: NORMINETTE
-
 #include "../../includes/minishell.h"
 
-char	*handle_dollar(char *str, int *i, int status);
-char	*append_char_and_advance(char *str, char c);
-
-char *expand_variables(char *input, int status, int quote_type)
+static char	*process_expansion(char *result, char *input, int *i, int status)
 {
-    int i;
-    char *result;
-    char *tmp;
+	char	*tmp;
+
+	if (input[*i] == '$')
+		tmp = process_dollar_sequence(result, input, i, status);
+	else
+		tmp = process_regular_char(result, input[*i], i);
+	if (!tmp)
+	{
+		free(result);
+		return (NULL);
+	}
+	return (tmp);
+}
+
+static char	*expand_in_other_quotes(char *input, char *result, int status)
+{
+	int		i;
+	char	*tmp;
 
 	i = 0;
+	while (input[i])
+	{
+		tmp = process_expansion(result, input, &i, status);
+		if (!tmp)
+		{
+			free(result);
+			return (NULL);
+		}
+		result = tmp;
+	}
+	return (result);
+}
+
+static char	*expand_in_single_quotes(char *input, char *result)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while (input[i])
+	{
+		tmp = process_regular_char(result, input[i], &i);
+		if (!tmp)
+		{
+			free(result);
+			return (NULL);
+		}
+		result = tmp;
+	}
+	return (result);
+}
+
+char	*expand_variables(char *input, int status, int quote_type)
+{
+	char	*result;
+
 	result = ft_strdup("");
-    if (!result)
-        return NULL;
-    while (input[i])
-    {
-        if (quote_type == 1)
-        {
-            tmp = process_regular_char(result, input[i], &i);
-            if (!tmp)
-            {
-                free(result);
-                return NULL;
-            }
-            result = tmp;
-        }
-        else
-        {
-            if (input[i] == '$')
-            {
-                tmp = process_dollar_sequence(result, input, &i, status);
-                if (!tmp)
-                {
-                    free(result);
-                    return NULL;
-                }
-                result = tmp;
-            }
-            else
-            {
-                tmp = process_regular_char(result, input[i], &i);
-                if (!tmp)
-                {
-                    free(result);
-                    return NULL;
-                }
-                result = tmp;
-            }
-        }
-    }
-    return result;
-}
-
-
-
-char	*handle_dollar(char *str, int *i, int status)
-{
-	int		j;
-	char	*name;
-	char	*value;
-
-	j = 0;
-	(*i)++;
-	if (str[1] == '?')
-	{
-		(*i)++;
-		return (ft_itoa(status));
-	}
-	while (str[1 + j] && (ft_isalnum(str[1 + j]) || str[1 + j] == '_'))
-		j++;
-	if (j == 0)
-		return (ft_strdup("$"));
-	name = ft_substr(str, 1, j);
-	value = getenv(name);
-	free(name);
-	(*i) += j;
-	if (!value)
-		return (ft_strdup(""));
-	return (ft_strdup(value));
-}
-
-char	*append_char_and_advance(char *str, char c)
-{
-	int		len;
-	char	*new;
-
-	len = ft_strlen(str);
-	new = malloc(len + 2);
-	if (!new)
+	if (!result)
 		return (NULL);
-	ft_memcpy(new, str, len);
-	new[len] = c;
-	new[len + 1] = '\0';
-	free(str);
-	return (new);
+	if (quote_type == 1)
+		return (expand_in_single_quotes(input, result));
+	else
+		return (expand_in_other_quotes(input, result, status));
 }
 
-void	expand_tokens(t_token *tokens, int last_status)
-{
-	t_token	*tmp;
-	char	*expanded;
-
-	tmp = tokens;
-	while (tmp)
-	{
-		expanded = expand_variables(tmp->value, last_status, tmp->quote_type);
-		if (!expanded)
-			break ;
-		free(tmp->value);
-		tmp->value = expanded;
-		tmp = tmp->next;
-	}
-}
 

@@ -6,23 +6,23 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/22 18:14:54 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:24:33 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-	Implementa o comportamento do heredoc (<<), que lê entradas do usuário
-	até encontrar um delimitador.
+	Implements the behavior of heredoc (<<), which reads user input
+	until a delimiter is found.
 
-	Funções:
-	- create_heredoc: cria e retorna um arquivo
-	temporário com o conteúdo do heredoc.
-	- heredoc_loop: lê linha por linha até 
-	o delimitador e escreve no arquivo.
-	- check_delimiter: compara a linha digitada com o delimitador.
-	- print_prompt: exibe o prompt "> ".
+	Functions:
+	- create_heredoc: creates and returns a temporary file
+	with the heredoc content.
+	- heredoc_loop: reads line by line until the delimiter
+	and writes to the file.
+	- check_delimiter: compares the entered line with the delimiter.
+	- print_prompt: displays the prompt "> ".
 
-	Esse conteúdo será usado como entrada padrão (stdin) no comando.
+	This content will be used as standard input (stdin) for the command.
 */
 
 #include "../../includes/minishell.h"

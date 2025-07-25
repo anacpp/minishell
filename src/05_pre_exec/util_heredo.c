@@ -6,26 +6,20 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 16:41:15 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:25:18 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-	Este arquivo contém funções auxiliares usadas para criar arquivos temporários
-	necessários no funcionamento do heredoc (<<).
+	This file contains helper functions used to create temporary files
+	required for the operation of heredoc (<<).
 
-	Funções:
-	- create_temp_file: cria um arquivo único em /tmp usando o PID do processo.
-	- generate_temp_name: monta o nome do arquivo com base no PID e um sufixo.
-	- ft_strjoin_no_free: junta duas strings sem liberar a primeira.
+	Functions:
+	- create_temp_file: creates a unique file in /tmp using the process PID.
+	- generate_temp_name: builds the file name based on the PID and a suffix.
+	- ft_strjoin_no_free: joins two strings without freeing the first one.
 
-	Usado por create_heredoc para armazenar o conteúdo digitado pelo usuário.
-*/
-
-/*
-	TODO: NORMINETTE
-
-	DONE :
+	Used by create_heredoc to store the content entered by the user.
 */
 #include "../../includes/minishell.h"
 

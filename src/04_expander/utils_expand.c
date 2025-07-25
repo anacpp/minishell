@@ -6,29 +6,28 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 18:18:43 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:24:13 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* UTILS_EXPAND.C
 
-	Funções auxiliares usadas no processo de expansão de 
-	variáveis, mantendo o código modular e reutilizável.
+	Helper functions used in the process of variable expansion,
+	keeping the code modular and reusable.
 
-	- append_expanded: trata e junta a expansão de 
-	uma variável ao resultado.
-	- update_quotes: atualiza os estados de aspas simples/
-	duplas durante a leitura da string.
-	- process_dollar_sequence: lida com um token 
-	de variável começando com '$'.
-	- process_regular_char: adiciona caractere normal
-	ao resultado e avança o índice.
+	- append_expanded: handles and joins the expansion of
+	a variable to the result.
+	- update_quotes: updates the state of single/double quotes
+	while reading the string.
+	- process_dollar_sequence: handles a variable token
+	starting with '$'.
+	- process_regular_char: adds a regular character
+	to the result and advances the index.
 
-	Essas funções são usadas por `expand_variables` para gerenciar
-	o fluxo de expansão corretamente.
+	These functions are used by `expand_variables` to manage
+	the expansion flow correctly.
 */
 
-// TODO: NORMINETTE
 
 #include "../../includes/minishell.h"
 
