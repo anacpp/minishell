@@ -6,15 +6,9 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 18:34:52 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:06:11 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*TODO :
-	->CHECK NORMINETTE;
-	->remove prints and print_tokens when making the delivery;
-	->reduce functions > process_input and main
-*/
 
 #include "../includes/minishell.h"
 
@@ -72,19 +66,6 @@ static void	process_input(char *input, t_shell *shell_context, int is_interactiv
 	expand_and_parse(trimmed_input, &tokens, &commands, shell_context->last_status);
 	free(trimmed_input);
 	execute_and_cleanup(commands, shell_context, tokens);
-}
-
-static char	*get_input(int is_interactive)
-{
-	if (is_interactive)
-		return readline("minishell$ ");
-	return readline(NULL);
-}
-
-static void	handle_exit(int is_interactive)
-{
-	if (is_interactive)
-		write(STDOUT_FILENO, "exit\n", 5);
 }
 
 int	main(void)
