@@ -65,3 +65,4 @@ Projeto educacional para a 42 rj. Sem fins lucrativos.
 
 ## TODOS:
 - [] Lidar com comandos que tenham ; (lançar erro)
+- [] Alterar o login da raquel dos headers que estão com o user da máquina pessoal
