@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_2.c                                        :+:      :+:    :+:   */
+/*   builtin_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 20:27:16 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:47:43 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 	- builtin_env: prints environment variables.
 	- builtin_export: adds/updates environment variables.
 	- builtin_unset: removes environment variables.
-	
+
 	Uses the global variable `environ` to access/modify the environment.
 */
 
