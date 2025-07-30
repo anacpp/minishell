@@ -6,7 +6,7 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/24 19:01:55 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:24:06 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,87 +17,14 @@
 		 (max 5 fun per file)
 */
 
-// Declaration of static functions (local helpers)
-static int	get_env_count(char **env);
-static char	**duplicate_initial_environment(void);
-static char	*extract_key_from_string(const char *var_string);
-
-/**
- * @brief Counts the number of environment variables in the array.
- * @param env The environment string array.
- * @return The number of environment variables.
- */
-static int	get_env_count(char **env)
+static char	*extract_key_from_string(const char *var_string)
 {
-	int	count;
+	const char	*equal_sign;
 
-	count = 0;
-	while (env && env[count])
-	{
-		count++;
-	}
-	return (count);
-}
-
-/**
- * @brief Duplica o ambiente do sistema.
- * @return Um novo array de strings alocado dinamicamente.
- */
-static char	**duplicate_initial_environment(void)
-{
-	extern char	**environ;
-	char		**new_env;
-	int			count;
-	int			i;
-
-	count = get_env_count(environ);
-	new_env = ft_calloc(count + 1, sizeof(char *));
-	if (!new_env)
-		handle_error(NULL, "malloc failed", 1, 1);
-	i = -1;
-	while (++i < count)
-	{
-		new_env[i] = ft_strdup(environ[i]);
-		if (!new_env[i])
-		{
-			while (i > 0)
-				free(new_env[--i]);
-			free(new_env);
-			handle_error(NULL, "malloc failed", 1, 1);
-		}
-	}
-	return (new_env);
-}
-
-/**
- * @brief Inicializa o contexto do shell, incluindo o ambiente e o status.
- * @param shell_context Ponteiro para a struct t_shell.
- */
-void	init_shell_context(t_shell *shell_context)
-{
-	shell_context->envp = duplicate_initial_environment();
-	shell_context->last_status = 0;
-}
-
-/**
- * @brief Frees the memory allocated for the shell environment.
- * @param shell_context The shell context.
- */
-void	free_environment(t_shell *shell_context)
-{
-	int	i;
-
-	if (shell_context->envp)
-	{
-		i = 0;
-		while (shell_context->envp[i])
-		{
-			free(shell_context->envp[i]);
-			i++;
-		}
-		free(shell_context->envp);
-		shell_context->envp = NULL;
-	}
+	equal_sign = ft_strchr(var_string, '=');
+	if (equal_sign)
+		return (ft_substr(var_string, 0, equal_sign - var_string));
+	return (ft_strdup(var_string));
 }
 
 /**
@@ -106,7 +33,7 @@ void	free_environment(t_shell *shell_context)
  * @param envp The shell environment.
  * @return A pointer to the variable string in the environment, or NULL.
  */
-char	**find_env_var(const char *key, char **envp)
+static char	**find_env_var(const char *key, char **envp)
 {
 	int	i;
 	int	key_len;
@@ -123,16 +50,6 @@ char	**find_env_var(const char *key, char **envp)
 		i++;
 	}
 	return (NULL);
-}
-
-static char	*extract_key_from_string(const char *var_string)
-{
-	const char	*equal_sign;
-
-	equal_sign = ft_strchr(var_string, '=');
-	if (equal_sign)
-		return (ft_substr(var_string, 0, equal_sign - var_string));
-	return (ft_strdup(var_string));
 }
 
 /**
