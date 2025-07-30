@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 17:05:04 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:16:22 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,15 +109,12 @@ int								error_unexpected_token(t_token *token);
 
 // Input functions
 int								is_valid_input_syntax(const char *input);
-int								skip_redirect_and_check_error(const char *input,
-									int *i);
 int								is_redirect(char c);
 void							update_quote_state(char c, int *in_single,
 									int *in_double);
 
 // Tokenizer functions
 t_token							*tokenize_input(const char *input);
-t_token							*get_last_token(t_token *head);
 void							add_token(t_token **head, char *value,
 									t_token_type type, int quote_type);
 void							free_tokens(t_token *head);
@@ -125,13 +122,9 @@ char							*ft_strndup(const char *s, size_t n);
 t_token_type					get_token_type(const char *str);
 int								is_token_end(char c, int in_squote,
 									int in_dquote);
-void							update_token_value(char **value,
-									char *expanded_value);
 int								is_operator_char(char c);
 void							update_quote_flags(char c, int *in_squote,
 									int *in_dquote);
-int								is_heredoc_context(t_token *last);
-char							*handle_char(const char *str, int *i);
 t_token							*get_next_token(t_token *current);
 int								token_is_operator(t_token *token);
 void							get_token_next(const char *str, int *i,
@@ -143,7 +136,6 @@ char							*get_token_value(const char *str, int *i,
 // --- Parser Functions ---
 t_cmd							*parse(t_token *tokens);
 void							free_command_table(t_cmd *cmd_table);
-void							print_command_table(t_cmd *cmds);
 int								token_is_redirection(t_token *token);
 int								add_redirection(t_cmd *cmd,
 									t_token **token_ptr);
@@ -197,8 +189,6 @@ void							wait_all_children(int *num_pids, pid_t *child_pids);
 // --- Builtin functions ---
 int								is_builtin(t_cmd *cmd);
 int								run_builtin(t_cmd *cmd, t_shell *shell_context);
-int								builtin_echo(char **argv);
-int								builtin_cd(char **argv, t_shell *shell_context);
 int								builtin_pwd(void);
 int								builtin_export(char **argv,
 									t_shell *shell_context);
@@ -206,14 +196,11 @@ int								builtin_unset(char **argv,
 									t_shell *shell_context);
 int								builtin_env(char **argv,
 									t_shell *shell_context);
-int								builtin_exit(char **argv,
-									t_shell *shell_context);
 int								is_n_flag(char *str);
 int								is_valid_key(char *key);
 void							print_env_sorted(char **envp);
 
 // --- Debug functions ---
-void							print_tokens(t_token *head);
 const char						*token_type_str(t_token_type type);
 
 // --- Signal handling functions ---
@@ -227,12 +214,18 @@ void							free_split(char **arr);
 // --- Environment functions ---
 void							init_shell_context(t_shell *shell_context);
 void							free_environment(t_shell *shell_context);
-char							**get_environment(void);
 void							add_env_var(const char *var_string,
 									t_shell *shell_context);
 void							remove_env_var(const char *key,
 									t_shell *shell_context);
-char							**find_env_var(const char *key, char **envp);
 char							*get_env_value(const char *key, char **envp);
+
+// --- Main utils functions ---
+void							handle_exit(int is_interactive);
+char							*get_input(int is_interactive);
+
+
+// --- General utils ---
+void							print_cd_error(const char *path, const char *msg);
 
 #endif

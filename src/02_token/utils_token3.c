@@ -3,37 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 15:22:57 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:14:42 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
 #include "../../includes/minishell.h"
-
-t_token	*get_last_token(t_token *head)
-{
-	t_token	*current;
-
-	current = head;
-	if (!current)
-		return (NULL);
-	while (current->next)
-		current = current->next;
-	return (current);
-}
-
-char	*handle_char(const char *str, int *i)
-{
-	char	*tmp;
-
-	tmp = ft_strndup(str + *i, 1);
-	(*i)++;
-	return (tmp);
-}
 
 const char	*token_type_str(t_token_type type)
 {
@@ -55,7 +34,7 @@ const char	*token_type_str(t_token_type type)
 		return ("Unknown");
 }
 
-char	*handle_word_token(const char *str, int *i, int *quote_type)
+static char	*handle_word_token(const char *str, int *i, int *quote_type)
 {
 	int	in_squote;
 	int	in_dquote;
