@@ -6,7 +6,7 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/30 09:44:37 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:19:22 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 	- builtin_exit: terminates shell with optional status.
 	- builtin_echo: prints arguments with -n flag support.
 */
-/*TODO : transfer more functions to another file, respecting
-the max of 5 functions per file*/
 
 #include "../../includes/minishell.h"
 

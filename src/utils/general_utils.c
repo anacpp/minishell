@@ -6,12 +6,9 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/30 09:30:11 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:13:30 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* TODO:
-*/
 
 #include "../../includes/minishell.h"
 

@@ -6,16 +6,11 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/30 09:24:06 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:14:15 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-/*TODO : reduce -> add_env_var
-		 allocate -> auxiliary functions to another file
-		 (max 5 fun per file)
-*/
 
 static char	*extract_key_from_string(const char *var_string)
 {
