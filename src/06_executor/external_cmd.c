@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/24 17:25:08 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:44:22 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static char	*find_cmd_path(char *cmd, char **envp)
 	free_split(paths);
 	return (full_path);
 }
+//TODO ana: Variavel global?
 extern char	**environ;
 
 void	exec_external(t_cmd *cmd, t_shell *shell_context)
