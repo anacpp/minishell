@@ -6,7 +6,7 @@
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 20:07:21 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:44:37 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,11 @@ the max of 5 functions per file*/
 #include "../../includes/minishell.h"
 
 /**
- * @brief Routes to the correct built-in function and returns its status.
- * @param cmd The command to be executed.
- * @return The exit status of the built-in (0 for success, >0 for error).
- */
-int	run_builtin(t_cmd *cmd, t_shell *shell_context)
-{
-	char	*cmd_name;
-
-	if (!cmd || !cmd->argv || !cmd->argv[0])
-		return (127);
-	cmd_name = cmd->argv[0];
-	if (ft_strcmp(cmd_name, "echo") == 0)
-		return (builtin_echo(cmd->argv));
-	if (ft_strcmp(cmd_name, "cd") == 0)
-		return (builtin_cd(cmd->argv, shell_context));
-	if (ft_strcmp(cmd_name, "pwd") == 0)
-		return (builtin_pwd());
-	if (ft_strcmp(cmd_name, "export") == 0)
-		return (builtin_export(cmd->argv, shell_context));
-	if (ft_strcmp(cmd_name, "unset") == 0)
-		return (builtin_unset(cmd->argv, shell_context));
-	if (ft_strcmp(cmd_name, "env") == 0)
-		return (builtin_env(cmd->argv, shell_context));
-	if (ft_strcmp(cmd_name, "exit") == 0)
-		return (builtin_exit(cmd->argv, shell_context));
-	return (127);
-}
-
-/**
  * @brief Prints arguments to standard output.
  * @param argv Command arguments.
  * @return Always returns 0 (success).
  */
-int	builtin_echo(char **argv)
+static int	builtin_echo(char **argv)
 {
 	int	i;
 	int	newline;
@@ -86,21 +57,6 @@ int	builtin_echo(char **argv)
 }
 
 /**
- * @brief Prints a standardized error message for the cd command.
- *
- * @param path The path that caused the error.
- * @param msg The specific error message.
- */
-static void	print_cd_error(const char *path, const char *msg)
-{
-	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	ft_putstr_fd((char *)path, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd((char *)msg, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-}
-
-/**
  * @brief Changes the current working directory.
  *
  * Performs checks using stat() to provide accurate
@@ -110,7 +66,7 @@ static void	print_cd_error(const char *path, const char *msg)
  * @param shell_context The shell context to access the environment.
  * @return 0 on success, 1 on error.
  */
-int	builtin_cd(char **argv, t_shell *shell_context)
+static int	builtin_cd(char **argv, t_shell *shell_context)
 {
 	char		*path;
 	struct stat	stat_buf;
@@ -185,7 +141,7 @@ static int	is_numeric_string(const char *str)
 	* @return Does not return if successful. Returns 1
 	in case of "too many arguments".
  */
-int	builtin_exit(char **argv, t_shell *shell_context)
+static int	builtin_exit(char **argv, t_shell *shell_context)
 {
 	long long	status;
 
@@ -208,4 +164,33 @@ int	builtin_exit(char **argv, t_shell *shell_context)
 	}
 	status = ft_atoll(argv[1]);
 	exit((unsigned char)status);
+}
+
+/**
+ * @brief Routes to the correct built-in function and returns its status.
+ * @param cmd The command to be executed.
+ * @return The exit status of the built-in (0 for success, >0 for error).
+ */
+int	run_builtin(t_cmd *cmd, t_shell *shell_context)
+{
+	char	*cmd_name;
+
+	if (!cmd || !cmd->argv || !cmd->argv[0])
+		return (127);
+	cmd_name = cmd->argv[0];
+	if (ft_strcmp(cmd_name, "echo") == 0)
+		return (builtin_echo(cmd->argv));
+	if (ft_strcmp(cmd_name, "cd") == 0)
+		return (builtin_cd(cmd->argv, shell_context));
+	if (ft_strcmp(cmd_name, "pwd") == 0)
+		return (builtin_pwd());
+	if (ft_strcmp(cmd_name, "export") == 0)
+		return (builtin_export(cmd->argv, shell_context));
+	if (ft_strcmp(cmd_name, "unset") == 0)
+		return (builtin_unset(cmd->argv, shell_context));
+	if (ft_strcmp(cmd_name, "env") == 0)
+		return (builtin_env(cmd->argv, shell_context));
+	if (ft_strcmp(cmd_name, "exit") == 0)
+		return (builtin_exit(cmd->argv, shell_context));
+	return (127);
 }
