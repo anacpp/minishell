@@ -12,15 +12,14 @@ RM = rm -f
 SRCS = src/main.c \
        src/01_inputs/input_minishell.c \
        src/01_inputs/utils_input.c \
+       src/02_token/token_mutations.c \
+       src/02_token/token_utils.c \
+       src/02_token/token_validations.c \
        src/02_token/tokenizer.c \
-       src/02_token/utils_token.c \
-       src/02_token/utils_token2.c \
-       src/02_token/utils_token3.c \
        src/03_parser/parser.c \
        src/03_parser/parser_cleanup.c \
        src/03_parser/parser_error.c \
        src/03_parser/parser_helpers.c \
-       src/03_parser/parser_print_test.c \
        src/03_parser/parser_redirect.c \
        src/03_parser/parser_rules.c \
        src/03_parser/parser_segment_args.c \
