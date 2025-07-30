@@ -43,6 +43,7 @@ SRCS = src/main.c \
        src/07_builtins/builtin_commands.c \
        src/07_builtins/builtin_utils.c \
        src/08_environment/env_manager.c \
+       src/08_environment/env_manager_utils.c \
        src/utils/general_utils.c \
        src/utils/main_utils.c
 
