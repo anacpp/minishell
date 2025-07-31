@@ -66,3 +66,8 @@ USE_VALGRIND=1 bash tests/test_parser.sh
 ## 📄 Licença
 
 Projeto educacional para a 42 rj. Sem fins lucrativos.
+
+## TODO
+- [] tab completion está listando arquivos, incluindo ocultos
+- [] echo " '" aspas simples não são printáveis
+
