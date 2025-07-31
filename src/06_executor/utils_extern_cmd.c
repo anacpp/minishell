@@ -6,12 +6,9 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/17 18:52:12 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:58:51 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*TODO: 
-	USAR STR_no_free em vez de ft_strjoin na funçõa join_triple */
 
 #include "../../includes/minishell.h"
 

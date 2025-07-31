@@ -6,20 +6,20 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/17 18:01:34 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/23 20:27:17 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /**
- * @brief Manipulador para o sinal SIGINT (ctrl-C).
- * * Esta função é chamada quando o processo recebe um SIGINT.
- * Ela escreve uma nova linha na saída padrão, informa à biblioteca readline
- * que o cursor se moveu, limpa o buffer de linha atual e redisplaya o prompt.
- * Isso efetivamente cancela a linha de comando atual e prepara uma nova.
- * * @param signo O número do sinal (não utilizado,
-	mas exigido pela assinatura).
+ * @brief Handler for the SIGINT signal (ctrl-C).
+ * * This function is called when the process receives a SIGINT.
+ * It writes a new line to standard output, informs the readline library
+ * that the cursor has moved, clears the current line buffer and redisplays the prompt.
+ * This effectively cancels the current command line and prepares a new one.
+ * * @param signo The signal number (not used,
+	but required by the signature).
  */
 static void	handle_sigint(int signo)
 {
@@ -32,12 +32,12 @@ static void	handle_sigint(int signo)
 }
 
 /**
- * @brief Configura os manipuladores de sinal para o minishell.
+ * @brief Configures signal handlers for minishell.
  *
- * `sigaction` é usado para `SIGINT` (ctrl-C) para ter um controle mais
- * robusto. O handler `handle_sigint` é associado a ele.
- * * `signal` com `SIG_IGN` é usado para `SIGQUIT` (ctrl-\) para que
- * o shell o ignore completamente no modo interativo, como o bash faz.
+ * `sigaction` is used for `SIGINT` (ctrl-C) to have more
+ * robust control. The `handle_sigint` handler is associated with it.
+ * * `signal` with `SIG_IGN` is used for `SIGQUIT` (ctrl-\) so that
+ * the shell ignores it completely in interactive mode, as bash does.
  */
 void	setup_signal_handlers(void)
 {

@@ -3,64 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/17 17:58:52 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:19:22 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 	BUILTIN.C
 
-	Executa os comandos built-in reconhecidos pela minishell: cd, exit, echo,
+	Executes built-in commands recognized by minishell: cd, exit, echo,
 		pwd, env, export, unset.
 
-	Funções:
-	- run_builtin: roteia a execução com base no nome do comando.
-	- builtin_cd: muda o diretório atual (ou vai para $HOME se nenhum argumento).
-	- builtin_exit: encerra o shell com o status opcional.
-	- builtin_echo: imprime argumentos com suporte à flag -n.
+	Functions:
+	- run_builtin: routes execution based on command name.
+	- builtin_cd: changes current directory (or goes to $HOME if no argument).
+	- builtin_exit: terminates shell with optional status.
+	- builtin_echo: prints arguments with -n flag support.
 */
-/*TODO : transferir funções a mais para outro arquivo, repeitando
-o max de 5 funções por arquivo*/
+
 #include "../../includes/minishell.h"
 
 /**
- * @brief Roteia para a função built-in correta e retorna seu status.
- * @param cmd O comando a ser executado.
- * @return O status de saída do built-in (0 para sucesso, >0 para erro).
+ * @brief Prints arguments to standard output.
+ * @param argv Command arguments.
+ * @return Always returns 0 (success).
  */
-int	run_builtin(t_cmd *cmd, t_shell *shell_context)
-{
-	char	*cmd_name;
-
-	if (!cmd || !cmd->argv || !cmd->argv[0])
-		return (127);
-	cmd_name = cmd->argv[0];
-	if (ft_strcmp(cmd_name, "echo") == 0)
-		return (builtin_echo(cmd->argv));
-	if (ft_strcmp(cmd_name, "cd") == 0)
-		return (builtin_cd(cmd->argv, shell_context));
-	if (ft_strcmp(cmd_name, "pwd") == 0)
-		return (builtin_pwd());
-	if (ft_strcmp(cmd_name, "export") == 0)
-		return (builtin_export(cmd->argv, shell_context));
-	if (ft_strcmp(cmd_name, "unset") == 0)
-		return (builtin_unset(cmd->argv, shell_context));
-	if (ft_strcmp(cmd_name, "env") == 0)
-		return (builtin_env(cmd->argv, shell_context));
-	if (ft_strcmp(cmd_name, "exit") == 0)
-		return (builtin_exit(cmd->argv, shell_context));
-	return (127);
-}
-
-/**
- * @brief Imprime os argumentos na saída padrão.
- * @param argv Argumentos do comando.
- * @return Sempre retorna 0 (sucesso).
- */
-int	builtin_echo(char **argv)
+static int	builtin_echo(char **argv)
 {
 	int	i;
 	int	newline;
@@ -85,31 +55,16 @@ int	builtin_echo(char **argv)
 }
 
 /**
- * @brief Imprime uma mensagem de erro padronizada para o comando cd.
+ * @brief Changes the current working directory.
  *
- * @param path O caminho que causou o erro.
- * @param msg A mensagem de erro específica.
+ * Performs checks using stat() to provide accurate
+ * error messages
+ *
+ * @param argv Command arguments.
+ * @param shell_context The shell context to access the environment.
+ * @return 0 on success, 1 on error.
  */
-static void	print_cd_error(const char *path, const char *msg)
-{
-	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	ft_putstr_fd((char *)path, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd((char *)msg, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-}
-
-/**
- * @brief Muda o diretório de trabalho atual.
- *
- * Realiza verificações usando stat() para fornecer mensagens
- * de erro precisas
- *
- * @param argv Argumentos do comando.
- * @param shell_context O contexto do shell para acessar o ambiente.
- * @return 0 em sucesso, 1 em erro.
- */
-int	builtin_cd(char **argv, t_shell *shell_context)
+static int	builtin_cd(char **argv, t_shell *shell_context)
 {
 	char		*path;
 	struct stat	stat_buf;
@@ -138,13 +93,13 @@ int	builtin_cd(char **argv, t_shell *shell_context)
 }
 
 /**
- * @brief Verifica se uma string representa um número válido (inteiro).
+ * @brief Checks if a string represents a valid number (integer).
  *
- * Esta função auxiliar verifica se a string contém apenas dígitos,
- * com um sinal opcional ('+' ou '-') no início.
+ * This helper function checks if the string contains only digits,
+ * with an optional sign ('+' or '-') at the beginning.
  *
- * @param str A string a ser verificada.
- * @return 1 se for uma string numérica válida, 0 caso contrário.
+ * @param str The string to be checked.
+ * @return 1 if it's a valid numeric string, 0 otherwise.
  */
 static int	is_numeric_string(const char *str)
 {
@@ -167,24 +122,24 @@ static int	is_numeric_string(const char *str)
 }
 
 /**
- * @brief Termina o shell com um status de saída,
- * com validação de argumentos.
+ * @brief Terminates the shell with an exit status,
+ * with argument validation.
  *
- * Comportamentos implementados:
- * 1.  `exit` (sem args): Sai com o status do último comando.
+ * Implemented behaviors:
+ * 1.  `exit` (no args): Exits with the last command status.
  * 2.  `exit [arg]`:
- * - Se [arg] não for numérico, imprime erro e sai com status 2.
- * - Se houver mais de um argumento, imprime erro,
- * retorna status 1 e NÃO sai.
- * - Se [arg] for numérico, sai com o status `[arg] % 256`.
+ * - If [arg] is not numeric, prints error and exits with status 2.
+ * - If there's more than one argument, prints error,
+ * returns status 1 and does NOT exit.
+ * - If [arg] is numeric, exits with status `[arg] % 256`.
  *
- * @param argv Argumentos do comando.
- * @param shell_context Contexto do shell para obter o último status.
+ * @param argv Command arguments.
+ * @param shell_context Shell context to get the last status.
 
-	* @return Não retorna se bem-sucedido. Retorna 1
-	em caso de "too many arguments".
+	* @return Does not return if successful. Returns 1
+	in case of "too many arguments".
  */
-int	builtin_exit(char **argv, t_shell *shell_context)
+static int	builtin_exit(char **argv, t_shell *shell_context)
 {
 	long long	status;
 
@@ -193,7 +148,6 @@ int	builtin_exit(char **argv, t_shell *shell_context)
 	{
 		exit(shell_context->last_status);
 	}
-	// TODO: Verificar se o exit aceita coisas diferentes de números
 	if (!is_numeric_string(argv[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
@@ -208,4 +162,33 @@ int	builtin_exit(char **argv, t_shell *shell_context)
 	}
 	status = ft_atoll(argv[1]);
 	exit((unsigned char)status);
+}
+
+/**
+ * @brief Routes to the correct built-in function and returns its status.
+ * @param cmd The command to be executed.
+ * @return The exit status of the built-in (0 for success, >0 for error).
+ */
+int	run_builtin(t_cmd *cmd, t_shell *shell_context)
+{
+	char	*cmd_name;
+
+	if (!cmd || !cmd->argv || !cmd->argv[0])
+		return (127);
+	cmd_name = cmd->argv[0];
+	if (ft_strcmp(cmd_name, "echo") == 0)
+		return (builtin_echo(cmd->argv));
+	if (ft_strcmp(cmd_name, "cd") == 0)
+		return (builtin_cd(cmd->argv, shell_context));
+	if (ft_strcmp(cmd_name, "pwd") == 0)
+		return (builtin_pwd());
+	if (ft_strcmp(cmd_name, "export") == 0)
+		return (builtin_export(cmd->argv, shell_context));
+	if (ft_strcmp(cmd_name, "unset") == 0)
+		return (builtin_unset(cmd->argv, shell_context));
+	if (ft_strcmp(cmd_name, "env") == 0)
+		return (builtin_env(cmd->argv, shell_context));
+	if (ft_strcmp(cmd_name, "exit") == 0)
+		return (builtin_exit(cmd->argv, shell_context));
+	return (127);
 }

@@ -3,15 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/17 18:03:22 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:13:30 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* TODO: 
-*/
 
 #include "../../includes/minishell.h"
 
@@ -53,4 +50,19 @@ int	count_cmds(t_cmd *cmds)
 		cmds = cmds->next;
 	}
 	return (count);
+}
+
+/**
+ * @brief Prints a standardized error message for the cd command.
+ *
+ * @param path The path that caused the error.
+ * @param msg The specific error message.
+ */
+void	print_cd_error(const char *path, const char *msg)
+{
+	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+	ft_putstr_fd((char *)path, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd((char *)msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 }

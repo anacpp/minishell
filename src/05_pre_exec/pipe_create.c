@@ -6,28 +6,22 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 19:36:36 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:53:19 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-	Cria os pipes necessários para conectar múltiplos comandos encadeados
-	(por exemplo: ls | grep a | wc -l).
+	Creates the necessary pipes to connect multiple chained commands
+	(for example: ls | grep a | wc -l).
 
-	Funções:
-	- create_pipes: aloca e cria todos os
-	 pipes (1 a menos que o número de comandos).
-	- free_pipes: libera todos os pipes criados.
-	- handle_pipe_error: exibe erro, libera recursos e evita vazamentos.
+	Functions:
+	- create_pipes: allocates and creates all
+	 pipes (1 less than the number of commands).
+	- free_pipes: frees all created pipes.
+	- handle_pipe_error: displays error, frees resources and prevents leaks.
 
-	Retorna um array de pares de file descriptors
-	usados no redirecionamento entre processos.
-*/
-
-/*
-	TODO: NORMINETTE
-
-	DONE :
+	Returns an array of file descriptor pairs
+	used in redirection between processes.
 */
 
 #include "../../includes/minishell.h"
@@ -80,56 +74,3 @@ int	**create_pipes(int total_cmds)
 	}
 	return (pipes);
 }
-// Teste
-
-/*TESTEs /
-int			**create_pipes(int total_cmds);
-void		print_pipes(int **pipes, int total_pipes);
-void		free_pipes(int **pipes, int count);
-
-#include <stdio.h>
-
-void	print_pipes(int **pipes, int n_pipes)
-{
-	int	i;
-
-	i = 0;
-	while (i < n_pipes)
-	{
-		printf("Pipe[%d][READ]: %d\n", i, pipes[i][0]);
-		printf("Pipe[%d][WRITE]: %d\n", i, pipes[i][1]);
-		i++;
-	}
-}
-
-int	main(void)
-{
-	int		total_pipes;
-	int		**pipes;
-	char	msg[] = "Hello pipe!";
-	char	buf[100];
-	int		rd;
-
-	int	total_cmds = 3; // Teste com 3 comandos → 2 pipes
-	total_pipes = total_cmds - 1;
-	pipes = create_pipes(total_cmds);
-	if (!pipes)
-	{
-		printf("Erro ao criar pipes.\n");
-		return (1);
-	}
-	print_pipes(pipes, total_pipes);
-	write(pipes[0][1], msg, sizeof(msg));
-	rd = read(pipes[0][0], buf, sizeof(msg));
-	buf[rd] = '\0';
-	printf("Lido do pipe: %s\n", buf);
-	for (int i = 0; i < total_pipes; i++)
-	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
-	}
-	free_pipes(pipes, total_pipes);
-	return (0);
-}
-
-*/

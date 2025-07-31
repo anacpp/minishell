@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_input.c                                      :+:      :+:    :+:   */
+/*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/30 10:15:11 by rjacques         ###   ########.fr       */
+/*   Created: 2025/07/30 11:13:48 by rjacques          #+#    #+#             */
+/*   Updated: 2025/07/30 11:13:52 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
-void	update_quote_state(char c, int *in_single, int *in_double)
+void	handle_exit(int is_interactive)
 {
-	if (c == '\'' && !*in_double)
-		*in_single = !*in_single;
-	else if (c == '\"' && !*in_single)
-		*in_double = !*in_double;
+	if (is_interactive)
+		write(STDOUT_FILENO, "exit\n", 5);
 }
 
-int	is_redirect(char c)
+char	*get_input(int is_interactive)
 {
-	return (c == '<' || c == '>');
+	if (is_interactive)
+		return readline("minishell$ ");
+	return readline(NULL);
 }

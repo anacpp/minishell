@@ -3,15 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/16 19:51:09 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/30 20:56:32 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*TODO: 
-	Redução de função : find_cmd_path */
 
 #include "../../includes/minishell.h"
 
@@ -22,18 +19,34 @@ static char	*check_direct_exec(char *cmd)
 	return (NULL);
 }
 
+static char	*find_cmd_in_paths(char **paths, char *cmd)
+{
+	int		 i;
+	char	*full_path;
+
+	i = 0;
+	while (paths[i])
+	{
+		full_path = ft_strjoin_triple(paths[i], "/", cmd);
+		if (access(full_path, X_OK) == 0)
+			return (full_path);
+		free(full_path);
+		i++;
+	}
+	return (NULL);
+}
+
 /**
- * @brief Encontra o caminho completo de um comando executável.
- * @param cmd O comando a ser encontrado.
- * @param envp O ambiente atual para buscar a variável PATH.
- * @return O caminho completo alocado dinamicamente ou NULL.
+ * @brief Finds the complete path of an executable command.
+ * @param cmd The command to be found.
+ * @param envp The current environment to search for the PATH variable.
+ * @return The dynamically allocated complete path or NULL.
  */
 static char	*find_cmd_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path_var;
 	char	*full_path;
-	int		i;
 
 	if (!cmd || ft_strchr(cmd, '/'))
 		return (check_direct_exec(cmd));
@@ -43,21 +56,11 @@ static char	*find_cmd_path(char *cmd, char **envp)
 	paths = ft_split(path_var, ':');
 	if (!paths)
 		return (NULL);
-	i = 0;
-	while (paths[i])
-	{
-		full_path = ft_strjoin_triple(paths[i], "/", cmd);
-		if (access(full_path, X_OK) == 0)
-		{
-			free_split(paths);
-			return (full_path);
-		}
-		free(full_path);
-		i++;
-	}
+	full_path = find_cmd_in_paths(paths, cmd);
 	free_split(paths);
-	return (NULL);
+	return (full_path);
 }
+
 extern char	**environ;
 
 void	exec_external(t_cmd *cmd, t_shell *shell_context)

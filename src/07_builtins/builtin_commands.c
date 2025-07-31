@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_2.c                                        :+:      :+:    :+:   */
+/*   builtin_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/17 17:59:22 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:47:43 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-	Implementa comandos built-in adicionais da minishell.
+	Implements additional built-in commands for minishell.
 
-	Funções:
-	- builtin_pwd: exibe o diretório atual.
-	- builtin_env: imprime variáveis de ambiente.
-	- builtin_export: adiciona/atualiza variáveis de ambiente.
-	- builtin_unset: remove variáveis de ambiente.
-	
-	Utiliza a variável global `environ` para acessar/modificar o ambiente.
+	Functions:
+	- builtin_pwd: displays the current directory.
+	- builtin_env: prints environment variables.
+	- builtin_export: adds/updates environment variables.
+	- builtin_unset: removes environment variables.
+
+	Uses the global variable `environ` to access/modify the environment.
 */
 
 #include "../../includes/minishell.h"
 
 /**
- * @brief Imprime uma mensagem de erro padronizada para um builtin.
+ * @brief Prints a standardized error message for a builtin.
  *
- * @param cmd O nome do comando builtin.
- * @param arg O argumento que causou o erro (pode ser NULL).
- * @param msg A mensagem de erro específica.
+ * @param cmd The builtin command name.
+ * @param arg The argument that caused the error (can be NULL).
+ * @param msg The specific error message.
  */
 static void	print_builtin_error(const char *cmd, const char *arg,
 		const char *msg)
@@ -48,12 +48,12 @@ static void	print_builtin_error(const char *cmd, const char *arg,
 }
 
 /**
- * @brief Exibe o diretório de trabalho atual.
+ * @brief Displays the current working directory.
  *
- * Não aceita argumentos. Em caso de erro ao obter o diretório,
- * imprime uma mensagem de erro customizada.
+ * Does not accept arguments. In case of error getting the directory,
+ * prints a custom error message.
  *
- * @return Retorna 0 em sucesso, 1 em caso de erro.
+ * @return Returns 0 on success, 1 on error.
  */
 int	builtin_pwd(void)
 {
@@ -73,11 +73,11 @@ int	builtin_pwd(void)
 }
 
 /**
- * @brief Imprime as variáveis de ambiente do contexto atual.
+ * @brief Prints the environment variables of the current context.
  *
- * @param argv O vetor de argumentos do comando.
- * @param shell_context O contexto do shell.
- * @return Retorna 0 em sucesso, 127 se argumentos inválidos forem passados.
+ * @param argv The command argument vector.
+ * @param shell_context The shell context.
+ * @return Returns 0 on success, 127 if invalid arguments are passed.
  */
 int	builtin_env(char **argv, t_shell *shell_context)
 {
@@ -104,15 +104,15 @@ int	builtin_env(char **argv, t_shell *shell_context)
 }
 
 /**
- * @brief Adiciona ou atualiza variáveis no ambiente do shell.
+ * @brief Adds or updates variables in the shell environment.
  *
- * Se chamado sem argumentos, imprime o ambiente de forma ordenada.
- * Para cada argumento, valida a chave e a adiciona/atualiza no ambiente.
- * Continua o processamento mesmo que encontre uma chave inválida.
+ * If called without arguments, prints the environment in sorted order.
+ * For each argument, validates the key and adds/updates it in the environment.
+ * Continues processing even if it finds an invalid key.
  *
- * @param argv Argumentos do comando.
- * @param shell_context O contexto do shell.
- * @return Retorna 0 se tudo for bem-sucedido, 1 se alguma chave for inválida.
+ * @param argv Command arguments.
+ * @param shell_context The shell context.
+ * @return Returns 0 if everything is successful, 1 if any key is invalid.
  */
 int	builtin_export(char **argv, t_shell *shell_context)
 {
@@ -141,14 +141,14 @@ int	builtin_export(char **argv, t_shell *shell_context)
 }
 
 /**
- * @brief Remove variáveis do ambiente do shell.
+ * @brief Removes variables from the shell environment.
  *
- * Valida cada chave antes de tentar removê-la. Chaves para unset
- * não podem conter o caractere '='.
+ * Validates each key before trying to remove it. Keys for unset
+ * cannot contain the '=' character.
  *
- * @param argv Argumentos do comando.
- * @param shell_context O contexto do shell.
- * @return Retorna 0 se tudo for bem-sucedido, 1 se alguma chave for inválida.
+ * @param argv Command arguments.
+ * @param shell_context The shell context.
+ * @return Returns 0 if everything is successful, 1 if any key is invalid.
  */
 int	builtin_unset(char **argv, t_shell *shell_context)
 {

@@ -3,31 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/17 18:27:39 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:06:11 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*TODO :
-	->CHECK NORMINETTE;
-	->tirar os prints e print_tokens quando for fazer a entrega;
-	->reduzir as funções > process_input e main
-*/
-
 #include "../includes/minishell.h"
 
-/**
- * @brief Processa uma linha de comando, utilizando o contexto do shell.
- * @param input A linha de comando bruta.
+volatile sig_atomic_t	g_signal_status = 0;
 
-	* @param shell_context O ponteiro para a struct
-	que contém o estado do shell (envp,
+/**
+ * @brief Processes a command line, using the shell context.
+ * @param input The raw command line.
+
+	* @param shell_context The pointer to the struct
+	that contains the shell state (envp,
 	last_status).
  */
-static void	process_input(char *input, t_shell *shell_context,
-		int is_interactive)
+static int	should_skip_input(char *trimmed_input, t_shell *shell_context)
+{
+	if (!*trimmed_input || !is_valid_input_syntax(trimmed_input))
+	{
+		if (*trimmed_input)
+			shell_context->last_status = 2;
+		free(trimmed_input);
+		return (1);
+	}
+	return (0);
+}
+
+static void	expand_and_parse(char *trimmed_input, t_token **tokens, t_cmd **commands, int last_status)
+{
+	*tokens = tokenize_input(trimmed_input);
+	expand_tokens(*tokens, last_status);
+	*commands = parse(*tokens);
+}
+
+static void	execute_and_cleanup(t_cmd *commands, t_shell *shell_context, t_token *tokens)
+{
+	if (commands)
+	{
+		shell_context->last_status = executor(commands, shell_context);
+		free_command_table(commands);
+	}
+	free_tokens(tokens);
+}
+
+static void	process_input(char *input, t_shell *shell_context, int is_interactive)
 {
 	char	*trimmed_input;
 	t_token	*tokens;
@@ -37,24 +61,11 @@ static void	process_input(char *input, t_shell *shell_context,
 		add_history(input);
 	trimmed_input = ft_strtrim(input, " \t\n");
 	free(input);
-	if (!*trimmed_input || !is_valid_input_syntax(trimmed_input))
-	{
-		if (*trimmed_input)
-			shell_context->last_status = 2;
-		free(trimmed_input);
+	if (should_skip_input(trimmed_input, shell_context))
 		return ;
-	}
-	tokens = tokenize_input(trimmed_input);
-	expand_tokens(tokens, shell_context->last_status);
+	expand_and_parse(trimmed_input, &tokens, &commands, shell_context->last_status);
 	free(trimmed_input);
-	commands = parse(tokens);
-	free_tokens(tokens);
-	if (commands)
-	{
-		
-		shell_context->last_status = executor(commands, shell_context);
-		free_command_table(commands);
-	}
+	execute_and_cleanup(commands, shell_context, tokens);
 }
 
 int	main(void)
@@ -73,14 +84,10 @@ int	main(void)
 			shell_context.last_status = g_signal_status;
 			g_signal_status = 0;
 		}
-		if (is_interactive)
-			input = readline("minishell$ ");
-		else
-			input = readline(NULL);
+		input = get_input(is_interactive);
 		if (!input)
 		{
-			if (is_interactive)
-				write(STDOUT_FILENO, "exit\n", 5);
+			handle_exit(is_interactive);
 			break ;
 		}
 		process_input(input, &shell_context, is_interactive);

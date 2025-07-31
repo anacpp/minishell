@@ -1,61 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_token3.c                                     :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/16 19:28:20 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:01:40 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// OBS : NORMINETTE - OK
-
 #include "../../includes/minishell.h"
 
-t_token	*get_last_token(t_token *head)
-{
-	t_token	*current;
-
-	current = head;
-	if (!current)
-		return (NULL);
-	while (current->next)
-		current = current->next;
-	return (current);
-}
-
-char	*handle_char(const char *str, int *i)
-{
-	char	*tmp;
-
-	tmp = ft_strndup(str + *i, 1);
-	(*i)++;
-	return (tmp);
-}
-
-const char	*token_type_str(t_token_type type)
-{
-	if (type == T_WORD)
-		return ("Word");
-	else if (type == T_PIPE)
-		return ("Pipe");
-	else if (type == T_REDIR_IN)
-		return ("Redir In");
-	else if (type == T_REDIR_OUT)
-		return ("Redir Out");
-	else if (type == T_HEREDOC)
-		return ("Heredoc");
-	else if (type == T_APPEND)
-		return ("Append");
-	else if (type == T_ARGUMENT)
-		return ("Argument");
-	else
-		return ("Unknown");
-}
-
-char	*handle_word_token(const char *str, int *i, int *quote_type)
+static char	*handle_word_token(const char *str, int *i, int *quote_type)
 {
 	int	in_squote;
 	int	in_dquote;
@@ -92,4 +49,42 @@ void	get_token_next(const char *str, int *i, t_token **head)
 	free(value);
 	while (str[*i] == ' ' || str[*i] == '\t')
 		(*i)++;
+}
+
+t_token_type	get_token_type(const char *str)
+{
+	if (ft_strlen(str) == 1 && str[0] == '|')
+		return (T_PIPE);
+	else if (ft_strlen(str) == 1 && str[0] == '<')
+		return (T_REDIR_IN);
+	else if (ft_strlen(str) == 1 && str[0] == '>')
+		return (T_REDIR_OUT);
+	else if (ft_strlen(str) == 2 && !ft_strncmp(str, "<<", 2))
+		return (T_HEREDOC);
+	else if (ft_strlen(str) == 2 && !ft_strncmp(str, ">>", 2))
+		return (T_APPEND);
+	else if (!ft_strncmp(str, "$", 2))
+		return (T_ARGUMENT);
+	return (T_WORD);
+}
+
+char	*ft_strndup(const char *s, size_t n)
+{
+	size_t	i;
+	char	*dup;
+
+	i = 0;
+	while (s[i] && i < n)
+		i++;
+	dup = malloc(i + 1);
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (s[i] && i < n)
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }

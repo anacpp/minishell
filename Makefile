@@ -12,21 +12,21 @@ RM = rm -f
 SRCS = src/main.c \
        src/01_inputs/input_minishell.c \
        src/01_inputs/utils_input.c \
+       src/02_token/token_mutations.c \
+       src/02_token/token_utils.c \
+       src/02_token/token_validations.c \
        src/02_token/tokenizer.c \
-       src/02_token/utils_token.c \
-       src/02_token/utils_token2.c \
-       src/02_token/utils_token3.c \
        src/03_parser/parser.c \
        src/03_parser/parser_cleanup.c \
        src/03_parser/parser_error.c \
        src/03_parser/parser_helpers.c \
-       src/03_parser/parser_print_test.c \
        src/03_parser/parser_redirect.c \
        src/03_parser/parser_rules.c \
        src/03_parser/parser_segment_args.c \
        src/03_parser/parser_utils.c \
        src/04_expander/expander.c \
        src/04_expander/utils_expand.c \
+       src/04_expander/utils_expand_2.c \
        src/05_pre_exec/heredoc.c \
        src/05_pre_exec/pipe_create.c \
        src/05_pre_exec/util_heredo.c \
@@ -35,13 +35,16 @@ SRCS = src/main.c \
        src/06_executor/utils_exec.c \
        src/06_executor/utils_extern_cmd.c \
        src/06_executor/utils_fork_process.c \
+       src/06_executor/pipeline.c \
+       src/06_executor/child_process.c \
        src/07_signals/signals.c \
        src/07_builtins/builtin.c \
-       src/07_builtins/builtin_2.c \
+       src/07_builtins/builtin_commands.c \
        src/07_builtins/builtin_utils.c \
        src/08_environment/env_manager.c \
+       src/08_environment/env_manager_utils.c \
        src/utils/general_utils.c \
-       src/utils/globals.c
+       src/utils/main_utils.c
 
 # Automatically generate object file names from source files
 OBJS = ${SRCS:.c=.o}

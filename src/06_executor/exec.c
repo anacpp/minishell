@@ -6,68 +6,69 @@
 /*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/23 17:02:14 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:21:51 by acesar-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-	TODO: Redução de função -> execute_pipeline.c heredoc
-
-*/
 #include "../../includes/minishell.h"
 
 static int	execute_single_builtin(t_cmd *cmd, t_shell *shell_context);
-static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context);
-static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd,
-				t_shell *shell_context);
 static void	prepare_heredocs(t_cmd *cmds);
 
 /**
- * @brief Prepara os heredocs para os comandos,
- * criando arquivos temporários.
+ * @brief Prepares heredocs for commands,
+ * creating temporary files.
 
-	* Cada heredoc é substituído por um arquivo
-	temporário que contém o texto do heredoc.
- * @param cmds A lista de comandos que contêm os heredocs.
+	* Each heredoc is replaced by a temporary
+	file that contains the heredoc text.
+ * @param cmds The list of commands that contain the heredocs.
  */
+static void	process_heredoc_redir(t_redir *redir)
+{
+	char *tmp_path;
+
+	if (create_heredoc(redir->filename, &tmp_path) < 0)
+		perror("heredoc");
+	free(redir->filename);
+	redir->filename = tmp_path;
+	redir->type = T_REDIR_IN;
+}
+
+static void	process_heredocs_for_cmd(t_cmd *cmd)
+{
+	t_redir *redir;
+
+	redir = cmd->redirs;
+	while (redir)
+	{
+		if (redir->type == T_HEREDOC)
+			process_heredoc_redir(redir);
+		redir = redir->next;
+	}
+}
+
 static void	prepare_heredocs(t_cmd *cmds)
 {
-	t_cmd	*cmd;
-	t_redir	*redir;
-	char *tmp_path;
-	
+	t_cmd *cmd;
+
 	cmd = cmds;
 	while (cmd)
 	{
-		redir = cmd->redirs;
-		while (redir)
-		{
-			if (redir->type == T_HEREDOC)
-			{
-				if (create_heredoc(redir->filename, &tmp_path) < 0)
-				{
-					perror("heredoc");
-				}
-				free(redir->filename);
-				redir->filename = tmp_path;
-				redir->type = T_REDIR_IN;
-			}
-			redir = redir->next;
-		}
+		process_heredocs_for_cmd(cmd);
 		cmd = cmd->next;
 	}
 }
 
 /**
- * @brief Executa os comandos no contexto do shell.
- * Se for um único comando built-in, executa diretamente.
- * Se for uma pipeline, cria processos filhos para cada comando.
- * @param cmds A lista de comandos a serem executados.
+ * @brief Executes commands in the shell context.
+ * If it's a single built-in command, executes directly.
+ * If it's a pipeline, creates child processes for each command.
+ * @param cmds The list of commands to be executed.
 
-	* @param shell_context O contexto do shell que contém
-	o ambiente e o último status.
- * @return O status de saída do comando executado (0 para sucesso,
-	>0 para erro).
+	* @param shell_context The shell context that contains
+	the environment and last status.
+ * @return The exit status of the executed command (0 for success,
+	>0 for error).
  */
 int	executor(t_cmd *cmds, t_shell *shell_context)
 {
@@ -82,7 +83,7 @@ int	executor(t_cmd *cmds, t_shell *shell_context)
 }
 
 /**
- * @brief Executa um único built-in no processo pai.
+ * @brief Executes a single built-in in the parent process.
  */
 static int	execute_single_builtin(t_cmd *cmd, t_shell *shell_context)
 {
@@ -97,89 +98,4 @@ static int	execute_single_builtin(t_cmd *cmd, t_shell *shell_context)
 	status = run_builtin(cmd, shell_context);
 	restore_stdio(stdio_backup);
 	return (status);
-}
-
-/**
- * @brief Executa uma pipeline de comandos em processos filhos.
- */
-static int	execute_pipeline(t_cmd *cmds, t_shell *shell_context)
-{
-	int		pipe_fds[2];
-	int		in_fd;
-	pid_t	pid;
-	t_cmd	*current;
-	int 	num_pids;
-	pid_t child_pids[MAX_PIDS];
-
-	
-
-	in_fd = STDIN_FILENO;
-	current = cmds;
-	num_pids = 0;
-	while (current)
-	{
-		if (current->next)
-			pipe(pipe_fds);
-		pid = fork();
-		if (pid == -1)
-			return (perror("fork"), 1);
-		if (pid == 0)
-			execute_child_process(current, pipe_fds, in_fd, shell_context);
-		save_pid(pid, &num_pids, child_pids);
-		if (in_fd != STDIN_FILENO)
-			close(in_fd);
-		if (current->next)
-		{
-			close(pipe_fds[1]);
-			in_fd = pipe_fds[0];
-		}
-		current = current->next;
-	}
-	wait_all_children(&num_pids, child_pids);
-	return (g_signal_status);
-}
-
-/**
- * @brief Código executado dentro de um processo filho.
- */
-static void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd,
-		t_shell *shell_context)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	if (in_fd != STDIN_FILENO)
-	{
-		dup2(in_fd, STDIN_FILENO);
-		close(in_fd);
-	}
-	if (cmd->next)
-	{
-		close(pipe_fds[0]);
-		dup2(pipe_fds[1], STDOUT_FILENO);
-		close(pipe_fds[1]);
-	}
-	if (cmd->redirs)
-		setup_redir(cmd->redirs);
-	if (cmd->redirs)
-	{
-		setup_redir(cmd->redirs);
-
-		t_redir *redir = cmd->redirs;
-		while (redir)
-		{
-			if (redir->type == T_REDIR_IN &&
-				redir->filename &&
-				ft_strncmp(redir->filename, "./.heredoc_", 11) == 0)
-			{
-				unlink(redir->filename);
-			}
-			redir = redir->next;
-		}
-	}
-
-	if (is_builtin(cmd))
-		exit(run_builtin(cmd, shell_context));
-	else
-		exec_external(cmd, shell_context);
-	exit(EXIT_FAILURE);
 }
