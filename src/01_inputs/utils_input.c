@@ -3,19 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   utils_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/21 16:20:42 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:30:41 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*  OBS : 
-	->NORMINETTE - OK
-	
-    TODO :
-	->tem que verificar se podemos dar um return com condicional.
-*/
 
 #include "../../includes/minishell.h"
 
@@ -30,17 +23,4 @@ void	update_quote_state(char c, int *in_single, int *in_double)
 int	is_redirect(char c)
 {
 	return (c == '<' || c == '>');
-}
-
-int	skip_redirect_and_check_error(const char *input, int *i)
-{
-	int	redirect_len;
-
-	redirect_len = 1;
-	if (input[*i + 1] && input[*i + 1] == input[*i])
-		redirect_len++;
-	*i += redirect_len;
-	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
-		(*i)++;
-	return (input[*i] == '\0' || is_redirect(input[*i]) || input[*i] == '|');
 }

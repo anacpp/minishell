@@ -3,32 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   general_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/16 20:14:57 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:32:59 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* TODO: comment to test manually -> 
-(void)data;
-(void)code;
-Comment -> if(data) to exit(code) lines to test manually
-
-	OBS:
-	-> NORMINETTE - OK
-*/
-
 #include "../../includes/minishell.h"
 
-void	handle_error(char *data, char *msg, int code)
+void	handle_error(char *data, char *msg, int code, int should_exit)
 {
 	if (msg)
 	{
+		write(STDERR_FILENO, "minishell: ", 11);
 		write(STDERR_FILENO, msg, ft_strlen(msg));
 		write(STDERR_FILENO, "\n", 1);
 	}
 	if (data)
 		free(data);
-	exit(code);
+	if (should_exit)
+		exit(code);
+}
+
+int	ft_lstsize(t_stack *lst)
+{
+	int	count;
+
+	count = 0;
+	while (lst != NULL)
+	{
+		count++;
+		lst = lst->next;
+	}
+	return (count);
+}
+
+int	count_cmds(t_cmd *cmds)
+{
+	int	count;
+
+	count = 0;
+	while (cmds != NULL)
+	{
+		count++;
+		cmds = cmds->next;
+	}
+	return (count);
+}
+
+/**
+ * @brief Prints a standardized error message for the cd command.
+ *
+ * @param path The path that caused the error.
+ * @param msg The specific error message.
+ */
+void	print_cd_error(const char *path, const char *msg)
+{
+	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+	ft_putstr_fd((char *)path, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd((char *)msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 }

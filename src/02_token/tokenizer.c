@@ -3,109 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/05/21 17:08:14 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:33:31 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* OBS :
-	-> NORMINETTE - ok
-	-> CHECK LEAKS - ok (LEAKS APENAS DA BIBLIOTECA READLINE, QUE SÃO ESPERADAS)
-*/
-
 #include "../../includes/minishell.h"
 
-static char	*expand_variable(const char *str, int *i)
+static char	*extract_token_without_quotes(const char *str, int len,
+		int quote_type)
 {
-	int		start;
-	char	*var_name;
-	char	*var_value;
-	char	*value;
-
-	start = *i;
-	(*i)++;
-	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
-		(*i)++;
-	var_name = ft_strndup(str + start + 1, *i - start - 1);
-	var_value = getenv(var_name);
-	free(var_name);
-	if (var_value)
-		value = ft_strdup(var_value);
-	else
-		value = ft_strdup("");
-	return (value);
+	if ((quote_type == 1 && str[0] == '\'' && str[len - 1] == '\'')
+		|| (quote_type == 2 && str[0] == '"' && str[len - 1] == '"'))
+		return (ft_strndup(str + 1, len - 2));
+	return (ft_strndup(str, len));
 }
 
-static char	*handle_variable(const char *str, int *i)
+char	*get_token_value(const char *str, int *i, int *quote_type)
 {
-	return (expand_variable(str, i));
-}
-
-static char	*get_token_value(const char *str, int *i, t_token *last)
-{
-	char	*value;
-	char	*tmp;
 	int		in_squote;
 	int		in_dquote;
+	int		start;
+	char	*value;
 
 	in_squote = 0;
 	in_dquote = 0;
-	value = ft_strdup("");
+	start = *i;
+	*quote_type = 0;
+	if (str[start] == '\'')
+		*quote_type = 1;
+	else if (str[start] == '"')
+		*quote_type = 2;
 	while (str[*i])
 	{
 		update_quote_flags(str[*i], &in_squote, &in_dquote);
 		if (is_token_end(str[*i], in_squote, in_dquote))
 			break ;
-		else if (str[*i] == '$' && !in_squote && !is_heredoc_context(last))
-			tmp = handle_variable(str, i);
-		else
-			tmp = handle_char(str, i);
-		value = ft_strjoin(value, tmp);
+		(*i)++;
 	}
+	value = extract_token_without_quotes(str + start, *i - start, *quote_type);
 	return (value);
 }
 
-static char	*get_operator(const char *str, int *i)
+char	*get_operator(const char *str, int *i)
 {
-	char	*operator;
-
-	operator = NULL;
-	if ((str[*i] == '<' || str[*i] == '>') && str[*i + 1] == str[*i])
+	if ((str[*i] == '<' || str[*i] == '>') && str[*i + 1] != '\0' && str[*i
+			+ 1] == str[*i])
 	{
-		operator = ft_strndup(str + *i, 2);
-		(*i) += 2;
+		*i += 2;
+		return (ft_strndup(str + *i - 2, 2));
 	}
-	else if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
+	else if (str[*i] == '<' || str[*i] == '>' || str[*i] == '|')
 	{
-		operator = ft_strndup(str + *i, 1);
-		(*i)++;
+		*i += 1;
+		return (ft_strndup(str + *i - 1, 1));
 	}
-	return (operator);
+	return (NULL);
 }
 
 t_token	*tokenize_input(const char *str)
 {
 	t_token	*head;
-	char	*value;
 	int		i;
 
 	head = NULL;
 	i = 0;
 	while (str[i])
-	{
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
-		if (!str[i])
-			break ;
-		if (is_operator_char(str[i]))
-			value = get_operator(str, &i);
-		else
-			value = get_token_value(str, &i, get_last_token(head));
-		if (value && *value != '\0')
-			add_token(&head, value, get_token_type(value));
-		free(value);
-	}
+		get_token_next(str, &i, &head);
 	return (head);
 }

@@ -3,7 +3,9 @@
 ![C](https://img.shields.io/badge/language-C-blue) ![status](https://img.shields.io/badge/status-in%20progress-yellow)
 
 ## ✨ Objetivo
+
 Criar uma shell mínima inspirada no Bash, com funcionalidades como:
+
 - Prompt interativo
 - Execução de comandos (built-ins e externos)
 - Pipes (`|`) e redirecionamentos (`>`, `<`, `>>`, `<<`)
@@ -45,8 +47,15 @@ README.md          # documentação
 ## 🧪 Testes
 
 Use os testes em `tests/` para validar:
+
 ```bash
 bash tests/run_all.sh
+```
+
+Para rodar testes udando o valgrind utilize a variável USE_VALGRIND
+
+```bash
+USE_VALGRIND=1 bash tests/test_parser.sh
 ```
 
 ## 🤝 Autores
@@ -55,4 +64,12 @@ bash tests/run_all.sh
 - Raquel — [@raqueljacques](https://github.com/raqueljacques)
 
 ## 📄 Licença
+
 Projeto educacional para a 42 rj. Sem fins lucrativos.
+
+## TODO
+- [x] tab completion está listando arquivos, incluindo ocultos (O readline por padrão tem tab completion habilitado, que automaticamente lista arquivos (incluindo ocultos) quando você pressiona TAB).
+- [x] echo " '" aspas simples não são printáveis
+- [] src/06_executor/utils_exec.c: Error!
+Error: TOO_MANY_TAB         (line:  18, col:   1):      Extra tabs for indent level
+

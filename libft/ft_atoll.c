@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 16:02:03 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/08/05 17:33:52 by rdos-san         ###   ########.fr       */
+/*   Created: 2024/09/24 16:34:54 by acesar-p          #+#    #+#             */
+/*   Updated: 2025/08/05 17:30:10 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+long long	ft_atoll(const char *str)
 {
-	size_t			index;
-	unsigned char	uc_s1;
-	unsigned char	uc_s2;
+	long long	res;
+	int			sign;
 
-	index = 0;
-	while (index < n)
+	res = 0;
+	sign = 1;
+	while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		uc_s1 = (unsigned char)s1[index];
-		uc_s2 = (unsigned char)s2[index];
-		if (uc_s1 != uc_s2)
-			return (uc_s1 - uc_s2);
-		if (uc_s1 == '\0' || uc_s2 == '\0')
-			break ;
-		index++;
+		if (*str == '-')
+			sign = -1;
+		str++;
 	}
-	return (0);
+	while (ft_isdigit(*str))
+	{
+		res = res * 10 + (*str - '0');
+		str++;
+	}
+	return (res * sign);
 }
