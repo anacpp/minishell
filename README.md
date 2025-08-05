@@ -70,4 +70,8 @@ Projeto educacional para a 42 rj. Sem fins lucrativos.
 ## TODO
 - [x] tab completion está listando arquivos, incluindo ocultos (O readline por padrão tem tab completion habilitado, que automaticamente lista arquivos (incluindo ocultos) quando você pressiona TAB).
 - [x] echo " '" aspas simples não são printáveis
+- [] src/06_executor/utils_exec.c: Error!
+Error: TOO_MANY_TAB         (line:  18, col:   1):      Extra tabs for indent level
+- [] src/utils/main_utils.c: Error!
+Error: RETURN_PARENTHESIS   (line:  24, col:  16):      Return value must be in parenthesis
 
