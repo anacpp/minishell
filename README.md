@@ -69,5 +69,5 @@ Projeto educacional para a 42 rj. Sem fins lucrativos.
 
 ## TODO
 - [x] tab completion está listando arquivos, incluindo ocultos (O readline por padrão tem tab completion habilitado, que automaticamente lista arquivos (incluindo ocultos) quando você pressiona TAB).
-- [] echo " '" aspas simples não são printáveis
+- [x] echo " '" aspas simples não são printáveis
 

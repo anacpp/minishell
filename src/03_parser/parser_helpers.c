@@ -45,7 +45,9 @@ static void	perform_quote_removal(char *str, char *new_str)
 		else if (str[i] == '"' && !in_squote)
 			in_dquote = !in_dquote;
 		else
+		{
 			new_str[j++] = str[i];
+		}
 		i++;
 	}
 	new_str[j] = '\0';

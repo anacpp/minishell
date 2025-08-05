@@ -28,7 +28,7 @@ int	fill_segment_data(t_cmd *cmd, t_token **start, t_token *end)
 		}
 		else if (iter->type == T_WORD)
 		{
-			cmd->argv[i] = remove_quotes(iter->value);
+			cmd->argv[i] = ft_strdup(iter->value);
 			i++;
 		}
 		iter = iter->next;
