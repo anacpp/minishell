@@ -6,7 +6,7 @@
 /*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:36:30 by rdos-san          #+#    #+#             */
-/*   Updated: 2025/08/05 17:32:59 by rdos-san         ###   ########.fr       */
+/*   Updated: 2025/08/05 19:19:43 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	is_builtin(t_cmd *cmd)
 {
 	const char	*builtins[] = {"cd", "echo", "exit", "export", "unset", "pwd",
-			"env", NULL};
+		"env", NULL};
 	int			i;
 
 	if (!cmd || !cmd->argv || !cmd->argv[0])
