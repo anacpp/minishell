@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/30 10:16:22 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:21:24 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,22 @@ typedef struct s_cmd
 	struct s_cmd				*next;
 }								t_cmd;
 
-typedef struct s_fork_ctx {
-	int *pipe_fds;
-	int in_fd;
-	int *num_pids;
-	pid_t *child_pids;
-} t_fork_ctx;
+typedef struct s_fork_ctx
+{
+	int							*pipe_fds;
+	int							in_fd;
+	int							*num_pids;
+	pid_t						*child_pids;
+}								t_fork_ctx;
 
-typedef struct s_pipeline_ctx {
-	int pipe_fds[2];
-	int in_fd;
-	int num_pids;
-	pid_t child_pids[MAX_PIDS];
-	t_fork_ctx fork_ctx;
-} t_pipeline_ctx;
+typedef struct s_pipeline_ctx
+{
+	int							pipe_fds[2];
+	int							in_fd;
+	int							num_pids;
+	pid_t						child_pids[MAX_PIDS];
+	t_fork_ctx					fork_ctx;
+}								t_pipeline_ctx;
 
 // Error handling functions
 void							handle_error(char *data, char *msg, int code,
@@ -153,7 +155,8 @@ int								ft_lstsize(t_stack *lst);
 int								count_cmds(t_cmd *cmds);
 
 // --- Expander functions ---
-char 						    *expand_variables(char *input, int status, int quote_type);
+char							*expand_variables(char *input, int status,
+									int quote_type);
 void							expand_tokens(t_token *tokens, int last_status);
 void							update_quotes(char c, int *in_squote,
 									int *in_dquote);
@@ -165,12 +168,15 @@ char							*process_regular_char(char *result,
 char							*process_dollar_sequence(char *result,
 									char *input, int *i, int status);
 char							*append_char_and_advance(char *str, char c);
-int execute_pipeline(t_cmd *cmds, t_shell *shell_context);
-void execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd, t_shell *shell_context);
-void unlink_heredocs(t_redir *redir);
+int								execute_pipeline(t_cmd *cmds,
+									t_shell *shell_context);
+void							execute_child_process(t_cmd *cmd, int *pipe_fds,
+									int in_fd, t_shell *shell_context);
+void							unlink_heredocs(t_redir *redir);
 
 // --- Pre-exec functions ---
-int								create_heredoc(char *delimiter, char **temp_path);
+int								create_heredoc(char *delimiter,
+									char **temp_path);
 char							*generate_temp_name(int suffix);
 int								create_temp_file(char *buffer, size_t size);
 char							*ft_strjoin_no_free(char *s1, char *s2);
@@ -183,8 +189,10 @@ void							exec_external(t_cmd *cmd,
 void							save_stdio(int fds[2]);
 void							restore_stdio(int fds[2]);
 void							setup_redir(t_redir *redir);
-void							save_pid(pid_t pid, int *num_pids, pid_t *child_pids);
-void							wait_all_children(int *num_pids, pid_t *child_pids);
+void							save_pid(pid_t pid, int *num_pids,
+									pid_t *child_pids);
+void							wait_all_children(int *num_pids,
+									pid_t *child_pids);
 
 // --- Builtin functions ---
 int								is_builtin(t_cmd *cmd);
@@ -199,6 +207,9 @@ int								builtin_env(char **argv,
 int								is_n_flag(char *str);
 int								is_valid_key(char *key);
 void							print_env_sorted(char **envp);
+void							cleanup_and_exit(t_shell *shell_context,
+									int status);
+void							exit_numeric_error(char *arg);
 
 // --- Debug functions ---
 const char						*token_type_str(t_token_type type);
@@ -207,8 +218,8 @@ const char						*token_type_str(t_token_type type);
 void							setup_signal_handlers(void);
 
 // Executor utils functions
-char							*ft_strjoin_triple(char *s1,
-									char *s2, char *s3);
+char							*ft_strjoin_triple(char *s1, char *s2,
+									char *s3);
 void							free_split(char **arr);
 
 // --- Environment functions ---
@@ -224,8 +235,8 @@ char							*get_env_value(const char *key, char **envp);
 void							handle_exit(int is_interactive);
 char							*get_input(int is_interactive);
 
-
 // --- General utils ---
-void							print_cd_error(const char *path, const char *msg);
+void							print_cd_error(const char *path,
+									const char *msg);
 
 #endif

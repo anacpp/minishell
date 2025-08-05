@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/08/05 16:54:15 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:20:00 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,29 +122,6 @@ static int	is_numeric_string(const char *str)
 }
 
 /**
- * @brief Libera os recursos do shell e termina o processo.
- * @param shell_context O contexto do shell para limpeza.
- * @param status O código de status para a saída.
- */
-static void	cleanup_and_exit(t_shell *shell_context, int status)
-{
-	free_environment(shell_context);
-	clear_history();
-	exit(status);
-}
-
-/**
- * @brief Imprime a mensagem de erro para argumento numérico inválido.
- * @param arg O argumento que causou o erro.
- */
-static void	exit_numeric_error(char *arg)
-{
-	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-}
-
-/**
  * @brief Termina o shell com um status de saída, com validação de argumentos.
  *
  * Comportamentos implementados:
@@ -156,7 +133,8 @@ static void	exit_numeric_error(char *arg)
  *
  * @param argv Argumentos do comando.
  * @param shell_context Contexto do shell para obter o último status e limpar.
- * @return Não retorna em caso de sucesso. Retorna 1 em caso de "muitos argumentos".
+ * @return Não retorna em caso de sucesso. Retorna 1 em caso de "muitos
+ * argumentos".
  */
 static int	builtin_exit(char **argv, t_shell *shell_context)
 {

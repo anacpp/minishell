@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/23 20:27:17 by acesar-p         ###   ########.fr       */
+/*   Created: 2023/03/10 12:00:00 by rdos-san          #+#    #+#             */
+/*   Updated: 2025/08/05 17:32:59 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/**
- * @brief Handler for the SIGINT signal (ctrl-C).
+/*** @brief Handler for the SIGINT signal (ctrl-C).
  * * This function is called when the process receives a SIGINT.
  * It writes a new line to standard output, informs the readline library
- * that the cursor has moved, clears the current line buffer and redisplays the prompt.
+ * that the cursor has moved, clears the current line buffer and redisplays
+ the prompt.
  * This effectively cancels the current command line and prepares a new one.
  * * @param signo The signal number (not used,
 	but required by the signature).

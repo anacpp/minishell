@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expand_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 16:51:07 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:24:41 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ char	*append_char_and_advance(char *str, char c)
 
 void	free_remaining_expansions(t_token *start, t_token *end)
 {
-	t_token *tmp = start;
+	t_token	*tmp;
+
+	tmp = start;
 	while (tmp && tmp != end)
 	{
 		free(tmp->value);
@@ -68,8 +70,9 @@ void	expand_tokens(t_token *tokens, int last_status)
 {
 	t_token	*tmp;
 	char	*expanded;
-	t_token *error_token = NULL;
+	t_token	*error_token;
 
+	error_token = NULL;
 	tmp = tokens;
 	while (tmp)
 	{
@@ -86,4 +89,3 @@ void	expand_tokens(t_token *tokens, int last_status)
 	if (error_token)
 		free_remaining_expansions(error_token, NULL);
 }
-

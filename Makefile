@@ -40,6 +40,7 @@ SRCS = src/main.c \
        src/07_signals/signals.c \
        src/07_builtins/builtin.c \
        src/07_builtins/builtin_commands.c \
+       src/07_builtins/builtin_exit_util.c \
        src/07_builtins/builtin_utils.c \
        src/08_environment/env_manager.c \
        src/08_environment/env_manager_utils.c \

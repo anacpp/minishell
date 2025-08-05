@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/30 20:56:32 by rjacques         ###   ########.fr       */
+/*   Created: 2025/07/12 17:36:30 by rdos-san          #+#    #+#             */
+/*   Updated: 2025/08/05 17:32:59 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*check_direct_exec(char *cmd)
 
 static char	*find_cmd_in_paths(char **paths, char *cmd)
 {
-	int		 i;
+	int		i;
 	char	*full_path;
 
 	i = 0;

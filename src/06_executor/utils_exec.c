@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/24 17:27:25 by acesar-p         ###   ########.fr       */
+/*   Created: 2025/07/12 17:36:30 by rdos-san          #+#    #+#             */
+/*   Updated: 2025/08/05 17:32:59 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	is_builtin(t_cmd *cmd)
 {
 	const char	*builtins[] = {"cd", "echo", "exit", "export", "unset", "pwd",
-		"env", NULL};
+			"env", NULL};
 	int			i;
 
 	if (!cmd || !cmd->argv || !cmd->argv[0])
@@ -33,7 +33,7 @@ int	is_builtin(t_cmd *cmd)
 /**
  * @brief Configures input and output redirections for commands.
 
-	* Each redirection is processed and the corresponding 
+	* Each redirection is processed and the corresponding
 	file descriptor is opened.
  * @param redir The list of redirections to be configured.
  * @return void
@@ -61,11 +61,12 @@ static void	apply_redir(t_redir *redir, int fd)
 
 void	setup_redir(t_redir *redir)
 {
-	int fd;
+	int	fd;
 
 	while (redir)
 	{
-		if (redir->type == T_REDIR_IN || redir->type == T_REDIR_OUT || redir->type == T_APPEND)
+		if (redir->type == T_REDIR_IN || redir->type == T_REDIR_OUT
+			|| redir->type == T_APPEND)
 		{
 			fd = open_redir_file(redir);
 			if (fd < 0)
@@ -79,14 +80,13 @@ void	setup_redir(t_redir *redir)
 	}
 }
 
-
 /**
  * @brief Saves the standard file descriptors (stdin and stdout)
  * for later restoration.
  * @param fds Array where the descriptors will be saved.
  */
 void	save_stdio(int fds[2])
-{	
+{
 	fds[0] = dup(STDIN_FILENO);
 	fds[1] = dup(STDOUT_FILENO);
 	if (fds[0] < 0 || fds[1] < 0)
@@ -95,5 +95,3 @@ void	save_stdio(int fds[2])
 		exit(EXIT_FAILURE);
 	}
 }
-
-

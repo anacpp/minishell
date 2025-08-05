@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 11:13:48 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/30 11:13:52 by rjacques         ###   ########.fr       */
+/*   Created: 2025/07/30 11:13:48 by rdos-san          #+#    #+#             */
+/*   Updated: 2025/08/05 17:33:12 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ char	*get_input(int is_interactive)
 {
 	if (is_interactive)
 		return readline("minishell$ ");
-	return readline(NULL);
+	return (readline(NULL));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/30 09:06:11 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:28:09 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,16 @@ static int	should_skip_input(char *trimmed_input, t_shell *shell_context)
 	return (0);
 }
 
-static void	expand_and_parse(char *trimmed_input, t_token **tokens, t_cmd **commands, int last_status)
+static void	expand_and_parse(char *trimmed_input, t_token **tokens,
+		t_cmd **commands, int last_status)
 {
 	*tokens = tokenize_input(trimmed_input);
 	expand_tokens(*tokens, last_status);
 	*commands = parse(*tokens);
 }
 
-static void	execute_and_cleanup(t_cmd *commands, t_shell *shell_context, t_token *tokens)
+static void	execute_and_cleanup(t_cmd *commands, t_shell *shell_context,
+		t_token *tokens)
 {
 	if (commands)
 	{
@@ -51,7 +53,8 @@ static void	execute_and_cleanup(t_cmd *commands, t_shell *shell_context, t_token
 	free_tokens(tokens);
 }
 
-static void	process_input(char *input, t_shell *shell_context, int is_interactive)
+static void	process_input(char *input, t_shell *shell_context,
+		int is_interactive)
 {
 	char	*trimmed_input;
 	t_token	*tokens;
@@ -63,7 +66,8 @@ static void	process_input(char *input, t_shell *shell_context, int is_interactiv
 	free(input);
 	if (should_skip_input(trimmed_input, shell_context))
 		return ;
-	expand_and_parse(trimmed_input, &tokens, &commands, shell_context->last_status);
+	expand_and_parse(trimmed_input, &tokens, &commands,
+		shell_context->last_status);
 	free(trimmed_input);
 	execute_and_cleanup(commands, shell_context, tokens);
 }
