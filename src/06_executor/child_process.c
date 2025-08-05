@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 17:31:11 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:28:45 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void dup_and_close(int oldfd, int newfd)
+static void	dup_and_close(int oldfd, int newfd)
 {
 	if (oldfd != newfd)
 	{
@@ -21,7 +21,7 @@ static void dup_and_close(int oldfd, int newfd)
 	}
 }
 
-static void setup_child_pipes(t_cmd *cmd, int *pipe_fds, int in_fd)
+static void	setup_child_pipes(t_cmd *cmd, int *pipe_fds, int in_fd)
 {
 	dup_and_close(in_fd, STDIN_FILENO);
 	if (cmd->next)
@@ -31,7 +31,8 @@ static void setup_child_pipes(t_cmd *cmd, int *pipe_fds, int in_fd)
 	}
 }
 
-void execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd, t_shell *shell_context)
+void	execute_child_process(t_cmd *cmd, int *pipe_fds, int in_fd,
+		t_shell *shell_context)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

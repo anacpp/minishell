@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 17:21:51 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:27:02 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	prepare_heredocs(t_cmd *cmds);
  */
 static void	process_heredoc_redir(t_redir *redir)
 {
-	char *tmp_path;
+	char	*tmp_path;
 
 	if (create_heredoc(redir->filename, &tmp_path) < 0)
 		perror("heredoc");
@@ -36,7 +36,7 @@ static void	process_heredoc_redir(t_redir *redir)
 
 static void	process_heredocs_for_cmd(t_cmd *cmd)
 {
-	t_redir *redir;
+	t_redir	*redir;
 
 	redir = cmd->redirs;
 	while (redir)
@@ -49,7 +49,7 @@ static void	process_heredocs_for_cmd(t_cmd *cmd)
 
 static void	prepare_heredocs(t_cmd *cmds)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = cmds;
 	while (cmd)

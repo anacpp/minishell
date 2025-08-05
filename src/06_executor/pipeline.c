@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 17:31:20 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:26:06 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void close_and_update_fd(int *in_fd, int *pipe_fds, int has_next)
+static void	close_and_update_fd(int *in_fd, int *pipe_fds, int has_next)
 {
 	if (*in_fd != STDIN_FILENO)
 		close(*in_fd);
@@ -23,32 +23,33 @@ static void close_and_update_fd(int *in_fd, int *pipe_fds, int has_next)
 	}
 }
 
-static int create_and_fork(t_cmd *current, t_fork_ctx *ctx, t_shell *shell_context)
+static int	create_and_fork(t_cmd *current, t_fork_ctx *ctx,
+		t_shell *shell_context)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
 		return (perror("fork"), 1);
 	if (pid == 0)
-		execute_child_process(current, ctx->pipe_fds, ctx->in_fd, shell_context);
+		execute_child_process(current, ctx->pipe_fds, ctx->in_fd,
+			shell_context);
 	save_pid(pid, ctx->num_pids, ctx->child_pids);
 	return (0);
 }
 
-void unlink_heredocs(t_redir *redir)
+void	unlink_heredocs(t_redir *redir)
 {
 	while (redir)
 	{
-		if (redir->type == T_REDIR_IN
-			&& redir->filename
+		if (redir->type == T_REDIR_IN && redir->filename
 			&& ft_strncmp(redir->filename, "./.heredoc_", 11) == 0)
 			unlink(redir->filename);
 		redir = redir->next;
 	}
 }
 
-static void init_pipeline_ctx(t_pipeline_ctx *ctx)
+static void	init_pipeline_ctx(t_pipeline_ctx *ctx)
 {
 	ctx->in_fd = STDIN_FILENO;
 	ctx->num_pids = 0;
@@ -57,10 +58,10 @@ static void init_pipeline_ctx(t_pipeline_ctx *ctx)
 	ctx->fork_ctx.child_pids = ctx->child_pids;
 }
 
-int execute_pipeline(t_cmd *cmds, t_shell *shell_context)
+int	execute_pipeline(t_cmd *cmds, t_shell *shell_context)
 {
-	t_pipeline_ctx ctx;
-	t_cmd *current;
+	t_pipeline_ctx	ctx;
+	t_cmd			*current;
 
 	init_pipeline_ctx(&ctx);
 	current = cmds;

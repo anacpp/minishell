@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 15:24:33 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:23:10 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ static int	check_delimiter(const char *line, const char *delimiter)
 
 static void	print_prompt(void)
 {
-	const char *prompt = "heredoc> ";
+	const char	*prompt = "heredoc> ";
+
 	write(1, prompt, strlen(prompt));
 }
-
 
 static void	heredoc_loop(int fd, const char *delimiter)
 {
@@ -82,14 +82,11 @@ int	create_heredoc(char *delimiter, char **tmp_path)
 	tmpfile = malloc(256);
 	if (!tmpfile)
 		handle_error("heredoc", "malloc failed", 1, 1);
-
 	fd = create_temp_file(tmpfile, 256);
 	if (fd < 0)
 		handle_error("heredoc", strerror(errno), 1, 1);
-
 	heredoc_loop(fd, delimiter);
 	close(fd);
-
 	*tmp_path = tmpfile;
 	return (0);
 }

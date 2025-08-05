@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/24 15:24:13 by acesar-p         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:25:12 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 	the expansion flow correctly.
 */
 
-
 #include "../../includes/minishell.h"
 
 char	*append_expanded(char *result, char *input, int *i, int status)
@@ -45,7 +44,6 @@ char	*append_expanded(char *result, char *input, int *i, int status)
 	tmp = ft_strjoin(result, expanded);
 	return (tmp);
 }
-
 
 void	update_quotes(char c, int *in_squote, int *in_dquote)
 {
@@ -64,7 +62,6 @@ char	*process_dollar_sequence(char *result, char *input, int *i, int status)
 		return (NULL);
 	return (tmp);
 }
-
 
 char	*process_regular_char(char *result, char current, int *i)
 {

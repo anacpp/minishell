@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_mutations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 11:18:23 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/30 11:18:24 by rjacques         ###   ########.fr       */
+/*   Created: 2025/07/30 11:18:23 by rdos-san          #+#    #+#             */
+/*   Updated: 2025/08/05 17:32:11 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static t_token	*create_token(char *value, t_token_type type, int quote_type)
 	return (new);
 }
 
-void	add_token(t_token **head, char *value, t_token_type type, int quote_type)
+void	add_token(t_token **head, char *value, t_token_type type,
+		int quote_type)
 {
 	t_token	*new;
 	t_token	*temp;

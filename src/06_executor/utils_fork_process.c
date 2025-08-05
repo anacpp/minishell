@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_fork_process.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-p <acesar-p@student.42.rio>         +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/12 17:36:30 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/24 17:25:52 by acesar-p         ###   ########.fr       */
+/*   Created: 2025/07/12 17:36:30 by rdos-san          #+#    #+#             */
+/*   Updated: 2025/08/05 17:32:59 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	save_pid(pid_t pid, int *num_pids, pid_t *child_pids)
 int	wait_pid(pid_t pid)
 {
 	int	status;
-	int sig;
+	int	sig;
 
 	if (waitpid(pid, &status, 0) == -1)
 	{
@@ -47,7 +47,6 @@ int	wait_pid(pid_t pid)
 	return (0);
 }
 
-
 void	wait_all_children(int *num_pids, pid_t *child_pids)
 {
 	int	i;
@@ -60,6 +59,7 @@ void	wait_all_children(int *num_pids, pid_t *child_pids)
 	}
 	*num_pids = 0;
 }
+
 void	restore_stdio(int fds[2])
 {
 	if (dup2(fds[0], STDIN_FILENO) < 0)

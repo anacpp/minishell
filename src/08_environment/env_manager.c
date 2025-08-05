@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/10 12:00:00 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/30 11:14:15 by rjacques         ###   ########.fr       */
+/*   Created: 2023/03/10 12:00:00 by rdos-san          #+#    #+#             */
+/*   Updated: 2025/08/05 17:32:59 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	add_env_var(const char *var_string, t_shell *shell_context)
 {
 	char	*key;
 	char	**var_ptr;
+	int		count;
+	char	**new_envp;
 
 	key = extract_key_from_string(var_string);
 	var_ptr = find_env_var(key, shell_context->envp);
@@ -66,9 +68,6 @@ void	add_env_var(const char *var_string, t_shell *shell_context)
 	}
 	else if (!var_ptr)
 	{
-		int		count;
-		char	**new_envp;
-
 		count = ft_count_args(shell_context->envp);
 		new_envp = ft_calloc(count + 2, sizeof(char *));
 		if (!new_envp)

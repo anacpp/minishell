@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rdos-san <rdos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:00:00 by acesar-p          #+#    #+#             */
-/*   Updated: 2025/07/30 11:19:22 by rjacques         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:20:00 by rdos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,22 +122,19 @@ static int	is_numeric_string(const char *str)
 }
 
 /**
- * @brief Terminates the shell with an exit status,
- * with argument validation.
+ * @brief Termina o shell com um status de saída, com validação de argumentos.
  *
- * Implemented behaviors:
- * 1.  `exit` (no args): Exits with the last command status.
+ * Comportamentos implementados:
+ * 1.  `exit` (sem args): Sai com o status do último comando.
  * 2.  `exit [arg]`:
- * - If [arg] is not numeric, prints error and exits with status 2.
- * - If there's more than one argument, prints error,
- * returns status 1 and does NOT exit.
- * - If [arg] is numeric, exits with status `[arg] % 256`.
+ * - Se [arg] não for numérico, imprime erro e sai com status 2.
+ * - Se houver mais de um argumento, imprime erro, retorna status 1 e NÃO sai.
+ * - Se [arg] for numérico, sai com o status `[arg] % 256`.
  *
- * @param argv Command arguments.
- * @param shell_context Shell context to get the last status.
-
-	* @return Does not return if successful. Returns 1
-	in case of "too many arguments".
+ * @param argv Argumentos do comando.
+ * @param shell_context Contexto do shell para obter o último status e limpar.
+ * @return Não retorna em caso de sucesso. Retorna 1 em caso de "muitos
+ * argumentos".
  */
 static int	builtin_exit(char **argv, t_shell *shell_context)
 {
@@ -145,15 +142,11 @@ static int	builtin_exit(char **argv, t_shell *shell_context)
 
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!argv[1])
-	{
-		exit(shell_context->last_status);
-	}
+		cleanup_and_exit(shell_context, shell_context->last_status);
 	if (!is_numeric_string(argv[1]))
 	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd(argv[1], STDERR_FILENO);
-		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-		exit(2);
+		exit_numeric_error(argv[1]);
+		cleanup_and_exit(shell_context, 2);
 	}
 	if (argv[2])
 	{
@@ -161,7 +154,8 @@ static int	builtin_exit(char **argv, t_shell *shell_context)
 		return (1);
 	}
 	status = ft_atoll(argv[1]);
-	exit((unsigned char)status);
+	cleanup_and_exit(shell_context, (unsigned char)status);
+	return (0);
 }
 
 /**

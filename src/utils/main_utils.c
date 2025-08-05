@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rjacques <rjacques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 11:13:48 by rjacques          #+#    #+#             */
-/*   Updated: 2025/07/30 11:13:52 by rjacques         ###   ########.fr       */
+/*   Created: 2025/07/30 11:13:48 by rdos-san          #+#    #+#             */
+/*   Updated: 2025/08/05 17:46:47 by rjacques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void	handle_exit(int is_interactive)
 char	*get_input(int is_interactive)
 {
 	if (is_interactive)
-		return readline("minishell$ ");
-	return readline(NULL);
+		return (readline("minishell$ "));
+	return (readline(NULL));
 }
