@@ -1,6 +1,6 @@
 # 🐚 Minishell — 42RJ Project
 
-![C](https://img.shields.io/badge/language-C-blue) ![status](https://img.shields.io/badge/status-in%20progress-yellow)
+![C](https://img.shields.io/badge/language-C-blue)
 
 ## ✨ Objetivo
 
